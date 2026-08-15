@@ -1,0 +1,8 @@
+# Normalise line endings so they don't depend on each machine's core.autocrlf.
+# Text files are stored as LF in the repository and checked out as LF, which is
+# what the Linux CI runner, Node, and Vite all expect.
+* text=auto eol=lf
+
+# The source spreadsheet must never be treated as text — any line-ending
+# conversion would corrupt the archive.
+*.xlsx binary

@@ -1,0 +1,27 @@
+{
+  "name": "econimium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "convert": "tsx tools/xlsx-to-json.ts"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@tsconfig/svelte": "^5.0.4",
+    "@types/node": "^26.2.0",
+    "exceljs": "^4.4.0",
+    "svelte": "^5.56.9",
+    "svelte-check": "^4.7.6",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
+  }
+}

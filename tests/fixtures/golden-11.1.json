@@ -1,0 +1,2871 @@
+{
+  "version": "11.1",
+  "items": [
+    {
+      "name": "Wood (Tag)",
+      "usedCost": 0.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Rock (Tag)",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Rock (Tag)",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Shale",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Limestone",
+      "usedCost": 0.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Sand",
+      "usedCost": 0.25,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Clay",
+      "usedCost": 0.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Hewn Log",
+      "usedCost": 0.8,
+      "calculatedCost": 1.4978125
+    },
+    {
+      "name": "Basic Upgrade 1",
+      "usedCost": 69,
+      "calculatedCost": 69
+    },
+    {
+      "name": "Board",
+      "usedCost": 0.45,
+      "calculatedCost": 0.6
+    },
+    {
+      "name": "Butchery Table",
+      "usedCost": 21.35,
+      "calculatedCost": 21.35
+    },
+    {
+      "name": "Fiber Scutching Station",
+      "usedCost": 21.35,
+      "calculatedCost": 21.35
+    },
+    {
+      "name": "Hewn Bench",
+      "usedCost": 11.805,
+      "calculatedCost": 11.805
+    },
+    {
+      "name": "Hewn Chair",
+      "usedCost": 10.65,
+      "calculatedCost": 10.65
+    },
+    {
+      "name": "Hewn Door",
+      "usedCost": 3.28,
+      "calculatedCost": 3.28
+    },
+    {
+      "name": "Hewn Dresser",
+      "usedCost": 11.805,
+      "calculatedCost": 11.805
+    },
+    {
+      "name": "Hewn Table",
+      "usedCost": 10.485,
+      "calculatedCost": 10.485
+    },
+    {
+      "name": "Nails",
+      "usedCost": 0.2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Wooden Mold",
+      "usedCost": 1,
+      "calculatedCost": 1.75
+    },
+    {
+      "name": "Wooden Keel",
+      "usedCost": 4.6,
+      "calculatedCost": 4.6
+    },
+    {
+      "name": "Wooden Oar",
+      "usedCost": 4.16,
+      "calculatedCost": 4.16
+    },
+    {
+      "name": "Small Shipyard",
+      "usedCost": 20.78,
+      "calculatedCost": 20.78
+    },
+    {
+      "name": "Small Wooden Ship Frame",
+      "usedCost": 10.52,
+      "calculatedCost": 10.52
+    },
+    {
+      "name": "Wooden Hull Planks",
+      "usedCost": 5,
+      "calculatedCost": 4.16
+    },
+    {
+      "name": "Small Canoe",
+      "usedCost": 30.48,
+      "calculatedCost": 30.48
+    },
+    {
+      "name": "Large Canoe",
+      "usedCost": 51.08,
+      "calculatedCost": 51.08
+    },
+    {
+      "name": "Outpost Netting",
+      "usedCost": 43.72,
+      "calculatedCost": 43.72
+    },
+    {
+      "name": "Wooden Moorage Post",
+      "usedCost": 30.67,
+      "calculatedCost": 30.67
+    },
+    {
+      "name": "Wooden Transport Ship",
+      "usedCost": null,
+      "calculatedCost": null
+    },
+    {
+      "name": "Hemp Mooring Rope",
+      "usedCost": 10,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Basic Upgrade 2",
+      "usedCost": 127,
+      "calculatedCost": 127
+    },
+    {
+      "name": "Basic Upgrade 3",
+      "usedCost": 465,
+      "calculatedCost": 465
+    },
+    {
+      "name": "Mortared Stone",
+      "usedCost": 0.9575,
+      "calculatedCost": 0.9575
+    },
+    {
+      "name": "Linen Fabric",
+      "usedCost": 1.5,
+      "calculatedCost": 5.925
+    },
+    {
+      "name": "Mortar",
+      "usedCost": 0.25,
+      "calculatedCost": 0.3791666667
+    },
+    {
+      "name": "Basic Upgrade 4",
+      "usedCost": 655.55,
+      "calculatedCost": 655.55
+    },
+    {
+      "name": "Charcoal",
+      "usedCost": 1,
+      "calculatedCost": 2.3175
+    },
+    {
+      "name": "Wet Brick",
+      "usedCost": 3.0015625,
+      "calculatedCost": 3.0015625
+    },
+    {
+      "name": "Fiber (Tag)",
+      "usedCost": 0.05,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Brick",
+      "usedCost": 4,
+      "calculatedCost": 4.6203125
+    },
+    {
+      "name": "Advanced Upgrade 1",
+      "usedCost": 89.9375,
+      "calculatedCost": 89.9375
+    },
+    {
+      "name": "Wood Pulp",
+      "usedCost": 0.05,
+      "calculatedCost": 0.168
+    },
+    {
+      "name": "Glassworks",
+      "usedCost": 111.5625,
+      "calculatedCost": 111.5625
+    },
+    {
+      "name": "Bakery Oven",
+      "usedCost": 128.1,
+      "calculatedCost": 128.1
+    },
+    {
+      "name": "Small Sink",
+      "usedCost": 60.025,
+      "calculatedCost": 60.025
+    },
+    {
+      "name": "Toilet",
+      "usedCost": 60.025,
+      "calculatedCost": 60.025
+    },
+    {
+      "name": "Round/Square Pot",
+      "usedCost": -1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Brick Fireplace",
+      "usedCost": 292.5625,
+      "calculatedCost": 292.5625
+    },
+    {
+      "name": "Bathtub",
+      "usedCost": 109.9375,
+      "calculatedCost": 109.9375
+    },
+    {
+      "name": "Round Pot",
+      "usedCost": 4.025,
+      "calculatedCost": 4.025
+    },
+    {
+      "name": "Wooden Wheel",
+      "usedCost": 5,
+      "calculatedCost": 3.36
+    },
+    {
+      "name": "Cotton Fabric",
+      "usedCost": 2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Gearbox",
+      "usedCost": 37.8,
+      "calculatedCost": 37.8
+    },
+    {
+      "name": "Medium Wooden Ship Frame",
+      "usedCost": 16.44,
+      "calculatedCost": 16.44
+    },
+    {
+      "name": "Small Wooden Boat",
+      "usedCost": 151.24,
+      "calculatedCost": 151.24
+    },
+    {
+      "name": "Flaxseed Oil",
+      "usedCost": 1.2025,
+      "calculatedCost": 1.2025
+    },
+    {
+      "name": "Lumber",
+      "usedCost": 3.5,
+      "calculatedCost": null
+    },
+    {
+      "name": "Large Lumber Stockpile",
+      "usedCost": 124.75,
+      "calculatedCost": 124.75
+    },
+    {
+      "name": "Lumber Stockpile",
+      "usedCost": -1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Large Hanging Lumber Sign",
+      "usedCost": 37.3,
+      "calculatedCost": 37.3
+    },
+    {
+      "name": "Large Standing Lumber Sign",
+      "usedCost": 37.3,
+      "calculatedCost": 37.3
+    },
+    {
+      "name": "Small Hanging Lumber Sign",
+      "usedCost": 19.1,
+      "calculatedCost": 19.1
+    },
+    {
+      "name": "Small Standing Lumber Sign",
+      "usedCost": 19.1,
+      "calculatedCost": 19.1
+    },
+    {
+      "name": "Limestone",
+      "usedCost": 0.25,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Geology Research Paper Advanced",
+      "usedCost": 25.95,
+      "calculatedCost": 25.95
+    },
+    {
+      "name": "Limestone Owl Statue",
+      "usedCost": 7.9,
+      "calculatedCost": 7.9
+    },
+    {
+      "name": "Limestone Otter Statue",
+      "usedCost": 7.9,
+      "calculatedCost": 7.9
+    },
+    {
+      "name": "Limestone Wolf Statue",
+      "usedCost": 13.4,
+      "calculatedCost": 13.4
+    },
+    {
+      "name": "Limestone Bison Statue",
+      "usedCost": 29.9,
+      "calculatedCost": 29.9
+    },
+    {
+      "name": "Garbage",
+      "usedCost": -2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Mortared Stone Bench",
+      "usedCost": 13.839,
+      "calculatedCost": 13.839
+    },
+    {
+      "name": "Mortared Stone Table",
+      "usedCost": 12.78575,
+      "calculatedCost": 12.78575
+    },
+    {
+      "name": "Bloomery",
+      "usedCost": 20.775,
+      "calculatedCost": 20.775
+    },
+    {
+      "name": "Mill",
+      "usedCost": 22.1,
+      "calculatedCost": 22.1
+    },
+    {
+      "name": "Culinary Research Paper Basic",
+      "usedCost": 25,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Dendrology Research Paper Basic",
+      "usedCost": 12,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Gathering Research Paper Basic",
+      "usedCost": 25,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Geology Research Paper Basic",
+      "usedCost": 8,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Stone Road",
+      "usedCost": 2.9225,
+      "calculatedCost": 2.9225
+    },
+    {
+      "name": "Iron Ore",
+      "usedCost": 0.2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Iron Ore",
+      "usedCost": 2.5,
+      "calculatedCost": 2.2
+    },
+    {
+      "name": "Iron Concentrate",
+      "usedCost": 11.075,
+      "calculatedCost": 11.075
+    },
+    {
+      "name": "Iron Bar",
+      "usedCost": 4,
+      "calculatedCost": 2.990729167
+    },
+    {
+      "name": "Copper Ore",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Copper Ore",
+      "usedCost": 5,
+      "calculatedCost": 5.916875
+    },
+    {
+      "name": "Copper Concentrate",
+      "usedCost": 20.3,
+      "calculatedCost": 20.3
+    },
+    {
+      "name": "Copper Bar",
+      "usedCost": 5,
+      "calculatedCost": 8.259833333
+    },
+    {
+      "name": "Cement",
+      "usedCost": 5.6565625,
+      "calculatedCost": 5.6565625
+    },
+    {
+      "name": "Reinforced Concrete",
+      "usedCost": 8.774883333,
+      "calculatedCost": 8.774883333
+    },
+    {
+      "name": "Quicklime",
+      "usedCost": 2.667916667,
+      "calculatedCost": 2.667916667
+    },
+    {
+      "name": "Rebar",
+      "usedCost": 19.91854167,
+      "calculatedCost": 19.91854167
+    },
+    {
+      "name": "Steel Bar",
+      "usedCost": 8.791354167,
+      "calculatedCost": 8.791354167
+    },
+    {
+      "name": "Asphalt Concrete",
+      "usedCost": 5.430554688,
+      "calculatedCost": 5.430554688
+    },
+    {
+      "name": "Rivet",
+      "usedCost": 4.5115625,
+      "calculatedCost": 4.5115625
+    },
+    {
+      "name": "Corrugated Steel",
+      "usedCost": 7.093515625,
+      "calculatedCost": 7.093515625
+    },
+    {
+      "name": "Ashlar Stone",
+      "usedCost": 25.96536458,
+      "calculatedCost": 25.96536458
+    },
+    {
+      "name": "Metallurgy Research Paper Basic",
+      "usedCost": 5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Metallurgy Research Paper Advanced",
+      "usedCost": 250,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Dendrology Research Paper Advanced",
+      "usedCost": 30,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Agriculture Research Paper Advanced",
+      "usedCost": 50,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Engineering Research Paper Advanced",
+      "usedCost": 132.6,
+      "calculatedCost": 132.6
+    },
+    {
+      "name": "Linen Yarn",
+      "usedCost": 0.875,
+      "calculatedCost": 0.875
+    },
+    {
+      "name": "Flax Fiber",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Barrel",
+      "usedCost": 11.2,
+      "calculatedCost": 11.2
+    },
+    {
+      "name": "Petroleum",
+      "usedCost": 13.6,
+      "calculatedCost": 13.6
+    },
+    {
+      "name": "Biodiesel",
+      "usedCost": 30.69,
+      "calculatedCost": 30.69
+    },
+    {
+      "name": "Epoxy",
+      "usedCost": 42.253125,
+      "calculatedCost": 14.084375
+    },
+    {
+      "name": "Gasoline",
+      "usedCost": 59.29,
+      "calculatedCost": 59.29
+    },
+    {
+      "name": "Nylon",
+      "usedCost": 3.52109375,
+      "calculatedCost": 3.52109375
+    },
+    {
+      "name": "Plastic",
+      "usedCost": 42.253125,
+      "calculatedCost": 14.084375
+    },
+    {
+      "name": "Synthetic Rubber",
+      "usedCost": 14.084375,
+      "calculatedCost": 14.084375
+    },
+    {
+      "name": "Fat (Tag)",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Ethanol",
+      "usedCost": 3,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Glass",
+      "usedCost": 3,
+      "calculatedCost": 2.2675
+    },
+    {
+      "name": "Fiberglass",
+      "usedCost": 178.6125,
+      "calculatedCost": 178.6125
+    },
+    {
+      "name": "Copper Wiring",
+      "usedCost": 11.2,
+      "calculatedCost": 11.2
+    },
+    {
+      "name": "Gold Wiring",
+      "usedCost": -1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Gold Flakes",
+      "usedCost": 5.25,
+      "calculatedCost": 5.25
+    },
+    {
+      "name": "Gold Bar",
+      "usedCost": 9,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Substrate",
+      "usedCost": 885.8625,
+      "calculatedCost": 885.8625
+    },
+    {
+      "name": "Basic Circuit",
+      "usedCost": 3407.805,
+      "calculatedCost": 1893.225
+    },
+    {
+      "name": "Advanced Circuit",
+      "usedCost": 3363.165,
+      "calculatedCost": 1868.425
+    },
+    {
+      "name": "Light Bulb",
+      "usedCost": 39.1125,
+      "calculatedCost": 39.1125
+    },
+    {
+      "name": "Robotic Assembly Line",
+      "usedCost": 162154.0617,
+      "calculatedCost": 162154.0617
+    },
+    {
+      "name": "Servo",
+      "usedCost": 7711.0725,
+      "calculatedCost": 7711.0725
+    },
+    {
+      "name": "Electric Motor",
+      "usedCost": 13827.95083,
+      "calculatedCost": 13827.95083
+    },
+    {
+      "name": "Solar Generator",
+      "usedCost": 89080.51625,
+      "calculatedCost": 89080.51625
+    },
+    {
+      "name": "Wind Turbine",
+      "usedCost": 44566.48083,
+      "calculatedCost": 44566.48083
+    },
+    {
+      "name": "Steel Plate",
+      "usedCost": 30,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Steel Pipe",
+      "usedCost": 5,
+      "calculatedCost": 22.50145833
+    },
+    {
+      "name": "Advanced Combustion Engine",
+      "usedCost": 6000,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Radiator",
+      "usedCost": 250,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Steel Axle",
+      "usedCost": 120,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Jaw Crusher",
+      "usedCost": 28875.7949,
+      "calculatedCost": 28875.7949
+    },
+    {
+      "name": "Steel Gear",
+      "usedCost": 30,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Hewn Nightstand",
+      "usedCost": 10.54,
+      "calculatedCost": 10.54
+    },
+    {
+      "name": "Paper",
+      "usedCost": 2.4,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Geology Research Paper Modern",
+      "usedCost": 165.4774,
+      "calculatedCost": 165.4774
+    },
+    {
+      "name": "Dowel",
+      "usedCost": 0.134375,
+      "calculatedCost": 0.134375
+    },
+    {
+      "name": "Clay Mold",
+      "usedCost": 2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Sulfur",
+      "usedCost": -1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Crushed Sulfur",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Dynamite",
+      "usedCost": 48.8,
+      "calculatedCost": 48.8
+    },
+    {
+      "name": "Charcoal Powder",
+      "usedCost": 0.107,
+      "calculatedCost": 0.107
+    },
+    {
+      "name": "Compost",
+      "usedCost": 1.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Black Powder",
+      "usedCost": 2,
+      "calculatedCost": 1.09635
+    },
+    {
+      "name": "Ink",
+      "usedCost": 1.36935,
+      "calculatedCost": 1.36935
+    },
+    {
+      "name": "Laboratory",
+      "usedCost": 157.8,
+      "calculatedCost": 157.8
+    },
+    {
+      "name": "Iron Gear",
+      "usedCost": 7,
+      "calculatedCost": 7
+    },
+    {
+      "name": "Iron Plate",
+      "usedCost": 6.4,
+      "calculatedCost": 6.4
+    },
+    {
+      "name": "Small Paper Machine",
+      "usedCost": 102.8,
+      "calculatedCost": 102.8
+    },
+    {
+      "name": "Iron Pipe",
+      "usedCost": 4,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Lubricant",
+      "usedCost": 1.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Steam Engine",
+      "usedCost": 162,
+      "calculatedCost": 162
+    },
+    {
+      "name": "Copper Plate",
+      "usedCost": 7.4,
+      "calculatedCost": 7.4
+    },
+    {
+      "name": "Screw",
+      "usedCost": 1.25,
+      "calculatedCost": 1.25
+    },
+    {
+      "name": "Boiler",
+      "usedCost": 145.3,
+      "calculatedCost": 145.3
+    },
+    {
+      "name": "Stamp Mill",
+      "usedCost": 104.6,
+      "calculatedCost": 104.6
+    },
+    {
+      "name": "Screening Machine",
+      "usedCost": 260.75,
+      "calculatedCost": 260.75
+    },
+    {
+      "name": "Engineering Research Paper Modern",
+      "usedCost": 356.6774,
+      "calculatedCost": 356.6774
+    },
+    {
+      "name": "Iron Axle",
+      "usedCost": 11,
+      "calculatedCost": 11
+    },
+    {
+      "name": "Copper Pipe",
+      "usedCost": 8,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Portable Steam Engine",
+      "usedCost": 862.4,
+      "calculatedCost": 862.4
+    },
+    {
+      "name": "Piston",
+      "usedCost": 18.4,
+      "calculatedCost": 18.4
+    },
+    {
+      "name": "Iron Wheel",
+      "usedCost": 20,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Leather Hide",
+      "usedCost": 2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Steam Tractor",
+      "usedCost": 1366.425,
+      "calculatedCost": 1366.425
+    },
+    {
+      "name": "Steam Tractor Scoop",
+      "usedCost": 78.5,
+      "calculatedCost": 78.5
+    },
+    {
+      "name": "Steam Tractor Harvester",
+      "usedCost": 128.6,
+      "calculatedCost": 128.6
+    },
+    {
+      "name": "Steam Tractor Sower",
+      "usedCost": 110.5,
+      "calculatedCost": 110.5
+    },
+    {
+      "name": "Steam Tractor Plow",
+      "usedCost": 78.5,
+      "calculatedCost": 78.5
+    },
+    {
+      "name": "Steam Truck",
+      "usedCost": 1366.425,
+      "calculatedCost": 1366.425
+    },
+    {
+      "name": "Glass Lens",
+      "usedCost": 5.1140625,
+      "calculatedCost": 5.1140625
+    },
+    {
+      "name": "Medium Shipyard",
+      "usedCost": 128,
+      "calculatedCost": 128
+    },
+    {
+      "name": "Combustion Engine",
+      "usedCost": 386.4925,
+      "calculatedCost": 386.4925
+    },
+    {
+      "name": "Combustion Generator",
+      "usedCost": 516.4925,
+      "calculatedCost": 516.4925
+    },
+    {
+      "name": "Rolling Mill",
+      "usedCost": 235.9308333,
+      "calculatedCost": 235.9308333
+    },
+    {
+      "name": "Heat Sink",
+      "usedCost": 128.8,
+      "calculatedCost": 128.8
+    },
+    {
+      "name": "Waterwheel",
+      "usedCost": 36.9,
+      "calculatedCost": 36.9
+    },
+    {
+      "name": "Windmill",
+      "usedCost": 27,
+      "calculatedCost": 27
+    },
+    {
+      "name": "Mechanical Water Pump",
+      "usedCost": 37.6,
+      "calculatedCost": 37.6
+    },
+    {
+      "name": "Ceramic Mold",
+      "usedCost": 0.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Printing Press",
+      "usedCost": 235.6,
+      "calculatedCost": 235.6
+    },
+    {
+      "name": "Cement Kiln",
+      "usedCost": 502.4,
+      "calculatedCost": 502.4
+    },
+    {
+      "name": "Blast Furnace",
+      "usedCost": 179.8,
+      "calculatedCost": 179.8
+    },
+    {
+      "name": "Oil",
+      "usedCost": 0.62,
+      "calculatedCost": 0.62
+    },
+    {
+      "name": "Beans",
+      "usedCost": 0.4,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Corn",
+      "usedCost": 0.6,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Rice",
+      "usedCost": 0.3,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Wheat",
+      "usedCost": 0.6,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Beet",
+      "usedCost": 0.6,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Huckleberries",
+      "usedCost": 0.15,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Camas Bulb",
+      "usedCost": 0.5,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Petals",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Creosote Flower",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Cotton Seed",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Flax Seed",
+      "usedCost": 0.15,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Sunflower Seed",
+      "usedCost": 0.2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Sunflower",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Trillium Flower",
+      "usedCost": 0.1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Raw Fish",
+      "usedCost": 0.2,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Urchin",
+      "usedCost": 1,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Bean Paste",
+      "usedCost": 1.1775,
+      "calculatedCost": 1.1775
+    },
+    {
+      "name": "Sugar",
+      "usedCost": 0.6075,
+      "calculatedCost": 0.6075
+    },
+    {
+      "name": "Camas Paste",
+      "usedCost": 0.9875,
+      "calculatedCost": 0.9875
+    },
+    {
+      "name": "Blue Powder",
+      "usedCost": 0.02625,
+      "calculatedCost": 0.02625
+    },
+    {
+      "name": "Colored Powder",
+      "usedCost": 0.25,
+      "calculatedCost": 0.25
+    },
+    {
+      "name": "Copper Hydroxide",
+      "usedCost": 0.2029166667,
+      "calculatedCost": 0.2029166667
+    },
+    {
+      "name": "Cornmeal",
+      "usedCost": 0.9175,
+      "calculatedCost": 0.9175
+    },
+    {
+      "name": "Cereal Germ",
+      "usedCost": 0.13,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Cyan Powder",
+      "usedCost": 0.09937777778,
+      "calculatedCost": 0.09937777778
+    },
+    {
+      "name": "White Powder",
+      "usedCost": 0.0215,
+      "calculatedCost": 0.0215
+    },
+    {
+      "name": "Flour",
+      "usedCost": 0.4775,
+      "calculatedCost": 0.4775
+    },
+    {
+      "name": "Huckleberry Extract",
+      "usedCost": 1.4625,
+      "calculatedCost": 1.4625
+    },
+    {
+      "name": "Iron Oxide",
+      "usedCost": 0.1559375,
+      "calculatedCost": 0.1559375
+    },
+    {
+      "name": "Magenta Powder",
+      "usedCost": 0.107,
+      "calculatedCost": 0.107
+    },
+    {
+      "name": "Rice Flour",
+      "usedCost": 0.1925,
+      "calculatedCost": 0.1925
+    },
+    {
+      "name": "Simple Syrup",
+      "usedCost": 2.923125,
+      "calculatedCost": 2.923125
+    },
+    {
+      "name": "Sun Cheese",
+      "usedCost": 2.35039375,
+      "calculatedCost": 2.35039375
+    },
+    {
+      "name": "Yeast",
+      "usedCost": 0.614625,
+      "calculatedCost": 0.614625
+    },
+    {
+      "name": "Yellow Powder",
+      "usedCost": 0.04,
+      "calculatedCost": 0.04
+    },
+    {
+      "name": "Canvas",
+      "usedCost": 8,
+      "calculatedCost": -1
+    },
+    {
+      "name": "Oil Paint",
+      "usedCost": 0.5031875,
+      "calculatedCost": 0.5031875
+    },
+    {
+      "name": "Art Supplies",
+      "usedCost": 2.410438281,
+      "calculatedCost": 2.410438281
+    },
+    {
+      "name": "Base Paint",
+      "usedCost": 0.19693,
+      "calculatedCost": 0.19693
+    },
+    {
+      "name": "Decorative Book",
+      "usedCost": 37.126285,
+      "calculatedCost": 37.126285
+    }
+  ],
+  "recipes": [
+    {
+      "name": "Dowel",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.6,
+      "timeCost": null,
+      "recipeCost": 2.15,
+      "costPerUnit": 0.134375
+    },
+    {
+      "name": "Hewn Log",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.8,
+      "timeCost": null,
+      "recipeCost": 1.4978125,
+      "costPerUnit": 1.4978125
+    },
+    {
+      "name": "Hewn (Workbench)",
+      "inputMultiplier": 1,
+      "laborCost": 0.8,
+      "timeCost": null,
+      "recipeCost": 1.8,
+      "costPerUnit": 1.8
+    },
+    {
+      "name": "Board (Workbench)",
+      "inputMultiplier": 1,
+      "laborCost": 1.6,
+      "timeCost": null,
+      "recipeCost": 2.6,
+      "costPerUnit": 2.6
+    },
+    {
+      "name": "Board (Carpentry Table)",
+      "inputMultiplier": 0.55,
+      "laborCost": 1,
+      "timeCost": null,
+      "recipeCost": 1.275,
+      "costPerUnit": 1.275
+    },
+    {
+      "name": "Particle Boards",
+      "inputMultiplier": 1,
+      "laborCost": 0.8,
+      "timeCost": null,
+      "recipeCost": 1.05,
+      "costPerUnit": 1.05
+    },
+    {
+      "name": "Saw Boards",
+      "inputMultiplier": 1,
+      "laborCost": 0.8,
+      "timeCost": null,
+      "recipeCost": 1.8,
+      "costPerUnit": 0.6
+    },
+    {
+      "name": "Butchery Table",
+      "inputMultiplier": 0.55,
+      "laborCost": 12,
+      "timeCost": null,
+      "recipeCost": 21.35,
+      "costPerUnit": 21.35
+    },
+    {
+      "name": "Fiber Scutching Station",
+      "inputMultiplier": 0.55,
+      "laborCost": 12,
+      "timeCost": null,
+      "recipeCost": 21.35,
+      "costPerUnit": 21.35
+    },
+    {
+      "name": "Hewn Bench",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 11.805,
+      "costPerUnit": 11.805
+    },
+    {
+      "name": "Hewn Chair",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 10.65,
+      "costPerUnit": 10.65
+    },
+    {
+      "name": "Hewn Door",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 3.28,
+      "costPerUnit": 3.28
+    },
+    {
+      "name": "Hewn Dresser",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 11.805,
+      "costPerUnit": 11.805
+    },
+    {
+      "name": "Hewn Nightstand",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 10.54,
+      "costPerUnit": 10.54
+    },
+    {
+      "name": "Hewn Table",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 10.485,
+      "costPerUnit": 10.485
+    },
+    {
+      "name": "Wooden Mold",
+      "inputMultiplier": 0.55,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 7,
+      "costPerUnit": 1.75
+    },
+    {
+      "name": "Wooden Keel",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 4.6,
+      "costPerUnit": 4.6
+    },
+    {
+      "name": "Wooden Oar",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 4.16,
+      "costPerUnit": 4.16
+    },
+    {
+      "name": "Small Shipyard",
+      "inputMultiplier": 0.55,
+      "laborCost": 14.4,
+      "timeCost": null,
+      "recipeCost": 20.78,
+      "costPerUnit": 20.78
+    },
+    {
+      "name": "Small Wooden Ship Frame",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 10.52,
+      "costPerUnit": 10.52
+    },
+    {
+      "name": "Wooden Hull Planks",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 4.16,
+      "costPerUnit": 4.16
+    },
+    {
+      "name": "Small Canoe",
+      "inputMultiplier": 0.55,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 30.48,
+      "costPerUnit": 30.48
+    },
+    {
+      "name": "Large Canoe",
+      "inputMultiplier": 0.55,
+      "laborCost": 14.4,
+      "timeCost": null,
+      "recipeCost": 51.08,
+      "costPerUnit": 51.08
+    },
+    {
+      "name": "Outpost Netting",
+      "inputMultiplier": 0.55,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 43.72,
+      "costPerUnit": 43.72
+    },
+    {
+      "name": "Wooden Moorage Post",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 30.67,
+      "costPerUnit": 30.67
+    },
+    {
+      "name": "Wooden Transport Ship",
+      "inputMultiplier": null,
+      "laborCost": null,
+      "timeCost": null,
+      "recipeCost": null,
+      "costPerUnit": null
+    },
+    {
+      "name": "Basic Upgrade 1",
+      "inputMultiplier": 1,
+      "laborCost": 8,
+      "timeCost": null,
+      "recipeCost": 69,
+      "costPerUnit": 69
+    },
+    {
+      "name": "Basic Upgrade 2",
+      "inputMultiplier": 1,
+      "laborCost": 8,
+      "timeCost": null,
+      "recipeCost": 127,
+      "costPerUnit": 127
+    },
+    {
+      "name": "Basic Upgrade 3",
+      "inputMultiplier": 1,
+      "laborCost": 8,
+      "timeCost": null,
+      "recipeCost": 465,
+      "costPerUnit": 465
+    },
+    {
+      "name": "Basic Upgrade 4",
+      "inputMultiplier": 1,
+      "laborCost": 8,
+      "timeCost": null,
+      "recipeCost": 655.55,
+      "costPerUnit": 655.55
+    },
+    {
+      "name": "Charcoal",
+      "inputMultiplier": 1,
+      "laborCost": 1,
+      "timeCost": 0.135,
+      "recipeCost": 4.635,
+      "costPerUnit": 2.3175
+    },
+    {
+      "name": "Wet Brick",
+      "inputMultiplier": 1,
+      "laborCost": 4,
+      "timeCost": 0.05625,
+      "recipeCost": 14.80625,
+      "costPerUnit": 3.7015625
+    },
+    {
+      "name": "Wet Brick (Shale)",
+      "inputMultiplier": 1,
+      "laborCost": 8,
+      "timeCost": 0.1125,
+      "recipeCost": 24.0125,
+      "costPerUnit": 3.0015625
+    },
+    {
+      "name": "Brick",
+      "inputMultiplier": 1,
+      "laborCost": 0.6,
+      "timeCost": 0.01875,
+      "recipeCost": 4.6203125,
+      "costPerUnit": 4.6203125
+    },
+    {
+      "name": "Mortar (Campfire)",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.6,
+      "timeCost": null,
+      "recipeCost": 0.85,
+      "costPerUnit": 0.85
+    },
+    {
+      "name": "Mortar (Masonry)",
+      "inputMultiplier": 0.55,
+      "laborCost": 1,
+      "timeCost": null,
+      "recipeCost": 1.1375,
+      "costPerUnit": 0.3791666667
+    },
+    {
+      "name": "Advanced Upgrade 1",
+      "inputMultiplier": 1,
+      "laborCost": 3.6,
+      "timeCost": 0.3375,
+      "recipeCost": 89.9375,
+      "costPerUnit": 89.9375
+    },
+    {
+      "name": "Recycle Hewn Log",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.8,
+      "timeCost": null,
+      "recipeCost": 1.68,
+      "costPerUnit": 0.168
+    },
+    {
+      "name": "Glassworks",
+      "inputMultiplier": 1,
+      "laborCost": 6,
+      "timeCost": 0.5625,
+      "recipeCost": 111.5625,
+      "costPerUnit": 111.5625
+    },
+    {
+      "name": "Bakery Oven",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": 0.9,
+      "recipeCost": 128.1,
+      "costPerUnit": 128.1
+    },
+    {
+      "name": "Small Sink",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": 0.225,
+      "recipeCost": 60.025,
+      "costPerUnit": 60.025
+    },
+    {
+      "name": "Toilet",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": 0.225,
+      "recipeCost": 60.025,
+      "costPerUnit": 60.025
+    },
+    {
+      "name": "Round/Square Pot",
+      "inputMultiplier": 1,
+      "laborCost": 1.8,
+      "timeCost": 0.225,
+      "recipeCost": 4.025,
+      "costPerUnit": 4.025
+    },
+    {
+      "name": "Brick Fireplace",
+      "inputMultiplier": 1,
+      "laborCost": 12,
+      "timeCost": 0.5625,
+      "recipeCost": 292.5625,
+      "costPerUnit": 292.5625
+    },
+    {
+      "name": "Bathtub",
+      "inputMultiplier": 1,
+      "laborCost": 9.6,
+      "timeCost": 0.3375,
+      "recipeCost": 109.9375,
+      "costPerUnit": 109.9375
+    },
+    {
+      "name": "Wooden Wheel",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.6,
+      "timeCost": null,
+      "recipeCost": 3.36,
+      "costPerUnit": 3.36
+    },
+    {
+      "name": "Small Wooden Boat",
+      "inputMultiplier": 0.55,
+      "laborCost": 27.2,
+      "timeCost": null,
+      "recipeCost": 151.24,
+      "costPerUnit": 151.24
+    },
+    {
+      "name": "Medium Wooden Ship Frame",
+      "inputMultiplier": 0.55,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 16.44,
+      "costPerUnit": 16.44
+    },
+    {
+      "name": "Lumber",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": null,
+      "costPerUnit": null
+    },
+    {
+      "name": "Large Lumber Stockpile",
+      "inputMultiplier": 1,
+      "laborCost": 48,
+      "timeCost": null,
+      "recipeCost": 124.75,
+      "costPerUnit": 124.75
+    },
+    {
+      "name": "Large Hanging Lumber Sign",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 37.3,
+      "costPerUnit": 37.3
+    },
+    {
+      "name": "Large Standing Lumber Sign",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 37.3,
+      "costPerUnit": 37.3
+    },
+    {
+      "name": "Small Hanging Lumber Sign",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 19.1,
+      "costPerUnit": 19.1
+    },
+    {
+      "name": "Small Standing Lumber Sign",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 19.1,
+      "costPerUnit": 19.1
+    },
+    {
+      "name": "Mortared Stone",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.6,
+      "timeCost": null,
+      "recipeCost": 0.9575,
+      "costPerUnit": 0.9575
+    },
+    {
+      "name": "Limestone Owl Statue",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 7.9,
+      "costPerUnit": 7.9
+    },
+    {
+      "name": "Limestone Otter Statue",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 7.9,
+      "costPerUnit": 7.9
+    },
+    {
+      "name": "Limestone Wolf Statue",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 13.4,
+      "costPerUnit": 13.4
+    },
+    {
+      "name": "Limestone Bison Statue",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 29.9,
+      "costPerUnit": 29.9
+    },
+    {
+      "name": "Geology Research Paper Advanced",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 25.95,
+      "costPerUnit": 25.95
+    },
+    {
+      "name": "Mortared Stone Bench",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.2,
+      "timeCost": null,
+      "recipeCost": 13.839,
+      "costPerUnit": 13.839
+    },
+    {
+      "name": "Mortared Stone Table",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.2,
+      "timeCost": null,
+      "recipeCost": 12.78575,
+      "costPerUnit": 12.78575
+    },
+    {
+      "name": "Bloomery",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": 0.225,
+      "recipeCost": 20.775,
+      "costPerUnit": 20.775
+    },
+    {
+      "name": "Mill",
+      "inputMultiplier": 0.55,
+      "laborCost": 14.4,
+      "timeCost": null,
+      "recipeCost": 22.1,
+      "costPerUnit": 22.1
+    },
+    {
+      "name": "Stone Road",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 2.9225,
+      "costPerUnit": 2.9225
+    },
+    {
+      "name": "Crushed Iron Ore (Arrastra)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2,
+      "timeCost": null,
+      "recipeCost": 4.4,
+      "costPerUnit": 2.2
+    },
+    {
+      "name": "Crushed Iron Ore (Stamp Mill)",
+      "inputMultiplier": 1,
+      "laborCost": 2.8,
+      "timeCost": 0.0675,
+      "recipeCost": 6.8675,
+      "costPerUnit": 1.716875
+    },
+    {
+      "name": "Iron Concentrate (Rocker Box)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2,
+      "timeCost": null,
+      "recipeCost": 11.075,
+      "costPerUnit": 11.075
+    },
+    {
+      "name": "Iron Concentrate (Screening Machine)",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": 2.701,
+      "recipeCost": 17.001,
+      "costPerUnit": 17.001
+    },
+    {
+      "name": "Iron Bar (Bloomery)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": 0.061875,
+      "recipeCost": 17.944375,
+      "costPerUnit": 2.990729167
+    },
+    {
+      "name": "Iron Bar (Blast Furnace)",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": 0.50375,
+      "recipeCost": 13.97875,
+      "costPerUnit": 3.4946875
+    },
+    {
+      "name": "Crushed Copper Ore (Arrastra)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.8,
+      "timeCost": null,
+      "recipeCost": 14.8,
+      "costPerUnit": 7.4
+    },
+    {
+      "name": "Crushed Copper Ore (Stamp Mill)",
+      "inputMultiplier": 1,
+      "laborCost": 3.6,
+      "timeCost": 0.0675,
+      "recipeCost": 23.6675,
+      "costPerUnit": 5.916875
+    },
+    {
+      "name": "Copper Concentrate (Rocker Box)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2,
+      "timeCost": null,
+      "recipeCost": 20.3,
+      "costPerUnit": 20.3
+    },
+    {
+      "name": "Copper Bar (Bloomery)",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": 0.0495,
+      "recipeCost": 24.7795,
+      "costPerUnit": 8.259833333
+    },
+    {
+      "name": "Copper Bar (Blast Furnace)",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": 0.50375,
+      "recipeCost": 23.20375,
+      "costPerUnit": 11.601875
+    },
+    {
+      "name": "Dynamite",
+      "inputMultiplier": 1,
+      "laborCost": 12,
+      "timeCost": null,
+      "recipeCost": 48.8,
+      "costPerUnit": 48.8
+    },
+    {
+      "name": "Waterwheel",
+      "inputMultiplier": 0.55,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 36.9,
+      "costPerUnit": 36.9
+    },
+    {
+      "name": "Windmill",
+      "inputMultiplier": 0.55,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 27,
+      "costPerUnit": 27
+    },
+    {
+      "name": "Engineering Research Paper Advanced",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 132.6,
+      "costPerUnit": 132.6
+    },
+    {
+      "name": "Mechanical Water Pump",
+      "inputMultiplier": 0.55,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 37.6,
+      "costPerUnit": 37.6
+    },
+    {
+      "name": "Cement",
+      "inputMultiplier": 1,
+      "laborCost": 2.8,
+      "timeCost": 1.343333333,
+      "recipeCost": 11.313125,
+      "costPerUnit": 5.6565625
+    },
+    {
+      "name": "Reinforced Concrete",
+      "inputMultiplier": 1,
+      "laborCost": 1,
+      "timeCost": 0.5373333333,
+      "recipeCost": 48.03097917,
+      "costPerUnit": 9.606195833
+    },
+    {
+      "name": "Sulfurcrete",
+      "inputMultiplier": 1,
+      "laborCost": 1,
+      "timeCost": 0.5373333333,
+      "recipeCost": 43.87441667,
+      "costPerUnit": 8.774883333
+    },
+    {
+      "name": "Quicklime",
+      "inputMultiplier": 1,
+      "laborCost": 2,
+      "timeCost": 0.1679166667,
+      "recipeCost": 2.667916667,
+      "costPerUnit": 2.667916667
+    },
+    {
+      "name": "Asphalt Concrete",
+      "inputMultiplier": 0.55,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 10.86110938,
+      "costPerUnit": 5.430554688
+    },
+    {
+      "name": "Steel Bar",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": 2.51875,
+      "recipeCost": 35.16541667,
+      "costPerUnit": 8.791354167
+    },
+    {
+      "name": "Rebar",
+      "inputMultiplier": 1,
+      "laborCost": 2,
+      "timeCost": 0.3358333333,
+      "recipeCost": 19.91854167,
+      "costPerUnit": 19.91854167
+    },
+    {
+      "name": "Rivet",
+      "inputMultiplier": 1,
+      "laborCost": 3.4,
+      "timeCost": 1.343333333,
+      "recipeCost": 13.5346875,
+      "costPerUnit": 4.5115625
+    },
+    {
+      "name": "Steel Pipe",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": 2.51875,
+      "recipeCost": 22.50145833,
+      "costPerUnit": 22.50145833
+    },
+    {
+      "name": "Corrugated Steel",
+      "inputMultiplier": 1,
+      "laborCost": 1,
+      "timeCost": null,
+      "recipeCost": 14.18703125,
+      "costPerUnit": 7.093515625
+    },
+    {
+      "name": "Ashlar Stone",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 51.93072917,
+      "costPerUnit": 25.96536458
+    },
+    {
+      "name": "Linen Yarn",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.2,
+      "timeCost": null,
+      "recipeCost": 1.75,
+      "costPerUnit": 0.875
+    },
+    {
+      "name": "Linen Fabric",
+      "inputMultiplier": 0.55,
+      "laborCost": 4,
+      "timeCost": null,
+      "recipeCost": 5.925,
+      "costPerUnit": 5.925
+    },
+    {
+      "name": "Barrel",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 11.2,
+      "costPerUnit": 11.2
+    },
+    {
+      "name": "Petroleum",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 13.6,
+      "costPerUnit": 13.6
+    },
+    {
+      "name": "Biodiesel",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": 0.09,
+      "recipeCost": 30.69,
+      "costPerUnit": 30.69
+    },
+    {
+      "name": "Epoxy",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": 0.16875,
+      "recipeCost": 28.16875,
+      "costPerUnit": 14.084375
+    },
+    {
+      "name": "Gasoline",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": 0.09,
+      "recipeCost": 59.29,
+      "costPerUnit": 59.29
+    },
+    {
+      "name": "Nylon",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": 0.16875,
+      "recipeCost": 28.16875,
+      "costPerUnit": 3.52109375
+    },
+    {
+      "name": "Plastic",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": 0.16875,
+      "recipeCost": 28.16875,
+      "costPerUnit": 14.084375
+    },
+    {
+      "name": "Synthetic Rubber",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": 0.16875,
+      "recipeCost": 28.16875,
+      "costPerUnit": 14.084375
+    },
+    {
+      "name": "Fiberglass",
+      "inputMultiplier": 1,
+      "laborCost": 3.6,
+      "timeCost": null,
+      "recipeCost": 178.6125,
+      "costPerUnit": 178.6125
+    },
+    {
+      "name": "Glass (Limestone)",
+      "inputMultiplier": 0.5,
+      "laborCost": 1.2,
+      "timeCost": 0.0675,
+      "recipeCost": 2.2675,
+      "costPerUnit": 2.2675
+    },
+    {
+      "name": "Glass (Quicklime)",
+      "inputMultiplier": 0.5,
+      "laborCost": 1.8,
+      "timeCost": 0.05625,
+      "recipeCost": 4.899166667,
+      "costPerUnit": 4.899166667
+    },
+    {
+      "name": "Light Bulb",
+      "inputMultiplier": 0.5,
+      "laborCost": 2.4,
+      "timeCost": 0.1125,
+      "recipeCost": 39.1125,
+      "costPerUnit": 39.1125
+    },
+    {
+      "name": "Glass Lens",
+      "inputMultiplier": 0.5,
+      "laborCost": 1.2,
+      "timeCost": 0.028125,
+      "recipeCost": 10.228125,
+      "costPerUnit": 5.1140625
+    },
+    {
+      "name": "Substrate",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 885.8625,
+      "costPerUnit": 885.8625
+    },
+    {
+      "name": "Basic Circuit",
+      "inputMultiplier": 1,
+      "laborCost": 1.8,
+      "timeCost": null,
+      "recipeCost": 1893.225,
+      "costPerUnit": 1893.225
+    },
+    {
+      "name": "Advanced Circuit",
+      "inputMultiplier": 1,
+      "laborCost": 3.4,
+      "timeCost": null,
+      "recipeCost": 1868.425,
+      "costPerUnit": 1868.425
+    },
+    {
+      "name": "Gold Flakes",
+      "inputMultiplier": 1,
+      "laborCost": 3,
+      "timeCost": null,
+      "recipeCost": 21,
+      "costPerUnit": 5.25
+    },
+    {
+      "name": "Servo",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 7711.0725,
+      "costPerUnit": 7711.0725
+    },
+    {
+      "name": "Electric Motor",
+      "inputMultiplier": 1,
+      "laborCost": 14.4,
+      "timeCost": null,
+      "recipeCost": 13827.95083,
+      "costPerUnit": 13827.95083
+    },
+    {
+      "name": "Robotic Assembly Line",
+      "inputMultiplier": 1,
+      "laborCost": 48,
+      "timeCost": null,
+      "recipeCost": 162154.0617,
+      "costPerUnit": 162154.0617
+    },
+    {
+      "name": "Solar Generator",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 89080.51625,
+      "costPerUnit": 89080.51625
+    },
+    {
+      "name": "Wind Turbine",
+      "inputMultiplier": 1,
+      "laborCost": 48,
+      "timeCost": null,
+      "recipeCost": 44566.48083,
+      "costPerUnit": 44566.48083
+    },
+    {
+      "name": "Jaw Crusher",
+      "inputMultiplier": 1,
+      "laborCost": 48,
+      "timeCost": null,
+      "recipeCost": 28875.7949,
+      "costPerUnit": 28875.7949
+    },
+    {
+      "name": "Industrial Generator",
+      "inputMultiplier": 1,
+      "laborCost": 96,
+      "timeCost": null,
+      "recipeCost": 121726.02,
+      "costPerUnit": 121726.02
+    },
+    {
+      "name": "Copper Wiring",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 22.4,
+      "costPerUnit": 11.2
+    },
+    {
+      "name": "Geology Research Paper Modern",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 195.4774,
+      "costPerUnit": 195.4774
+    },
+    {
+      "name": "Geology Research Paper Modern (Glass)",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 165.4774,
+      "costPerUnit": 165.4774
+    },
+    {
+      "name": "Black Powder",
+      "inputMultiplier": 0.55,
+      "laborCost": 1.4,
+      "timeCost": null,
+      "recipeCost": 4.3854,
+      "costPerUnit": 1.09635
+    },
+    {
+      "name": "Laboratory",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 157.8,
+      "costPerUnit": 157.8
+    },
+    {
+      "name": "Iron Gear",
+      "inputMultiplier": 1,
+      "laborCost": 3,
+      "timeCost": null,
+      "recipeCost": 7,
+      "costPerUnit": 7
+    },
+    {
+      "name": "Iron Plate",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 6.4,
+      "costPerUnit": 6.4
+    },
+    {
+      "name": "Small Paper Machine",
+      "inputMultiplier": 1,
+      "laborCost": 9.6,
+      "timeCost": null,
+      "recipeCost": 102.8,
+      "costPerUnit": 102.8
+    },
+    {
+      "name": "Piston",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 18.4,
+      "costPerUnit": 18.4
+    },
+    {
+      "name": "Steam Engine",
+      "inputMultiplier": 1,
+      "laborCost": 18,
+      "timeCost": null,
+      "recipeCost": 162,
+      "costPerUnit": 162
+    },
+    {
+      "name": "Copper Plate",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 7.4,
+      "costPerUnit": 7.4
+    },
+    {
+      "name": "Screw",
+      "inputMultiplier": 1,
+      "laborCost": 1,
+      "timeCost": null,
+      "recipeCost": 5,
+      "costPerUnit": 1.25
+    },
+    {
+      "name": "Boiler",
+      "inputMultiplier": 1,
+      "laborCost": 7.2,
+      "timeCost": null,
+      "recipeCost": 145.3,
+      "costPerUnit": 145.3
+    },
+    {
+      "name": "Stamp Mill",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 104.6,
+      "costPerUnit": 104.6
+    },
+    {
+      "name": "Screening Machine",
+      "inputMultiplier": 1,
+      "laborCost": 12,
+      "timeCost": null,
+      "recipeCost": 260.75,
+      "costPerUnit": 260.75
+    },
+    {
+      "name": "Engineering Research Paper Modern",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 356.6774,
+      "costPerUnit": 356.6774
+    },
+    {
+      "name": "Iron Axle",
+      "inputMultiplier": 1,
+      "laborCost": 3,
+      "timeCost": null,
+      "recipeCost": 11,
+      "costPerUnit": 11
+    },
+    {
+      "name": "Portable Steam Engine",
+      "inputMultiplier": 1,
+      "laborCost": 48,
+      "timeCost": null,
+      "recipeCost": 862.4,
+      "costPerUnit": 862.4
+    },
+    {
+      "name": "Steam Tractor",
+      "inputMultiplier": 1,
+      "laborCost": 40,
+      "timeCost": null,
+      "recipeCost": 1366.425,
+      "costPerUnit": 1366.425
+    },
+    {
+      "name": "Steam Tractor Scoop",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 78.5,
+      "costPerUnit": 78.5
+    },
+    {
+      "name": "Steam Tractor Harvester",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 128.6,
+      "costPerUnit": 128.6
+    },
+    {
+      "name": "Steam Tractor Sower",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 110.5,
+      "costPerUnit": 110.5
+    },
+    {
+      "name": "Steam Tractor Plow",
+      "inputMultiplier": 1,
+      "laborCost": 4.8,
+      "timeCost": null,
+      "recipeCost": 78.5,
+      "costPerUnit": 78.5
+    },
+    {
+      "name": "Steam Truck",
+      "inputMultiplier": 1,
+      "laborCost": 40,
+      "timeCost": null,
+      "recipeCost": 1366.425,
+      "costPerUnit": 1366.425
+    },
+    {
+      "name": "Medium Shipyard",
+      "inputMultiplier": 1,
+      "laborCost": 32,
+      "timeCost": null,
+      "recipeCost": 128,
+      "costPerUnit": 128
+    },
+    {
+      "name": "Combustion Engine",
+      "inputMultiplier": 1,
+      "laborCost": 12,
+      "timeCost": null,
+      "recipeCost": 386.4925,
+      "costPerUnit": 386.4925
+    },
+    {
+      "name": "Combustion Generator",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 516.4925,
+      "costPerUnit": 516.4925
+    },
+    {
+      "name": "Gearbox",
+      "inputMultiplier": 1,
+      "laborCost": 1.8,
+      "timeCost": null,
+      "recipeCost": 37.8,
+      "costPerUnit": 37.8
+    },
+    {
+      "name": "Rolling Mill",
+      "inputMultiplier": 1,
+      "laborCost": 14.4,
+      "timeCost": null,
+      "recipeCost": 235.9308333,
+      "costPerUnit": 235.9308333
+    },
+    {
+      "name": "Heat Sink",
+      "inputMultiplier": 1,
+      "laborCost": 2.4,
+      "timeCost": null,
+      "recipeCost": 128.8,
+      "costPerUnit": 128.8
+    },
+    {
+      "name": "Printing Press",
+      "inputMultiplier": 1,
+      "laborCost": 9.6,
+      "timeCost": null,
+      "recipeCost": 235.6,
+      "costPerUnit": 235.6
+    },
+    {
+      "name": "Cement Kiln",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 502.4,
+      "costPerUnit": 502.4
+    },
+    {
+      "name": "Blast Furnace",
+      "inputMultiplier": 1,
+      "laborCost": 24,
+      "timeCost": null,
+      "recipeCost": 179.8,
+      "costPerUnit": 179.8
+    },
+    {
+      "name": "Bean Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.05,
+      "timeCost": null,
+      "recipeCost": 3.09,
+      "costPerUnit": 3.09
+    },
+    {
+      "name": "Corn Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.05,
+      "timeCost": null,
+      "recipeCost": 4.61,
+      "costPerUnit": 4.61
+    },
+    {
+      "name": "Cottonseed Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.1,
+      "timeCost": null,
+      "recipeCost": 0.86,
+      "costPerUnit": 0.86
+    },
+    {
+      "name": "Fish Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.05,
+      "timeCost": null,
+      "recipeCost": 0.62,
+      "costPerUnit": 0.62
+    },
+    {
+      "name": "Oil (Cereal Germ)",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.5315,
+      "costPerUnit": 0.5315
+    },
+    {
+      "name": "Sunflower Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.05,
+      "timeCost": null,
+      "recipeCost": 1.57,
+      "costPerUnit": 1.57
+    },
+    {
+      "name": "Flaxseed Oil",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0625,
+      "timeCost": null,
+      "recipeCost": 1.2025,
+      "costPerUnit": 1.2025
+    },
+    {
+      "name": "Bean Paste",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 1.1775,
+      "costPerUnit": 1.1775
+    },
+    {
+      "name": "Beet Sugar",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.125,
+      "timeCost": null,
+      "recipeCost": 1.835,
+      "costPerUnit": 0.6116666667
+    },
+    {
+      "name": "Sugar (Huckleberries)",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.6075,
+      "costPerUnit": 0.6075
+    },
+    {
+      "name": "Blue Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.13125,
+      "costPerUnit": 0.02625
+    },
+    {
+      "name": "Colored Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.25,
+      "costPerUnit": 0.25
+    },
+    {
+      "name": "Copper Hydroxide",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 2.435,
+      "costPerUnit": 0.2029166667
+    },
+    {
+      "name": "Cyan Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.2981333333,
+      "costPerUnit": 0.09937777778
+    },
+    {
+      "name": "Iron Oxide",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 1.2475,
+      "costPerUnit": 0.1559375
+    },
+    {
+      "name": "Charcoal Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.535,
+      "costPerUnit": 0.107
+    },
+    {
+      "name": "Magenta Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.535,
+      "costPerUnit": 0.107
+    },
+    {
+      "name": "White Powder",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.1075,
+      "costPerUnit": 0.0215
+    },
+    {
+      "name": "Yellow Powder (Sunflower)",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.06,
+      "timeCost": null,
+      "recipeCost": 0.535,
+      "costPerUnit": 0.107
+    },
+    {
+      "name": "Yellow Powder (Creosote)",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.1125,
+      "timeCost": null,
+      "recipeCost": 0.16,
+      "costPerUnit": 0.04
+    },
+    {
+      "name": "Camas Paste",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.9875,
+      "costPerUnit": 0.9875
+    },
+    {
+      "name": "Cornmeal",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.9175,
+      "costPerUnit": 0.9175
+    },
+    {
+      "name": "Flour",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.4775,
+      "costPerUnit": 0.4775
+    },
+    {
+      "name": "Huckleberry Extract",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 1.4625,
+      "costPerUnit": 1.4625
+    },
+    {
+      "name": "Rice Flour",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.1925,
+      "costPerUnit": 0.1925
+    },
+    {
+      "name": "Simple Syrup",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 2.923125,
+      "costPerUnit": 2.923125
+    },
+    {
+      "name": "Sun Cheese",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 2.35039375,
+      "costPerUnit": 2.35039375
+    },
+    {
+      "name": "Yeast",
+      "inputMultiplier": 0.475,
+      "laborCost": 0.0375,
+      "timeCost": null,
+      "recipeCost": 0.614625,
+      "costPerUnit": 0.614625
+    },
+    {
+      "name": "Art Supplies",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.14,
+      "timeCost": null,
+      "recipeCost": 19.28350625,
+      "costPerUnit": 2.410438281
+    },
+    {
+      "name": "Base Paint",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.14,
+      "timeCost": null,
+      "recipeCost": 1.9693,
+      "costPerUnit": 0.19693
+    },
+    {
+      "name": "Ink",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.63,
+      "timeCost": null,
+      "recipeCost": 2.7387,
+      "costPerUnit": 1.36935
+    },
+    {
+      "name": "Oil Paint",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.14,
+      "timeCost": null,
+      "recipeCost": 2.01275,
+      "costPerUnit": 0.5031875
+    },
+    {
+      "name": "Decorative Book",
+      "inputMultiplier": 0.55,
+      "laborCost": 0.42,
+      "timeCost": null,
+      "recipeCost": 37.126285,
+      "costPerUnit": 37.126285
+    }
+  ],
+  "craftingTables": [
+    {
+      "name": "Carpentry Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Workbench",
+      "costPerSecond": null
+    },
+    {
+      "name": "Small Shipyard",
+      "costPerSecond": null
+    },
+    {
+      "name": "Masonry Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Kiln",
+      "costPerSecond": 0.001875
+    },
+    {
+      "name": "Campfire",
+      "costPerSecond": null
+    },
+    {
+      "name": "Sawmill",
+      "costPerSecond": null
+    },
+    {
+      "name": "Wainwright Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Research Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Arrastra",
+      "costPerSecond": null
+    },
+    {
+      "name": "Rocker Box",
+      "costPerSecond": null
+    },
+    {
+      "name": "Bloomery",
+      "costPerSecond": 0.000375
+    },
+    {
+      "name": "Cement Kiln",
+      "costPerSecond": 0.02798611111
+    },
+    {
+      "name": "Blast Furnace",
+      "costPerSecond": 0.02798611111
+    },
+    {
+      "name": "Screening Machine",
+      "costPerSecond": 0.03751388889
+    },
+    {
+      "name": "Stamp Mill",
+      "costPerSecond": 0.001125
+    },
+    {
+      "name": "Rolling Mill",
+      "costPerSecond": null
+    },
+    {
+      "name": "Advanced Masonry Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Tailoring Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Loom",
+      "costPerSecond": null
+    },
+    {
+      "name": "Pump Jack",
+      "costPerSecond": null
+    },
+    {
+      "name": "Electric Machinist Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Oil Refinery",
+      "costPerSecond": 0.001875
+    },
+    {
+      "name": "Electronics Assembly",
+      "costPerSecond": null
+    },
+    {
+      "name": "Glassworks",
+      "costPerSecond": 0.001875
+    },
+    {
+      "name": "Robotic Assembly Line",
+      "costPerSecond": null
+    },
+    {
+      "name": "Farmer's Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Machinist Table",
+      "costPerSecond": null
+    },
+    {
+      "name": "Laboratory",
+      "costPerSecond": null
+    },
+    {
+      "name": "Shaper",
+      "costPerSecond": null
+    },
+    {
+      "name": "Screw Press",
+      "costPerSecond": null
+    },
+    {
+      "name": "Lathe",
+      "costPerSecond": null
+    },
+    {
+      "name": "Assembly Line",
+      "costPerSecond": null
+    },
+    {
+      "name": "Mill",
+      "costPerSecond": null
+    },
+    {
+      "name": "Paint Mixer",
+      "costPerSecond": null
+    }
+  ],
+  "shopSelling": [
+    {
+      "item": "Basic Upgrade 1",
+      "price": 129.375
+    },
+    {
+      "item": "Basic Upgrade 2",
+      "price": 238.125
+    },
+    {
+      "item": "Basic Upgrade 3",
+      "price": 871.875
+    },
+    {
+      "item": "Basic Upgrade 4",
+      "price": 1229.15625
+    },
+    {
+      "item": "Blue Powder",
+      "price": 0.04921875
+    },
+    {
+      "item": "Colored Powder",
+      "price": 0.46875
+    },
+    {
+      "item": "Copper Hydroxide",
+      "price": 0.38046875
+    },
+    {
+      "item": "Cyan Powder",
+      "price": 0.1863333333
+    },
+    {
+      "item": "Iron Oxide",
+      "price": 0.2923828125
+    },
+    {
+      "item": "Charcoal Powder",
+      "price": 0.200625
+    },
+    {
+      "item": "Magenta Powder",
+      "price": 0.200625
+    },
+    {
+      "item": "White Powder",
+      "price": 0.0403125
+    },
+    {
+      "item": "Yellow Powder",
+      "price": 0.075
+    },
+    {
+      "item": "Flaxseed Oil",
+      "price": 2.2546875
+    },
+    {
+      "item": "Oil",
+      "price": 0.992
+    },
+    {
+      "item": "Flour",
+      "price": 0.8953125
+    },
+    {
+      "item": "Rice Flour",
+      "price": 0.3609375
+    },
+    {
+      "item": "Cornmeal",
+      "price": 1.7203125
+    },
+    {
+      "item": "Sugar",
+      "price": 1.1390625
+    },
+    {
+      "item": "Simple Syrup",
+      "price": 5.480859375
+    },
+    {
+      "item": "Huckleberry Extract",
+      "price": 2.7421875
+    },
+    {
+      "item": "Yeast",
+      "price": 1.152421875
+    },
+    {
+      "item": "Sun Cheese",
+      "price": 4.406988281
+    },
+    {
+      "item": "Camas Paste",
+      "price": 1.8515625
+    },
+    {
+      "item": "Base Paint",
+      "price": 0.36924375
+    },
+    {
+      "item": "Art Supplies",
+      "price": 4.519571777
+    },
+    {
+      "item": "Ink",
+      "price": 2.56753125
+    },
+    {
+      "item": "Decorative Book",
+      "price": 69.61178438
+    }
+  ],
+  "shopBuying": [
+    {
+      "item": "Wood (Tag)",
+      "price": 0.4
+    }
+  ]
+}
