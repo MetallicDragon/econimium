@@ -6,6 +6,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { solve } from '../src/lib/engine/prices.ts';
+import { findUnconfiguredModules } from '../src/lib/engine/economy.ts';
 import type {
   GameData,
   Item,
@@ -150,7 +151,13 @@ describe('tag ingredients', () => {
   });
 });
 
-function moduleDef(id: string, resource: number, labor = 0, time = 0): UpgradeModule {
+function moduleDef(
+  id: string,
+  resource: number,
+  labor = 0,
+  time = 0,
+  power: { electricWatts?: number; mechanicalWatts?: number } = {},
+): UpgradeModule {
   return {
     id,
     name: id,
@@ -159,6 +166,8 @@ function moduleDef(id: string, resource: number, labor = 0, time = 0): UpgradeMo
     resourceReduction: resource,
     laborReduction: labor,
     timeReduction: time,
+    electricWatts: power.electricWatts ?? 0,
+    mechanicalWatts: power.mechanicalWatts ?? 0,
   };
 }
 
@@ -228,6 +237,95 @@ describe('upgrade modules', () => {
     expect(breakdown.inputMultiplier).toBe(1);
     expect(breakdown.laborMultiplier).toBeCloseTo(0.5, 10);
     expect(breakdown.timeMultiplier).toBeCloseTo(0.75, 10);
+  });
+});
+
+describe('module power draw', () => {
+  const build = (fitted: string[], canUseModules = true) =>
+    baseData({
+      globals: {
+        foodCostPer1kCal: 0,
+        minWagePer1k: 0,
+        pricePerPpm: 0,
+        burnables: [{ name: 'Coal', price: 1, joules: 1000 }],
+        // 1000W out for 100W of coal burned makes electricity easy to reason
+        // about: 0.001 $/J x 100 W / 1000 W = 0.0001 $ per watt-second.
+        generator: { name: 'gen', wattsProduced: 1000, wattsConsumed: 100, ppmPerHour: 0 },
+      },
+      modules: [
+        moduleDef('modern', 0, 0, 0, { electricWatts: 500 }),
+        moduleDef('advanced', 0, 0, 0, { mechanicalWatts: 80 }),
+      ],
+      craftingTables: [
+        {
+          name: 'Bench',
+          canUseModules,
+          fittedModules: fitted,
+          burnableWatts: 0,
+          electricWatts: 100,
+          ppmPerHour: 0,
+        },
+      ],
+    });
+
+  const perWatt = 0.0001;
+
+  it('adds a fitted module\'s electricity to the table', () => {
+    const solution = solve(build(['modern']));
+    // 100W table + 500W module = 600W.
+    expect(solution.economy.tableCostPerSecond.get('Bench')).toBeCloseTo(600 * perWatt, 12);
+  });
+
+  it('does not cost mechanical energy, which has no price model', () => {
+    const solution = solve(build(['advanced']));
+    // The 80W mechanical requirement is recorded but must not be charged.
+    expect(solution.economy.tableCostPerSecond.get('Bench')).toBeCloseTo(100 * perWatt, 12);
+  });
+
+  it('ignores module power on a table that cannot take modules', () => {
+    const solution = solve(build(['modern'], false));
+    expect(solution.economy.tableCostPerSecond.get('Bench')).toBeCloseTo(100 * perWatt, 12);
+  });
+});
+
+describe('unconfigured module warnings', () => {
+  const build = (fitted: string[]) =>
+    baseData({
+      modules: [
+        moduleDef('basic', 0.1),
+        { ...moduleDef('specialty:Mining', 0), kind: 'Specialty', skill: 'Mining', name: 'Mining Upgrade' },
+      ],
+      craftingTables: [
+        {
+          name: 'Bench',
+          canUseModules: true,
+          fittedModules: fitted,
+          burnableWatts: 0,
+          electricWatts: 0,
+          ppmPerHour: 0,
+        },
+      ],
+    });
+
+  it('flags a fitted module with no bonuses entered', () => {
+    const found = findUnconfiguredModules(build(['specialty:Mining']));
+    expect(found).toEqual([
+      { table: 'Bench', moduleId: 'specialty:Mining', moduleName: 'Mining Upgrade' },
+    ]);
+  });
+
+  it('says nothing about a module that grants something', () => {
+    expect(findUnconfiguredModules(build(['basic']))).toEqual([]);
+  });
+
+  it('says nothing about an empty module that is not fitted', () => {
+    expect(findUnconfiguredModules(build([]))).toEqual([]);
+  });
+
+  it('ignores tables that cannot take modules at all', () => {
+    const data = build(['specialty:Mining']);
+    data.craftingTables[0]!.canUseModules = false;
+    expect(findUnconfiguredModules(data)).toEqual([]);
   });
 });
 

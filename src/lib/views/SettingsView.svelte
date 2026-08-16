@@ -27,6 +27,15 @@
     return Math.round(value * 1e6) / 1e6;
   }
 
+  /**
+   * Modules fitted somewhere but left blank. Specialty modules ship with no
+   * values, so it's easy to tick one on and forget — leaving a table looking
+   * upgraded while costing as though it were bare.
+   */
+  const unconfigured = $derived(app.unconfiguredModules);
+  const unconfiguredIds = $derived(new Set(unconfigured.map((entry) => entry.moduleId)));
+  const unconfiguredTables = $derived([...new Set(unconfigured.map((entry) => entry.table))]);
+
   let tableFilter = $state('');
   let moduleFilter = $state('');
   let skillFilter = $state('');
@@ -131,12 +140,22 @@
         <th class="num">Resources</th>
         <th class="num">Labor</th>
         <th class="num">Time</th>
+        <th class="num" title="Electricity the module draws, added to its table">Electric W</th>
+        <th class="num" title="Recorded but not costed — there is no mechanical energy price model">
+          Mech. W
+        </th>
       </tr>
     </thead>
     <tbody>
       {#each visibleModules as module (module.id)}
-        <tr>
-          <td>{module.name}</td>
+        {@const blank = unconfiguredIds.has(module.id)}
+        <tr class:warn-row={blank}>
+          <td>
+            {module.name}
+            {#if blank}
+              <span class="warn-tag" title="Fitted to a table but grants nothing">no bonuses</span>
+            {/if}
+          </td>
           <td class="dim">{module.kind}</td>
           {#each REDUCTION_FIELDS as field (field.key)}
             <td class="num">
@@ -154,10 +173,19 @@
               </span>
             </td>
           {/each}
+          <td class="num"><input type="number" min="0" step="any" bind:value={module.electricWatts} /></td>
+          <td class="num">
+            <input type="number" min="0" step="any" bind:value={module.mechanicalWatts} />
+          </td>
         </tr>
       {/each}
     </tbody>
   </table>
+  <p class="hint">
+    Mechanical energy is recorded but <strong>not costed</strong> — there's no price model for it
+    yet, so an Advanced upgrade's 80W contributes nothing. Electricity is costed via the generator
+    settings above.
+  </p>
   {#if visibleModules.length < app.data.modules.length}
     <p class="hint">Showing {visibleModules.length} of {app.data.modules.length} modules.</p>
   {/if}
@@ -170,6 +198,21 @@
     API either, so they start at zero and add no running cost until you fill them in. Tables that
     can't take modules are marked.
   </p>
+  {#if unconfigured.length > 0}
+    <p class="warning">
+      <strong>{unconfigured.length}</strong>
+      {unconfigured.length === 1 ? 'module is' : 'modules are'} fitted with no bonuses entered, so
+      {unconfigured.length === 1 ? 'it counts' : 'they count'} for nothing:
+      {unconfigured
+        .slice(0, 6)
+        .map((entry) => `${entry.moduleName} on ${entry.table}`)
+        .join(', ')}{unconfigured.length > 6
+        ? `, and ${unconfigured.length - 6} more`
+        : ''}. Set the percentages under Upgrade modules{unconfiguredTables.length > 1
+        ? ` (${unconfiguredTables.length} tables affected)`
+        : ''}.
+    </p>
+  {/if}
   <input class="filter" type="search" placeholder="Filter tables…" bind:value={tableFilter} />
   <table>
     <thead>
@@ -192,10 +235,18 @@
               <span class="modules">
                 {#each app.data.modules as module (module.id)}
                   {#if module.skill === null || module.skill === skillOfTable.get(table.name)}
-                    <label class="chip" class:on={table.fittedModules.includes(module.id)}>
+                    {@const fitted = table.fittedModules.includes(module.id)}
+                    <label
+                      class="chip"
+                      class:on={fitted}
+                      class:blank={fitted && unconfiguredIds.has(module.id)}
+                      title={fitted && unconfiguredIds.has(module.id)
+                        ? `${module.name} is fitted but has no bonuses entered — set them above`
+                        : module.name}
+                    >
                       <input
                         type="checkbox"
-                        checked={table.fittedModules.includes(module.id)}
+                        checked={fitted}
                         onchange={(event) =>
                           app.toggleModule(table.name, module.id, event.currentTarget.checked)}
                       />
@@ -380,6 +431,36 @@
     border-color: var(--accent-dim);
     background: color-mix(in srgb, var(--accent) 15%, var(--surface-2));
     color: var(--text);
+  }
+
+  .chip.on.blank {
+    border-color: var(--warn);
+    background: color-mix(in srgb, var(--warn) 18%, var(--surface-2));
+    color: var(--warn);
+  }
+
+  .warning {
+    background: color-mix(in srgb, var(--warn) 12%, var(--surface));
+    border: 1px solid var(--warn);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    margin: 0 0 1rem;
+    max-width: 60rem;
+    font-size: 0.85rem;
+  }
+
+  .warn-row td:first-child {
+    color: var(--warn);
+  }
+
+  .warn-tag {
+    border: 1px solid var(--warn);
+    color: var(--warn);
+    border-radius: 999px;
+    padding: 0.02rem 0.4rem;
+    font-size: 0.7rem;
+    margin-left: 0.35rem;
+    white-space: nowrap;
   }
 
   .chip input {

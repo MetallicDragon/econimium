@@ -72,6 +72,39 @@ export function combineModules(
   };
 }
 
+/** A module fitted to a table but left with no bonuses filled in. */
+export interface UnconfiguredModule {
+  table: string;
+  moduleId: string;
+  moduleName: string;
+}
+
+/**
+ * Finds modules that are fitted but grant nothing.
+ *
+ * Specialty modules vary per skill and ship with no values, so it's easy to
+ * tick one on and forget to enter its bonuses — leaving a table looking
+ * upgraded while costing as though it were bare. Anything fitted with all three
+ * reductions at zero is reported.
+ */
+export function findUnconfiguredModules(data: GameData): UnconfiguredModule[] {
+  const catalogue = new Map((data.modules ?? []).map((module) => [module.id, module]));
+  const found: UnconfiguredModule[] = [];
+  for (const table of data.craftingTables) {
+    if (!table.canUseModules) continue;
+    for (const id of table.fittedModules ?? []) {
+      const module = catalogue.get(id);
+      if (!module) continue;
+      const grantsNothing =
+        module.resourceReduction === 0 && module.laborReduction === 0 && module.timeReduction === 0;
+      if (grantsNothing) {
+        found.push({ table: table.name, moduleId: module.id, moduleName: module.name });
+      }
+    }
+  }
+  return found;
+}
+
 /** Talents and module reductions compose multiplicatively. */
 export function multiply(...all: Multipliers[]): Multipliers {
   const result = { resource: 1, labor: 1, time: 1 };
@@ -113,14 +146,35 @@ export function cheapestFuel(globals: Globals): { name: string | null; costPerJo
   return best;
 }
 
+/**
+ * Electricity a table draws, including the modules fitted to it — a Modern
+ * upgrade adds 500W of its own.
+ *
+ * Mechanical energy is deliberately not summed here: modules require it (an
+ * Advanced upgrade needs 80W) but there is no mechanical-energy price model, so
+ * counting it would mean inventing one.
+ */
+export function tableElectricWatts(
+  table: CraftingTable,
+  catalogue: Map<string, UpgradeModule>,
+): number {
+  let watts = table.electricWatts;
+  if (!table.canUseModules) return watts;
+  for (const id of table.fittedModules ?? []) {
+    watts += catalogue.get(id)?.electricWatts ?? 0;
+  }
+  return watts;
+}
+
 export function tableCostPerSecond(
   table: CraftingTable,
   globals: Globals,
   fuelCostPerJoule: number,
   electricCostPerWatt: number,
+  catalogue: Map<string, UpgradeModule> = new Map(),
 ): number {
   const fuel = fuelCostPerJoule * table.burnableWatts;
-  const electric = electricCostPerWatt * table.electricWatts;
+  const electric = electricCostPerWatt * tableElectricWatts(table, catalogue);
   const pollution = (table.ppmPerHour / SECONDS_PER_HOUR) * globals.pricePerPpm;
   return fuel + electric + pollution;
 }
@@ -147,7 +201,7 @@ export function computeEconomy(data: GameData): Economy {
   for (const table of data.craftingTables) {
     tableCosts.set(
       table.name,
-      tableCostPerSecond(table, globals, fuel.costPerJoule, electricCostPerWatt),
+      tableCostPerSecond(table, globals, fuel.costPerJoule, electricCostPerWatt, catalogue),
     );
     tableModules.set(
       table.name,

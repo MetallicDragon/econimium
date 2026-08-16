@@ -86,8 +86,11 @@ every cost that depends on them.
   recipe — raw resources, carcasses, cosmetics — and everything else is costed
   from them. Tick *Fixed price* on an item in the Items tab to set one. Use the
   *Only unpriced* filter to find what's still missing.
-- **Upgrade modules** are defined once under Settings (a percentage off
-  resources, labor and time), then ticked onto each table that has them fitted.
+- **Upgrade modules** ship with the real 0.14 values for the generic Basic,
+  Advanced and Modern upgrades (they differ per server — see below). Tick them
+  onto each table that has them fitted. **Specialty modules vary per skill and
+  ship empty**; fit one without entering its bonuses and the app warns you,
+  since it would otherwise look upgraded while costing as though it were bare.
 - **Talents** are entered as percentages: per skill under Settings, or per
   recipe in that recipe's breakdown under Items.
 - **Crafting table power and pollution** start at zero, so tables add no
@@ -154,6 +157,22 @@ take modules gets no reduction regardless of what's listed.
 Talents come in two scopes, both entered by hand: skill talents apply to
 everything made with that skill, recipe talents to one recipe. Each can reduce
 resources, labor and craft time independently.
+
+The shipped module values, which differ between servers:
+
+| Module | Vanilla | Lumber Ridge | Power |
+| --- | --- | --- | --- |
+| Basic | −10% res, −5% labor, −25% time | −20% res | — |
+| Advanced | −10% res, −10% labor, −35% time | −15% res | 80W mechanical |
+| Modern | −15% res, −10% labor, −50% time | −15% res | 500W electric |
+
+Lumber Ridge's mods rebalance the generic upgrades to affect resources only.
+
+**Mechanical energy is recorded but not costed.** A fitted module adds its
+electricity to the table's draw, priced through the generator settings, but
+there is no mechanical-energy price model — so an Advanced upgrade's 80W
+currently contributes nothing. The figure is stored so that adding a price model
+later is a pricing decision rather than a data-gathering exercise.
 
 
 **Byproducts are credited, not produced.** A recipe's cost is attributed to its
@@ -254,8 +273,11 @@ settings between browsers. **Reset** clears only the active context.
 - **Base prices** — the roots need pricing before most of the tree is useful;
   ranking unpriced items by how many recipes depend on them would make that far
   less tedious
-- **Real module and talent values** — the structure is in place, but every
-  percentage is still zero pending the actual 0.14 figures for each server
+- **Mechanical energy pricing** — Advanced modules need 80W of it and nothing
+  charges for it yet
+- **Specialty module values** — they vary per skill, so they ship empty and the
+  app warns when one is fitted but blank
+- **Talent values** — the structure is in place; the percentages are yours
 - **Crafting table figures** — power and pollution are all zero
 - **Price entry UX** — currently one item at a time in the Items tab
 - **Lazy-loading datasets** — both are bundled eagerly, which is most of the

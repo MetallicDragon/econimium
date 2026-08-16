@@ -51,6 +51,43 @@ const SERVERS: Server[] = [
 /** The Eco version these datasets were pulled for. */
 const GAME_VERSION = '0.14.0.3';
 
+interface ModuleValues {
+  resource: number;
+  labor: number;
+  time: number;
+}
+
+/**
+ * Upgrade module effects, supplied by hand because the API exposes none of
+ * them. Values are fractions saved, so 0.1 is 10% off.
+ *
+ * Lumber Ridge's mods rebalance the generic upgrades to affect resources only.
+ */
+const MODULE_VALUES: Record<string, Record<'basic' | 'advanced' | 'modern', ModuleValues>> = {
+  vanilla: {
+    basic: { resource: 0.1, labor: 0.05, time: 0.25 },
+    advanced: { resource: 0.1, labor: 0.1, time: 0.35 },
+    modern: { resource: 0.15, labor: 0.1, time: 0.5 },
+  },
+  'lumber-ridge': {
+    basic: { resource: 0.2, labor: 0, time: 0 },
+    advanced: { resource: 0.15, labor: 0, time: 0 },
+    modern: { resource: 0.15, labor: 0, time: 0 },
+  },
+};
+
+/**
+ * Power each generic module needs to run. Mechanical energy has no price model
+ * yet, so it is recorded and ignored rather than silently costed at zero as if
+ * it were free.
+ */
+const MODULE_POWER: Record<'basic' | 'advanced' | 'modern', { electric: number; mechanical: number }> =
+  {
+    basic: { electric: 0, mechanical: 0 },
+    advanced: { electric: 0, mechanical: 80 },
+    modern: { electric: 500, mechanical: 0 },
+  };
+
 // ---- API response shapes ---------------------------------------------------
 
 interface ApiIngredient {
@@ -214,25 +251,37 @@ function buildDataset(
 
   // ---- Modules -------------------------------------------------------------
   // A table can hold one of each kind at once. The API exposes none of their
-  // effects, so every reduction starts at zero and is filled in by hand; a
-  // Specialty module is added per skill so the per-skill values have somewhere
-  // to live.
-  const modules: UpgradeModule[] = [
-    { id: 'basic', name: 'Basic Upgrade', kind: 'Basic' as const, skill: null },
-    { id: 'advanced', name: 'Advanced Upgrade', kind: 'Advanced' as const, skill: null },
-    { id: 'modern', name: 'Modern Upgrade', kind: 'Modern' as const, skill: null },
-    ...skills.map((skill) => ({
-      id: `specialty:${skill.name}`,
-      name: `${skill.name} Upgrade`,
-      kind: 'Specialty' as const,
-      skill: skill.name,
-    })),
-  ].map((module) => ({
-    ...module,
+  // effects, so the generic three carry hand-supplied values per server, while
+  // Specialty modules — which differ per skill — start empty for the user to
+  // fill in. The app warns when one is fitted but still blank.
+  const values = MODULE_VALUES[server.id];
+  if (!values) throw new Error(`No module values configured for server "${server.id}"`);
+
+  const generic = (['basic', 'advanced', 'modern'] as const).map((key) => ({
+    id: key,
+    name: `${key[0]!.toUpperCase()}${key.slice(1)} Upgrade`,
+    kind: (key[0]!.toUpperCase() + key.slice(1)) as 'Basic' | 'Advanced' | 'Modern',
+    skill: null,
+    resourceReduction: values[key].resource,
+    laborReduction: values[key].labor,
+    timeReduction: values[key].time,
+    electricWatts: MODULE_POWER[key].electric,
+    mechanicalWatts: MODULE_POWER[key].mechanical,
+  }));
+
+  const specialty = skills.map((skill) => ({
+    id: `specialty:${skill.name}`,
+    name: `${skill.name} Upgrade`,
+    kind: 'Specialty' as const,
+    skill: skill.name,
     resourceReduction: 0,
     laborReduction: 0,
     timeReduction: 0,
+    electricWatts: 0,
+    mechanicalWatts: 0,
   }));
+
+  const modules: UpgradeModule[] = [...generic, ...specialty];
 
   // ---- Crafting tables -----------------------------------------------------
   // The API reports no power draw, pollution, or fitted module tier, so these

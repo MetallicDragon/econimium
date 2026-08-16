@@ -50,6 +50,17 @@ export interface UpgradeModule {
   resourceReduction: number;
   laborReduction: number;
   timeReduction: number;
+  /**
+   * Electricity the module itself draws while the table runs, added to the
+   * table's own draw. Modern modules need 500W.
+   */
+  electricWatts: number;
+  /**
+   * Mechanical energy the module requires. Recorded for completeness but
+   * **not costed** — there is no mechanical-energy price model yet. Advanced
+   * modules need 80W.
+   */
+  mechanicalWatts: number;
 }
 
 /** A fuel that can be burned for power, priced per joule. */

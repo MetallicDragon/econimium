@@ -20,6 +20,7 @@ import {
   getContext,
   type DataContext,
 } from '../data/contexts.ts';
+import { findUnconfiguredModules } from '../engine/economy.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
 import type { GameData, Globals, Multipliers, ShopEntry, ShopSettings } from '../engine/types.ts';
@@ -37,8 +38,12 @@ const LEGACY_STORAGE_KEY = 'econimium:settings';
  *
  * Bumped to 3 when upgrade modules became a stacking per-table set and talents
  * arrived: a v2 patch's single `moduleTier` has no meaning under the new model.
+ *
+ * Bumped to 4 when modules gained power requirements and real per-server
+ * values. A v3 patch would restore the all-zero placeholders it saved over the
+ * top of them, quietly undoing the numbers the app now ships.
  */
-const PATCH_VERSION = 3;
+const PATCH_VERSION = 4;
 
 export function storageKeyFor(contextId: string): string {
   return `${STORAGE_PREFIX}:${contextId}`;
@@ -55,6 +60,8 @@ interface SavedModule {
   resourceReduction: number;
   laborReduction: number;
   timeReduction: number;
+  electricWatts: number;
+  mechanicalWatts: number;
 }
 
 interface SavedPatch {
@@ -92,6 +99,9 @@ export class AppState {
 
   sellEntries = $derived(new Map(this.data.shopSelling.map((entry) => [entry.item, entry])));
   buyEntries = $derived(new Map(this.data.shopBuying.map((entry) => [entry.item, entry])));
+
+  /** Modules fitted somewhere but left with no bonuses entered. */
+  unconfiguredModules = $derived(findUnconfiguredModules(this.data));
 
   /** Sorted list of the categories present in the data, for filtering. */
   categories = $derived(
@@ -182,6 +192,8 @@ export class AppState {
         resourceReduction: module.resourceReduction,
         laborReduction: module.laborReduction,
         timeReduction: module.timeReduction,
+        electricWatts: module.electricWatts,
+        mechanicalWatts: module.mechanicalWatts,
       };
     }
 
@@ -250,6 +262,8 @@ export class AppState {
       module.resourceReduction = saved.resourceReduction;
       module.laborReduction = saved.laborReduction;
       module.timeReduction = saved.timeReduction;
+      module.electricWatts = saved.electricWatts;
+      module.mechanicalWatts = saved.mechanicalWatts;
     }
 
     for (const table of next.craftingTables) {
