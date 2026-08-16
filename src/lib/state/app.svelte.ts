@@ -8,15 +8,26 @@
  * Only tunable fields are persisted — never recipes. That way a future data
  * update (new Eco version, corrected recipes) reaches existing users instead of
  * being shadowed by a stale copy in their browser.
+ *
+ * Each data context (vanilla, a modded server) is stored under its own key and
+ * loaded independently, so the two never share settings.
  */
 
-import { gameData } from '../data/index.ts';
+import { CONTEXTS, DEFAULT_CONTEXT_ID, getContext, type DataContext } from '../data/contexts.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
 import type { GameData, Globals, RealUpgradeTier, ShopEntry, ShopSettings } from '../engine/types.ts';
 
-export const STORAGE_KEY = 'econimium:settings';
+const STORAGE_PREFIX = 'econimium:settings';
+/** Remembers which context was last open. */
+const ACTIVE_CONTEXT_KEY = 'econimium:context';
+/** Pre-contexts key, migrated into the vanilla context on first run. */
+const LEGACY_STORAGE_KEY = 'econimium:settings';
 const PATCH_VERSION = 1;
+
+export function storageKeyFor(contextId: string): string {
+  return `${STORAGE_PREFIX}:${contextId}`;
+}
 
 interface SavedPatch {
   version: number;
@@ -27,12 +38,20 @@ interface SavedPatch {
   shopEntries: Record<string, { flatAddition: number | null; individualMarkup: number | null }>;
 }
 
-function freshData(): GameData {
-  return structuredClone(gameData);
+function freshData(contextId: string): GameData {
+  return structuredClone(getContext(contextId).data);
 }
 
 export class AppState {
-  data = $state<GameData>(freshData());
+  contextId = $state<string>(DEFAULT_CONTEXT_ID);
+  data = $state<GameData>(freshData(DEFAULT_CONTEXT_ID));
+
+  readonly contexts: DataContext[] = CONTEXTS;
+
+  context = $derived<DataContext>(getContext(this.contextId));
+
+  /** Where this context's settings are saved. */
+  storageKey = $derived(storageKeyFor(this.contextId));
 
   /** The full cost solve. Recomputed whenever any input above changes. */
   solution = $derived<Solution>(solve(this.data));
@@ -133,7 +152,7 @@ export class AppState {
 
   /** Applies a saved patch onto freshly loaded data, ignoring unknown names. */
   applyPatch(patch: SavedPatch): void {
-    const next = freshData();
+    const next = freshData(this.contextId);
     if (patch.version !== PATCH_VERSION) {
       this.data = next;
       return;
@@ -180,7 +199,7 @@ export class AppState {
 
   save(): void {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.toPatch()));
+      localStorage.setItem(this.storageKey, JSON.stringify(this.toPatch()));
     } catch (error) {
       console.warn('Could not save settings', error);
     }
@@ -188,18 +207,60 @@ export class AppState {
 
   load(): void {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) return;
+      const stored = localStorage.getItem(this.storageKey);
+      if (!stored) {
+        // Nothing saved for this context — start from its pristine dataset
+        // rather than inheriting whatever the previous context had.
+        this.data = freshData(this.contextId);
+        return;
+      }
       this.applyPatch(JSON.parse(stored) as SavedPatch);
     } catch (error) {
       console.warn('Could not load saved settings; starting fresh', error);
+      this.data = freshData(this.contextId);
     }
   }
 
-  reset(): void {
-    this.data = freshData();
+  /**
+   * Switches context, saving the outgoing one first so nothing in flight is
+   * lost, then loading the incoming one from its own key.
+   */
+  switchContext(id: string): void {
+    if (id === this.contextId) return;
+    this.save();
+    this.contextId = id;
+    this.load();
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(ACTIVE_CONTEXT_KEY, id);
+    } catch {
+      // Remembering the last context is a convenience, not a requirement.
+    }
+  }
+
+  /**
+   * Restores the last used context and its settings. Also migrates settings
+   * saved before contexts existed, which were all vanilla.
+   */
+  restore(): void {
+    try {
+      const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (legacy !== null && localStorage.getItem(storageKeyFor(DEFAULT_CONTEXT_ID)) === null) {
+        localStorage.setItem(storageKeyFor(DEFAULT_CONTEXT_ID), legacy);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      }
+
+      const saved = localStorage.getItem(ACTIVE_CONTEXT_KEY);
+      if (saved && CONTEXTS.some((context) => context.id === saved)) this.contextId = saved;
+    } catch {
+      // Fall through to defaults if storage is unavailable.
+    }
+    this.load();
+  }
+
+  reset(): void {
+    this.data = freshData(this.contextId);
+    try {
+      localStorage.removeItem(this.storageKey);
     } catch {
       // Nothing useful to do if storage is unavailable.
     }

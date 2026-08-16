@@ -9,7 +9,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { gameData } from '../src/lib/data/index.ts';
+import { vanillaData as gameData } from '../src/lib/data/index.ts';
 import { solve } from '../src/lib/engine/prices.ts';
 import { computeBuyPrice, computeSellPrice } from '../src/lib/engine/shop.ts';
 import type { GoldenValues, ShopEntry } from '../src/lib/engine/types.ts';

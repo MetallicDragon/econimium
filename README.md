@@ -26,15 +26,36 @@ npm run dev
 | `npm run preview` | Serve the production build locally |
 | `npm run convert` | Regenerate game data from the `.xlsx` |
 
+## Data contexts
+
+The app supports vanilla Eco and modded servers side by side. Each context has
+its **own dataset and its own saved settings** — skill levels, price overrides
+and shop tweaks set for one never leak into another. Switch between them with
+the picker in the header; the app reopens whichever you used last.
+
+| Context | Contents |
+| --- | --- |
+| Vanilla | Stock Eco 11.1 recipes |
+| Lumber Ridge | Modded server — *currently a placeholder using vanilla recipes* |
+
+Lumber Ridge shows a banner saying so until its real recipe data is imported,
+so nobody mistakes vanilla numbers for modded ones.
+
+**Adding another server:** generate its dataset, then add an entry to
+`CONTEXTS` in `src/lib/data/contexts.ts` pointing at it. Nothing else changes —
+storage keys, the switcher, and reset/export all derive from the registry. Note
+that a context's `id` is used in its storage key, so renaming one would orphan
+existing users' saved settings.
+
 ## How it fits together
 
 ```
 tools/xlsx-to-json.ts     converts the spreadsheet -> JSON (run manually)
-src/lib/data/             the generated Eco 11.1 dataset
+src/lib/data/             datasets + the context registry
 src/lib/engine/           pure TypeScript costing engine — no Svelte
 src/lib/state/            Svelte runes: editable copy of the data + persistence
 src/lib/views/            Items, Shop, Settings
-tests/                    golden-value suite
+tests/                    golden-value and context-isolation suites
 ```
 
 **The engine is deliberately framework-free.** Working out an item's cost is a
@@ -98,9 +119,10 @@ Pushing to `main` builds and publishes to GitHub Pages via
 in the repository settings. The workflow sets `BASE_PATH` so assets resolve from
 the `/<repo>/` subpath. Tests run before publishing.
 
-Settings are saved per browser in `localStorage`, so the deployed page is
-stateless and safe to share — everyone gets their own skill levels and prices.
-Use **Export** / **Import** to move settings between browsers.
+Settings are saved per browser in `localStorage`, under one key per context, so
+the deployed page is stateless and safe to share — everyone gets their own skill
+levels and prices. Use **Export** / **Import** to move the active context's
+settings between browsers. **Reset** clears only the active context.
 
 ## Not in v1
 

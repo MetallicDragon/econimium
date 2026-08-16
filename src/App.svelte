@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { app, STORAGE_KEY } from './lib/state/app.svelte.ts';
+  import { app } from './lib/state/app.svelte.ts';
   import ItemsView from './lib/views/ItemsView.svelte';
   import SettingsView from './lib/views/SettingsView.svelte';
   import ShopView from './lib/views/ShopView.svelte';
@@ -16,14 +16,17 @@
   let fileInput = $state<HTMLInputElement | null>(null);
   let status = $state('');
 
-  app.load();
+  app.restore();
 
   // Serialising inside the effect reads every tunable field, which is exactly
   // what makes this rerun whenever any of them changes.
   $effect(() => {
+    // Captured together so a pending write can never land under a different
+    // context's key after a switch.
+    const key = app.storageKey;
     const snapshot = JSON.stringify(app.toPatch());
     const timer = setTimeout(() => {
-      localStorage.setItem(STORAGE_KEY, snapshot);
+      localStorage.setItem(key, snapshot);
     }, 300);
     return () => clearTimeout(timer);
   });
@@ -62,7 +65,7 @@
   }
 
   function reset() {
-    if (!confirm('Reset all settings and price overrides to the Eco 11.1 defaults?')) return;
+    if (!confirm(`Reset all ${app.context.name} settings and price overrides to defaults?`)) return;
     app.reset();
     flash('Reset to defaults');
   }
@@ -73,6 +76,18 @@
     <h1>Econimium</h1>
     <span class="version">Eco {app.data.version}</span>
   </div>
+
+  <label class="context">
+    <span class="sr-only">Data context</span>
+    <select
+      value={app.contextId}
+      onchange={(event) => app.switchContext(event.currentTarget.value)}
+    >
+      {#each app.contexts as context (context.id)}
+        <option value={context.id}>{context.name}</option>
+      {/each}
+    </select>
+  </label>
 
   <nav>
     {#each TABS as item (item.id)}
@@ -97,6 +112,13 @@
   </div>
 </header>
 
+{#if app.context.provisional}
+  <p class="banner">
+    <strong>{app.context.name}:</strong>
+    {app.context.provisional}
+  </p>
+{/if}
+
 <main>
   {#if tab === 'items'}
     <ItemsView />
@@ -108,6 +130,7 @@
 </main>
 
 <footer>
+  <span>{app.context.name} · {app.context.description}</span>
   <span>{app.data.recipes.length} recipes · {app.data.items.length} items</span>
   {#if unpriced > 0}
     <span class="warn">{unpriced} unpriced</span>
@@ -144,6 +167,28 @@
   .version {
     color: var(--text-dim);
     font-size: 0.8rem;
+  }
+
+  .context select {
+    font-weight: 600;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .banner {
+    margin: 0;
+    padding: 0.5rem 1.25rem;
+    background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.85rem;
   }
 
   nav {
