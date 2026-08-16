@@ -127,11 +127,12 @@
     <thead>
       <tr>
         <th class="grip"></th>
-        <!-- Sell and margin lead: they're the numbers you read off to price a
-             stall, and the rest of the row is how they were arrived at. -->
+        <th>Item</th>
+        <!-- Sell and margin come straight after the name: they're the numbers
+             you read off to price a stall, and the rest of the row is how they
+             were arrived at. -->
         <th class="num">Sell</th>
         <th class="num">Margin</th>
-        <th>Item</th>
         <th class="num">Cost</th>
         <th class="num">Markup</th>
         <th class="num">Flat add</th>
@@ -183,10 +184,6 @@
               ⠿
             </span>
           </td>
-          <td class="num strong">{money(price.price)}</td>
-          <td class="num" class:negative={price.margin !== null && price.margin < 0}>
-            {money(price.margin)}
-          </td>
           <td>
             <button
               class="configure"
@@ -200,6 +197,10 @@
               ⚙
             </button>
             {entry.item}
+          </td>
+          <td class="num strong">{money(price.price)}</td>
+          <td class="num" class:negative={price.margin !== null && price.margin < 0}>
+            {money(price.margin)}
           </td>
           <td class="num dim" class:missing={price.cost === null}>{money(price.cost)}</td>
           <td class="num">
