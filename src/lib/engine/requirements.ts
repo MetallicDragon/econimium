@@ -37,8 +37,9 @@ export interface PriceGap {
   /**
    * `no-recipe` — nothing in the game makes it, so it's a raw material.
    * `unknown-skill` — it is craftable, but not by you, so you'd buy it.
+   * `set` — you've already given it a price, which is what stops the walk.
    */
-  reason: 'no-recipe' | 'unknown-skill';
+  reason: 'no-recipe' | 'unknown-skill' | 'set';
   /** For `unknown-skill`, the skills that would let you make it instead. */
   skills: string[];
 }
@@ -51,6 +52,12 @@ export interface ItemRequirements {
   // --- Things that block the calculation -----------------------------------
   /** Items in the chain you can't make, and haven't priced. */
   unpricedItems: PriceGap[];
+  /**
+   * Every leaf of the chain whose price is yours to set — the ones above plus
+   * the ones you've already answered. Kept together so a price stays editable
+   * after you enter it, rather than the field vanishing on the first keystroke.
+   */
+  priceInputs: PriceGap[];
   /** Tag ingredients where nothing carrying the tag is priced. */
   unpricedTags: TagGap[];
   /** Every recipe still to be chosen, this item's own included. */
@@ -93,6 +100,8 @@ export function collectRequirements(
   }
 
   const unpricedItems = new Map<string, PriceGap>();
+  /** Leaves already answered with a hand-set price. */
+  const pricedInputs = new Map<string, PriceGap>();
   const unpricedTags = new Map<string, TagGap>();
   const choices = new Map<string, RecipeChoice>();
   const skills = new Set<string>();
@@ -104,8 +113,12 @@ export function collectRequirements(
     visited.add(name);
 
     const definition = itemsByName.get(name);
-    // A hand-set price ends the chain: nothing below it affects the cost.
-    if (definition?.hasOverride && definition.overrideValue !== null) return;
+    // A hand-set price ends the chain: nothing below it affects the cost. It's
+    // still worth reporting, since it's a number you chose and may want back.
+    if (definition?.hasOverride && definition.overrideValue !== null) {
+      if (name !== item) pricedInputs.set(name, { item: name, reason: 'set', skills: [] });
+      return;
+    }
 
     const producers = producersOf.get(name) ?? [];
     if (producers.length === 0) {
@@ -167,6 +180,8 @@ export function collectRequirements(
 
   visit(item);
 
+  const byName = (a: PriceGap, b: PriceGap) => a.item.localeCompare(b.item);
+  const gaps = [...unpricedItems.values()].sort(byName);
   const ownChoice = choices.get(item) ?? null;
   const ingredientChoices = [...choices.values()]
     .filter((choice) => choice.product !== item)
@@ -175,7 +190,8 @@ export function collectRequirements(
   return {
     item,
     priced: solution.prices.get(item)?.cost !== null,
-    unpricedItems: [...unpricedItems.values()].sort((a, b) => a.item.localeCompare(b.item)),
+    unpricedItems: gaps,
+    priceInputs: [...gaps, ...pricedInputs.values()].sort(byName),
     unpricedTags: [...unpricedTags.values()].sort((a, b) => a.tag.localeCompare(b.tag)),
     undecided: [ownChoice, ...ingredientChoices].filter(
       (choice): choice is RecipeChoice => choice !== null && !choice.decided,

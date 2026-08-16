@@ -8,7 +8,11 @@
    * and marks the ones that are actually stopping the calculation.
    */
   import { app } from '../state/app.svelte.ts';
-  import { collectRequirements, type RecipeChoice } from '../engine/requirements.ts';
+  import {
+    collectRequirements,
+    type RecipeChoice,
+    type TagGap,
+  } from '../engine/requirements.ts';
   import { money, multiplier, recipeLabel } from '../format.ts';
   import type { Multipliers } from '../engine/types.ts';
   import ModuleChips from './ModuleChips.svelte';
@@ -26,6 +30,27 @@
 
   /** Collapsed by default: the decisions above it come first. */
   let showBreakdown = $state(false);
+
+  const blockingCount = $derived(
+    requirements.unpricedItems.length + requirements.unpricedTags.length,
+  );
+
+  /**
+   * A tag stays on screen while you're typing into one of its members.
+   *
+   * Pricing any member resolves the tag, which would otherwise unmount the very
+   * field you're typing in — so the block is held open until you leave it.
+   */
+  let stickyTag = $state<TagGap | null>(null);
+
+  const visibleTags = $derived.by(() => {
+    const tags = [...requirements.unpricedTags];
+    const held = stickyTag;
+    if (held && !tags.some((gap) => gap.tag === held.tag)) tags.push(held);
+    return tags.sort((a, b) => a.tag.localeCompare(b.tag));
+  });
+
+  const unresolvedTags = $derived(new Set(requirements.unpricedTags.map((gap) => gap.tag)));
 
   const TALENT_FIELDS = [
     { key: 'resource', label: 'Res' },
@@ -195,18 +220,24 @@
       </section>
     {/if}
 
-    {#if requirements.unpricedItems.length > 0 || requirements.unpricedTags.length > 0}
+    {#if requirements.priceInputs.length > 0 || visibleTags.length > 0}
       <section>
         <h3>
-          Ingredients needing a price
-          <span class="badge">{requirements.unpricedItems.length + requirements.unpricedTags.length}</span>
+          Ingredient prices
+          {#if blockingCount > 0}
+            <span class="badge warn">{blockingCount} needed</span>
+          {/if}
         </h3>
         <p class="note">
-          Things in this item's chain you can't make yourself — either nothing produces them, or you
-          don't have the skill — so what they cost you is what you'd pay for them.
+          The bottom of this item's chain — things you can't make yourself, so what they cost is
+          what you'd pay. Ones still needed are highlighted; the rest stay here so you can adjust
+          them.
         </p>
-        {#each requirements.unpricedItems as gap (gap.item)}
-          <label class="row blocking">
+        <!-- One list, sorted by name, whether or not a price is set yet: a row
+             that moved between two lists as you typed would take the focused
+             input with it. -->
+        {#each requirements.priceInputs as gap (gap.item)}
+          <label class="row" class:blocking={gap.reason !== 'set'}>
             <span class="name">
               {gap.item}
               {#if gap.reason === 'unknown-skill'}
@@ -227,9 +258,12 @@
             />
           </label>
         {/each}
-        {#each requirements.unpricedTags as gap (gap.tag)}
-          <div class="tag-gap blocking">
-            <span class="name">Any “{gap.tag}” — price at least one</span>
+        {#each visibleTags as gap (gap.tag)}
+          {@const unresolved = unresolvedTags.has(gap.tag)}
+          <div class="tag-gap" class:blocking={unresolved}>
+            <span class="name" class:met={!unresolved}>
+              Any “{gap.tag}” — {unresolved ? 'price at least one' : 'covered'}
+            </span>
             <div class="members">
               {#each gap.members as member (member)}
                 <label class="row compact">
@@ -239,6 +273,8 @@
                     step="any"
                     placeholder="price"
                     value={priceOf(member)}
+                    onfocus={() => (stickyTag = gap)}
+                    onblur={() => (stickyTag = null)}
                     oninput={(event) => setPrice(member, event.currentTarget.value)}
                   />
                 </label>
@@ -549,6 +585,10 @@
   .tag-gap > .name {
     font-size: 0.85rem;
     color: var(--warn);
+  }
+
+  .tag-gap > .name.met {
+    color: var(--text-dim);
   }
 
   .members {

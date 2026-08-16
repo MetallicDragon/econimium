@@ -294,6 +294,55 @@ describe('item requirements', () => {
     });
   });
 
+  /**
+   * The panel renders one list from `priceInputs`, so a row must not leave it
+   * the moment a price is typed — the field would unmount mid-keystroke.
+   */
+  describe('prices stay listed once entered', () => {
+    it('keeps a priced root in the inputs list, out of the blocking one', () => {
+      const before = requirementsFor(chain(), 'Widget');
+      expect(before.unpricedItems.map((gap) => gap.item)).toEqual(['Ore']);
+      expect(before.priceInputs.map((gap) => gap.item)).toEqual(['Ore']);
+
+      const data = chain();
+      data.items = [item('Ore', 5), item('Bar'), item('Widget')];
+      const after = requirementsFor(data, 'Widget');
+
+      expect(after.unpricedItems).toEqual([]);
+      expect(after.priceInputs).toEqual([{ item: 'Ore', reason: 'set', skills: [] }]);
+    });
+
+    it('lists an item priced part-way down, which is where the walk stops', () => {
+      const data = chain();
+      data.items = [item('Ore'), item('Bar', 3), item('Widget')];
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.priceInputs.map((gap) => gap.item)).toEqual(['Bar']);
+      // Ore sits below Bar's fixed price, so it is not an input to anything.
+      expect(requirements.priceInputs.map((gap) => gap.item)).not.toContain('Ore');
+    });
+
+    it("leaves out the item's own price, which has its own field", () => {
+      const data = chain();
+      data.items = [item('Ore', 5), item('Bar'), item('Widget', 99)];
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.priceInputs).toEqual([]);
+    });
+
+    it('keeps both kinds of gap in one list, sorted together', () => {
+      const data = chain();
+      data.items = [item('Ore', 5), item('Bar'), item('Widget')];
+      data.skills = [skill('Mining', false), skill('Smithing')];
+
+      // Bar is unmakeable without Mining; Ore is already priced but below it.
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.priceInputs.map((gap) => [gap.item, gap.reason])).toEqual([
+        ['Bar', 'unknown-skill'],
+      ]);
+    });
+  });
+
   it('reports an unsatisfied tag with its members rather than each one separately', () => {
     const data = baseData({
       items: [item('Oak Log'), item('Birch Log'), item('Plank')],
