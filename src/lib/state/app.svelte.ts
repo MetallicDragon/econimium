@@ -72,6 +72,11 @@ interface SavedPatch {
   /** Module effects are entered by hand, so they are entirely user data. */
   modules: Record<string, SavedModule>;
   craftingTables: Record<string, SavedTable>;
+  /**
+   * Recipes the user has unlocked. Stored as a list of the enabled ones since
+   * recipes default to off and only a fraction are ever turned on.
+   */
+  enabledRecipes: string[];
   recipeTalents: Record<string, Multipliers>;
   itemOverrides: Record<string, { hasOverride: boolean; overrideValue: number | null }>;
   shopEntries: Record<string, { flatAddition: number | null; individualMarkup: number | null }>;
@@ -122,6 +127,36 @@ export class AppState {
     const current = this.data.recipeTalents[recipe];
     if (current) current[field] = value;
     else this.data.recipeTalents[recipe] = { resource: 1, labor: 1, time: 1, [field]: value };
+  }
+
+  /** How many recipes are currently enabled. */
+  enabledRecipeCount = $derived(this.data.recipes.filter((recipe) => recipe.active).length);
+
+  /**
+   * Primary products made by more than one recipe — the cases where enabling a
+   * recipe actually changes which one wins.
+   */
+  contestedProducts = $derived.by(() => {
+    const counts = new Map<string, number>();
+    for (const recipe of this.data.recipes) {
+      const primary = recipe.products[0];
+      if (!primary) continue;
+      counts.set(primary.item, (counts.get(primary.item) ?? 0) + 1);
+    }
+    return new Set([...counts].filter(([, n]) => n > 1).map(([item]) => item));
+  });
+
+  setRecipeActive(name: string, active: boolean): void {
+    const recipe = this.data.recipes.find((r) => r.name === name);
+    if (recipe) recipe.active = active;
+  }
+
+  /** Bulk toggle, used by the per-skill and global controls. */
+  setRecipesActive(names: Iterable<string>, active: boolean): void {
+    const wanted = new Set(names);
+    for (const recipe of this.data.recipes) {
+      if (wanted.has(recipe.name)) recipe.active = active;
+    }
   }
 
   /** Toggles a module on a table. */
@@ -232,6 +267,7 @@ export class AppState {
       skills,
       modules,
       craftingTables,
+      enabledRecipes: this.data.recipes.filter((r) => r.active).map((r) => r.name),
       recipeTalents: structuredClone($state.snapshot(this.data.recipeTalents)),
       itemOverrides,
       shopEntries,
@@ -277,6 +313,13 @@ export class AppState {
       table.burnableWatts = saved.burnableWatts;
       table.electricWatts = saved.electricWatts;
       table.ppmPerHour = saved.ppmPerHour;
+    }
+
+    // Absent from pre-v5 patches, which is indistinguishable from "nothing
+    // enabled" — the same as a fresh dataset, so no special handling needed.
+    if (patch.enabledRecipes) {
+      const enabled = new Set(patch.enabledRecipes);
+      for (const recipe of next.recipes) recipe.active = enabled.has(recipe.name);
     }
 
     // Overlaid on whatever the dataset itself ships, and only for recipes it

@@ -235,7 +235,10 @@ function buildDataset(
         table: apiRecipe.CraftingTable ?? '',
         labor: apiRecipe.BaseLaborCost,
         timeSeconds: apiRecipe.BaseCraftTime,
-        active: true,
+        // Recipes unlock over time and many items have several, so nothing is
+        // enabled until the user says they have it. The Recipes tab is where
+        // that's configured; the solve then picks the cheapest enabled one.
+        active: false,
         products,
         inputs,
       });

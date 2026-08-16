@@ -2,13 +2,15 @@
   import { app } from './lib/state/app.svelte.ts';
   import { TARGET_ECO_VERSION } from './lib/data/contexts.ts';
   import ItemsView from './lib/views/ItemsView.svelte';
+  import RecipesView from './lib/views/RecipesView.svelte';
   import SettingsView from './lib/views/SettingsView.svelte';
   import ShopView from './lib/views/ShopView.svelte';
 
-  type Tab = 'items' | 'shop' | 'settings';
+  type Tab = 'items' | 'recipes' | 'shop' | 'settings';
 
   const TABS: Array<{ id: Tab; label: string }> = [
     { id: 'items', label: 'Items' },
+    { id: 'recipes', label: 'Recipes' },
     { id: 'shop', label: 'Shop' },
     { id: 'settings', label: 'Settings' },
   ];
@@ -126,6 +128,8 @@
 <main>
   {#if tab === 'items'}
     <ItemsView />
+  {:else if tab === 'recipes'}
+    <RecipesView />
   {:else if tab === 'shop'}
     <ShopView />
   {:else}
@@ -135,7 +139,12 @@
 
 <footer>
   <span>{app.context.name} · {app.context.description}</span>
-  <span>{app.data.recipes.length} recipes · {app.data.items.length} items</span>
+  <span>
+    {app.enabledRecipeCount} of {app.data.recipes.length} recipes · {app.data.items.length} items
+  </span>
+  {#if app.enabledRecipeCount === 0}
+    <span class="warn">no recipes enabled yet — pick them under Recipes</span>
+  {/if}
   <span class="warn">data from Eco {app.data.version}</span>
   {#if unpriced > 0}
     <span class="warn">{unpriced} unpriced</span>

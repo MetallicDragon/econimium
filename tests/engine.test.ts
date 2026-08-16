@@ -329,6 +329,51 @@ describe('unconfigured module warnings', () => {
   });
 });
 
+describe('enabled recipes', () => {
+  /** Two ways to make a Bar; the second is cheaper. */
+  const data = (active: { cheap: boolean; dear: boolean }) =>
+    baseData({
+      items: [item('Ore', 10), item('Scrap', 1), item('Bar')],
+      recipes: [
+        recipe({
+          name: 'Smelt from ore',
+          active: active.dear,
+          products: [{ item: 'Bar', amount: 1 }],
+          inputs: [{ item: 'Ore', amount: 1, isStatic: false, isTag: false }],
+        }),
+        recipe({
+          name: 'Smelt from scrap',
+          active: active.cheap,
+          products: [{ item: 'Bar', amount: 1 }],
+          inputs: [{ item: 'Scrap', amount: 1, isStatic: false, isTag: false }],
+        }),
+      ],
+    });
+
+  it('prices nothing from a disabled recipe', () => {
+    const solution = solve(data({ cheap: false, dear: false }));
+    expect(solution.prices.get('Bar')?.cost).toBeNull();
+    expect(solution.prices.get('Bar')?.unpriceableReason).toBe('no-recipe');
+  });
+
+  it('uses an enabled recipe even when a cheaper one is disabled', () => {
+    const solution = solve(data({ cheap: false, dear: true }));
+    expect(solution.prices.get('Bar')?.cost).toBe(10);
+    expect(solution.prices.get('Bar')?.sourceRecipe).toBe('Smelt from ore');
+  });
+
+  it('picks the cheapest among the enabled recipes', () => {
+    const solution = solve(data({ cheap: true, dear: true }));
+    expect(solution.prices.get('Bar')?.cost).toBe(1);
+    expect(solution.prices.get('Bar')?.sourceRecipe).toBe('Smelt from scrap');
+  });
+
+  it('falls back when the cheapest is switched off', () => {
+    const solution = solve(data({ cheap: false, dear: true }));
+    expect(solution.prices.get('Bar')?.sourceRecipe).toBe('Smelt from ore');
+  });
+});
+
 describe('talents', () => {
   const build = (skillTalents: Multipliers, recipeTalents: Record<string, Multipliers>) =>
     baseData({

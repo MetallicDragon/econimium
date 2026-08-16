@@ -82,10 +82,11 @@ no talents**. Everything below is therefore yours to enter, and everything
 starts at zero or no-effect — inventing plausible numbers would quietly corrupt
 every cost that depends on them.
 
-- **Nothing is priced until you price the roots.** Around 320 items have no
-  recipe — raw resources, carcasses, cosmetics — and everything else is costed
-  from them. Tick *Fixed price* on an item in the Items tab to set one. Use the
-  *Only unpriced* filter to find what's still missing.
+- **Nothing is priced until you enable recipes and price the roots.** Recipes
+  all start disabled — see below. Around 320 items have no recipe at all — raw
+  resources, carcasses, cosmetics — and everything else is costed from them.
+  Tick *Fixed price* on an item in the Items tab to set one, and use the *Only
+  unpriced* filter to find what's still missing.
 - **Upgrade modules** ship with the real 0.14 values for the generic Basic,
   Advanced and Modern upgrades (they differ per server — see below). Tick them
   onto each table that has them fitted. **Specialty modules vary per skill and
@@ -144,7 +145,17 @@ An item with no price shows as **unpriceable** rather than as a number, which
 happens when nothing makes it, an ingredient is unpriceable, or it sits in a
 dependency cycle.
 
-### Four rules worth knowing
+### Five rules worth knowing
+
+**Only enabled recipes count, and the cheapest of them wins.** Recipes unlock
+over time and 138 products have more than one way to make them (up to nine), so
+everything starts **disabled** — pricing an item from a recipe you can't craft
+is worse than showing no price. Turn on what you've unlocked in the Recipes tab,
+grouped by skill, with per-skill and bulk toggles and an *Only where there's a
+choice* filter for the products that actually have competing recipes. Each
+recipe shows what it *would* cost whether enabled or not, so you can compare
+before committing, and the winning one is badged.
+
 
 **Modules add up; talents multiply.** Eco 0.14 lets a table hold several
 modules at once — a Basic, an Advanced, a Modern and a skill Specialty — and
