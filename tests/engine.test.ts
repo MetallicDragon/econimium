@@ -14,8 +14,14 @@ import type {
   Multipliers,
   Recipe,
   ShopEntry,
+  Skill,
   UpgradeModule,
 } from '../src/lib/engine/types.ts';
+
+/** Known by default: these tests are about costing, not about skill gating. */
+function skill(name: string, partial: Partial<Skill> = {}): Skill {
+  return { name, known: true, level: 0, talents: { resource: 1, labor: 1, time: 1 }, ...partial };
+}
 
 function item(name: string, price?: number): Item {
   return {
@@ -181,7 +187,7 @@ describe('upgrade modules', () => {
     baseData({
       items: [item('Ore', 10), item('Bar')],
       modules,
-      skills: [{ name: 'Smelting', level: 0, talents: { resource: 1, labor: 1, time: 1 } }],
+      skills: [skill('Smelting')],
       craftingTables: [
         {
           name: 'Furnace',
@@ -432,7 +438,7 @@ describe('talents', () => {
     baseData({
       items: [item('Ore', 10), item('Bar')],
       modules: [moduleDef('a', 0.5)],
-      skills: [{ name: 'Smelting', level: 0, talents: skillTalents }],
+      skills: [skill('Smelting', { talents: skillTalents })],
       craftingTables: [
         {
           name: 'Furnace',

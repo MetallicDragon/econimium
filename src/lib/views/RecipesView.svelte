@@ -8,7 +8,7 @@
    * takes effect everywhere immediately.
    */
   import { app } from '../state/app.svelte.ts';
-  import { money } from '../format.ts';
+  import { money, recipeLabel } from '../format.ts';
 
   let search = $state('');
   let onlyEnabled = $state(false);
@@ -20,6 +20,13 @@
     skill: string;
     recipes: typeof app.data.recipes;
     enabled: number;
+    /** False when you don't have the skill, so none of these are costed. */
+    known: boolean;
+  }
+
+  /** What a recipe makes, for sorting and display. */
+  function output(recipe: (typeof app.data.recipes)[number]): string {
+    return recipe.products[0]?.item ?? '';
   }
 
   const groups = $derived.by(() => {
@@ -43,15 +50,25 @@
       const skill = recipe.skill || NO_SKILL;
       let group = bySkill.get(skill);
       if (!group) {
-        group = { skill, recipes: [], enabled: 0 };
+        // A recipe needing no skill is always yours; hand-crafting needs none.
+        group = {
+          skill,
+          recipes: [],
+          enabled: 0,
+          known: recipe.skill === '' || app.knownSkills.has(recipe.skill),
+        };
         bySkill.set(skill, group);
       }
       group.recipes.push(recipe);
       if (recipe.active) group.enabled++;
     }
 
+    // Grouped by skill, then ordered by what each recipe makes — the alternatives
+    // for one product are the actual decision, so they belong side by side.
     for (const group of bySkill.values()) {
-      group.recipes.sort((a, b) => a.name.localeCompare(b.name));
+      group.recipes.sort(
+        (a, b) => output(a).localeCompare(output(b)) || a.name.localeCompare(b.name),
+      );
     }
     return [...bySkill.values()].sort((a, b) => a.skill.localeCompare(b.skill));
   });
@@ -95,7 +112,14 @@
   Only products with more than one recipe are listed — {app.contestedProducts.size} of them. Anything
   made just one way needs no decision and is already available. Tick the recipes you've unlocked;
   the cheapest enabled one wins. A product with none ticked stays unpriced, along with anything made
-  from it.
+  from it. Recipes are named with their crafting table, since alternatives are often told apart only
+  by where they're made.
+</p>
+
+<p class="hint">
+  This is a second gate on top of your skills: a recipe counts only if you have the skill
+  <em>and</em> have ticked it here. Skills you haven't marked as yours on the Settings tab are
+  flagged below, and nothing in them is used for pricing.
 </p>
 
 {#if groups.length === 0}
@@ -112,6 +136,14 @@
         <span class="tally" class:some={group.enabled > 0}>
           {group.enabled}/{group.recipes.length}
         </span>
+        {#if !group.known}
+          <span
+            class="badge dont-have"
+            title="You haven't marked {group.skill} as a skill you have, so none of these recipes are used for pricing"
+          >
+            don't have it
+          </span>
+        {/if}
       </button>
       <span class="group-actions">
         <button
@@ -132,9 +164,8 @@
         <thead>
           <tr>
             <th class="tick"></th>
-            <th>Recipe</th>
             <th>Makes</th>
-            <th>Table</th>
+            <th>Recipe</th>
             <th
               class="num"
               title="What this recipe would cost per unit, shown whether or not it's enabled, so you can compare before choosing"
@@ -159,8 +190,7 @@
                   onchange={(event) => app.setRecipeActive(recipe.name, event.currentTarget.checked)}
                 />
               </td>
-              <td>{recipe.name}</td>
-              <td class="dim">
+              <td class="makes">
                 {#if product}
                   {product.amount > 1 ? `${product.amount} × ` : ''}{product.item}
                   {#if contested}
@@ -172,7 +202,9 @@
                   {/if}
                 {/if}
               </td>
-              <td class="dim">{recipe.table}</td>
+              <!-- Named with its table: competing recipes are often told apart
+                   only by where they're made. -->
+              <td>{recipeLabel(recipe.name, recipe.table)}</td>
               <td class="num" class:missing={breakdown?.costPerUnit === null}>
                 {money(breakdown?.costPerUnit)}
               </td>
@@ -318,11 +350,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .dim {
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-
   .missing {
     color: var(--error);
   }
@@ -339,6 +366,16 @@
   .badge.win {
     border-color: var(--accent-dim);
     color: var(--accent);
+  }
+
+  .badge.dont-have {
+    border-color: var(--warn);
+    color: var(--warn);
+    margin-left: 0;
+  }
+
+  .makes {
+    font-size: 0.9rem;
   }
 
   .footnote {

@@ -19,7 +19,7 @@
  */
 
 import type { Economy } from './economy.ts';
-import { computeEconomy, multiply } from './economy.ts';
+import { computeEconomy, isRecipeAvailable, multiply } from './economy.ts';
 import type { GameData, Item, Multipliers, Recipe } from './types.ts';
 import { NO_EFFECT } from './types.ts';
 
@@ -27,6 +27,7 @@ export type Cost = number | null;
 
 export type UnpriceableReason =
   | 'no-recipe'
+  | 'skill-not-known'
   | 'missing-input-price'
   | 'cycle'
   | 'unknown-item'
@@ -87,6 +88,10 @@ export interface RecipeBreakdown {
   /** Cost attributable to a single unit of the primary product. */
   costPerUnit: Cost;
   active: boolean;
+  /** Whether you have the skill this recipe needs. */
+  skillKnown: boolean;
+  /** Enabled *and* skilled for — only these take part in pricing. */
+  available: boolean;
   unpriceableReason: UnpriceableReason | null;
 }
 
@@ -176,6 +181,11 @@ export function solve(data: GameData): Solution {
   const tablesByName = new Map(data.craftingTables.map((t) => [t.name, t]));
   const recipes = data.recipes;
 
+  // Only recipes you could actually run take part in the solve. Everything else
+  // is still costed below for display — "what this would cost if you had it" is
+  // exactly what you want to see before deciding to learn a skill.
+  const available = recipes.map((recipe) => isRecipeAvailable(recipe, economy.knownSkills));
+
   // ---- Per-recipe static facts ---------------------------------------------
   // Everything here depends only on settings, not on any item's price, so it is
   // computed once rather than per resolution attempt.
@@ -255,7 +265,7 @@ export function solve(data: GameData): Solution {
   }
 
   for (let i = 0; i < recipes.length; i++) {
-    if (!recipes[i]!.active) continue;
+    if (!available[i]) continue;
     for (const requirement of requirements[i]!) {
       const index = requirement.isTag ? tagConsumers : itemConsumers;
       const list = index.get(requirement.name);
@@ -267,11 +277,18 @@ export function solve(data: GameData): Solution {
   // Only primary products index a recipe as their producer. A byproduct is not
   // "made" by the recipe in any costing sense — its value is credited instead.
   const producersOf = new Map<string, number[]>();
+  /** Every recipe making an item, available or not, purely to diagnose gaps. */
+  const anyProducerOf = new Map<string, number[]>();
   for (let i = 0; i < recipes.length; i++) {
     const recipe = recipes[i]!;
-    if (!recipe.active) continue;
     const primary = recipe.products[0];
     if (!primary) continue;
+
+    const all = anyProducerOf.get(primary.item);
+    if (all) all.push(i);
+    else anyProducerOf.set(primary.item, [i]);
+
+    if (!available[i]) continue;
     const list = producersOf.get(primary.item);
     if (list) list.push(i);
     else producersOf.set(primary.item, [i]);
@@ -336,7 +353,7 @@ export function solve(data: GameData): Solution {
     }
   }
   for (let i = 0; i < recipes.length; i++) {
-    if (recipes[i]!.active && remaining[i] === 0) offerRecipe(i);
+    if (available[i] && remaining[i] === 0) offerRecipe(i);
   }
 
   while (heap.size > 0) {
@@ -442,6 +459,8 @@ export function solve(data: GameData): Solution {
       netCost,
       costPerUnit,
       active: recipe.active,
+      skillKnown: recipe.skill === '' || economy.knownSkills.has(recipe.skill),
+      available: available[i]!,
       unpriceableReason: reason,
     });
   }
@@ -463,8 +482,10 @@ export function solve(data: GameData): Solution {
     }
 
     const producers = producersOf.get(item.name) ?? [];
-    let reason: UnpriceableReason = producers.length === 0 ? 'no-recipe' : 'missing-input-price';
+    let reason: UnpriceableReason;
+
     if (producers.length > 0) {
+      reason = 'missing-input-price';
       // Prefer the most specific diagnosis any of its recipes can offer.
       for (const index of producers) {
         const recipeReason = breakdowns.get(recipes[index]!.name)?.unpriceableReason;
@@ -473,6 +494,16 @@ export function solve(data: GameData): Solution {
           break;
         }
       }
+    } else {
+      // Nothing you can run makes it. Distinguish "the game has no recipe for
+      // this" from "the game does, but you don't have the skill" — the second
+      // means you'd buy it, which is a different thing to tell the user.
+      const blocked = anyProducerOf.get(item.name) ?? [];
+      const anySkilled = blocked.some((index) => {
+        const { skill } = recipes[index]!;
+        return skill === '' || economy.knownSkills.has(skill);
+      });
+      reason = blocked.length > 0 && !anySkilled ? 'skill-not-known' : 'no-recipe';
     }
     prices.set(item.name, {
       item: item.name,

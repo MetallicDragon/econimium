@@ -86,6 +86,17 @@ export interface Generator {
  */
 export interface Skill {
   name: string;
+  /**
+   * Whether you actually have this skill. Recipes needing a skill you don't
+   * have are excluded from pricing entirely — you can't craft them, so their
+   * ingredients are beside the point and the item is priced by what you'd pay
+   * for it instead.
+   *
+   * Kept separate from `level` because the two answer different questions: a
+   * skill you have at level 0 still costs minimum wage rather than food, and
+   * the 11.1 spreadsheet had no notion of unavailable recipes at all.
+   */
+  known: boolean;
   level: number;
   talents: Multipliers;
 }

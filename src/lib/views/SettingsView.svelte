@@ -240,15 +240,27 @@
 <section>
   <h2>Skills &amp; talents</h2>
   <p class="hint">
+    <strong>Tick “Have it” for the skills you've actually learned.</strong> Recipes needing a skill
+    you don't have are left out of pricing entirely — you can't make those items, so their cost to
+    you is whatever you pay for them, which you enter as a price instead.
+  </p>
+  <p class="hint">
     Level 1+ switches labor from minimum wage to food cost. Talents aren't exposed by the API, so
     enter them as percentages saved — they apply to everything made with that skill and combine with
     module reductions by multiplying. Talents that only affect one recipe go on the recipe itself,
     in the breakdown under Items.
   </p>
+  {#if app.knownSkillCount === 0}
+    <p class="warning">
+      No skills are marked as yours, so nothing can be crafted and every item has to be priced by
+      hand. Tick the ones you have below.
+    </p>
+  {/if}
   <input class="filter" type="search" placeholder="Filter skills…" bind:value={skillFilter} />
   <table class="skills">
     <thead>
       <tr>
+        <th class="tick" title="Whether you have this skill, and so can craft with it">Have it</th>
         <th>Skill</th>
         <th class="num">Level</th>
         <th class="num">Labor $/1k cal</th>
@@ -260,7 +272,14 @@
     <tbody>
       {#each visibleSkills as skill (skill.name)}
         {@const economics = economy.skills.get(skill.name)}
-        <tr>
+        <tr class:unknown={!skill.known}>
+          <td class="tick">
+            <input
+              type="checkbox"
+              bind:checked={skill.known}
+              aria-label="I have the {skill.name} skill"
+            />
+          </td>
           <td>{skill.name}</td>
           <td class="num"><input type="number" bind:value={skill.level} min="0" max="10" step="1" /></td>
           <td class="num">{money(economics?.laborCostPer1k)}</td>
@@ -345,6 +364,19 @@
 
   .skills input {
     width: 4rem;
+  }
+
+  .tick {
+    width: 4rem;
+  }
+
+  .skills .tick input {
+    width: auto;
+  }
+
+  /* Skills you don't have contribute nothing, so they recede. */
+  tr.unknown td:not(.tick) {
+    opacity: 0.45;
   }
 
   .filter {

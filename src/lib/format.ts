@@ -32,6 +32,17 @@ export function multiplier(value: number | null | undefined): string {
   return `×${trim(value.toFixed(4))}`;
 }
 
+/**
+ * Names a recipe by its table as well as itself.
+ *
+ * Competing recipes are often told apart only by where they're made — Crushed
+ * Gold Ore comes off an Arrastra, a Stamp Mill, a Rocker Box or a Jaw Crusher —
+ * so the name alone isn't enough to choose between them.
+ */
+export function recipeLabel(name: string, table: string): string {
+  return table ? `${name} @ ${table}` : name;
+}
+
 /** Drops trailing zeros so 1.500 reads as 1.5 and 2.000 as 2. */
 function trim(text: string): string {
   return text.includes('.') ? text.replace(/\.?0+$/, '') : text;

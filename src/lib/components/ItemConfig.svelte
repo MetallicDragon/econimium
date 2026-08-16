@@ -9,7 +9,7 @@
    */
   import { app } from '../state/app.svelte.ts';
   import { collectRequirements } from '../engine/requirements.ts';
-  import { money, multiplier } from '../format.ts';
+  import { money, multiplier, recipeLabel } from '../format.ts';
   import type { Multipliers } from '../engine/types.ts';
   import ModuleChips from './ModuleChips.svelte';
 
@@ -49,6 +49,12 @@
   function priceOf(name: string): number | '' {
     const target = app.data.items.find((entry) => entry.name === name);
     return target?.hasOverride && target.overrideValue !== null ? target.overrideValue : '';
+  }
+
+  /** Marks a skill as one you have, from right where you noticed you needed it. */
+  function learn(name: string) {
+    const target = app.data.skills.find((entry) => entry.name === name);
+    if (target) target.known = true;
   }
 </script>
 
@@ -102,6 +108,44 @@
       </p>
     </section>
 
+    {#if requirements.choices.length > 0}
+      <section>
+        <h3>
+          Recipe choices
+          {#if requirements.undecided.length > 0}
+            <span class="badge warn">{requirements.undecided.length} unchosen</span>
+          {/if}
+        </h3>
+        <p class="note">
+          These products in the chain can be made more than one way. The cheapest enabled recipe
+          wins; with none enabled the product can't be priced. Only recipes you have the skill for
+          are offered.
+        </p>
+        {#each requirements.choices as choice (choice.product)}
+          <div class="choice" class:blocking={!choice.decided}>
+            <span class="name">{choice.product}</span>
+            <div class="options">
+              {#each choice.recipes as option (option.name)}
+                {@const breakdown = app.solution.recipes.get(option.name)}
+                {@const winner = app.solution.prices.get(choice.product)?.sourceRecipe === option.name}
+                <label class="chip" class:on={option.active} title="{option.name} at the {option.table}">
+                  <input
+                    type="checkbox"
+                    checked={option.active}
+                    onchange={(event) =>
+                      app.setRecipeActive(option.name, event.currentTarget.checked)}
+                  />
+                  {recipeLabel(option.name, option.table)}
+                  <span class="chip-cost">{money(breakdown?.costPerUnit)}</span>
+                  {#if winner}<span class="chip-win">✓</span>{/if}
+                </label>
+              {/each}
+            </div>
+          </div>
+        {/each}
+      </section>
+    {/if}
+
     {#if requirements.unpricedItems.length > 0 || requirements.unpricedTags.length > 0}
       <section>
         <h3>
@@ -109,18 +153,28 @@
           <span class="badge">{requirements.unpricedItems.length + requirements.unpricedTags.length}</span>
         </h3>
         <p class="note">
-          These are raw materials in this item's chain that nothing produces, so their price has to
-          come from you.
+          Things in this item's chain you can't make yourself — either nothing produces them, or you
+          don't have the skill — so what they cost you is what you'd pay for them.
         </p>
-        {#each requirements.unpricedItems as name (name)}
+        {#each requirements.unpricedItems as gap (gap.item)}
           <label class="row blocking">
-            <span class="name">{name}</span>
+            <span class="name">
+              {gap.item}
+              {#if gap.reason === 'unknown-skill'}
+                <span class="why">
+                  needs {gap.skills.join(' or ') || 'a skill'} —
+                  {#each gap.skills as name (name)}
+                    <button class="link" onclick={() => learn(name)}>I have {name}</button>
+                  {/each}
+                </span>
+              {/if}
+            </span>
             <input
               type="number"
               step="any"
               placeholder="needs a price"
-              value={priceOf(name)}
-              oninput={(event) => setPrice(name, event.currentTarget.value)}
+              value={priceOf(gap.item)}
+              oninput={(event) => setPrice(gap.item, event.currentTarget.value)}
             />
           </label>
         {/each}
@@ -146,50 +200,17 @@
       </section>
     {/if}
 
-    {#if requirements.choices.length > 0}
-      <section>
-        <h3>
-          Recipe choices
-          {#if requirements.undecided.length > 0}
-            <span class="badge warn">{requirements.undecided.length} unchosen</span>
-          {/if}
-        </h3>
-        <p class="note">
-          These products in the chain can be made more than one way. The cheapest enabled recipe
-          wins; with none enabled the product can't be priced.
-        </p>
-        {#each requirements.choices as choice (choice.product)}
-          <div class="choice" class:blocking={!choice.decided}>
-            <span class="name">{choice.product}</span>
-            <div class="options">
-              {#each choice.recipes as option (option.name)}
-                {@const breakdown = app.solution.recipes.get(option.name)}
-                {@const winner = app.solution.prices.get(choice.product)?.sourceRecipe === option.name}
-                <label class="chip" class:on={option.active}>
-                  <input
-                    type="checkbox"
-                    checked={option.active}
-                    onchange={(event) =>
-                      app.setRecipeActive(option.name, event.currentTarget.checked)}
-                  />
-                  {option.name}
-                  <span class="chip-cost">{money(breakdown?.costPerUnit)}</span>
-                  {#if winner}<span class="chip-win">✓</span>{/if}
-                </label>
-              {/each}
-            </div>
-          </div>
-        {/each}
-      </section>
-    {/if}
-
     {#if requirements.skills.length > 0}
       <section>
         <h3>Skills involved</h3>
-        <p class="note">Level sets the labor rate; talents are percentages saved.</p>
+        <p class="note">
+          The skills behind this item's chain. Untick one and its recipes drop out of pricing, so
+          whatever they made becomes something you buy.
+        </p>
         <table>
           <thead>
             <tr>
+              <th class="tick" title="Whether you have this skill">Have</th>
               <th>Skill</th>
               <th class="num">Level</th>
               {#each TALENT_FIELDS as field (field.key)}
@@ -203,6 +224,13 @@
               {@const skill = app.data.skills.find((s) => s.name === name)}
               {#if skill}
                 <tr>
+                  <td class="tick">
+                    <input
+                      type="checkbox"
+                      bind:checked={skill.known}
+                      aria-label="I have the {name} skill"
+                    />
+                  </td>
                   <td>{name}</td>
                   <td class="num">
                     <input type="number" min="0" max="10" step="1" bind:value={skill.level} />
@@ -401,6 +429,33 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  /* Why this one needs a price, and the alternative to typing one. */
+  .why {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    margin-left: 0.4rem;
+  }
+
+  .link {
+    background: none;
+    border: none;
+    color: var(--accent);
+    padding: 0 0.2rem;
+    font-size: 0.78rem;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  td.tick,
+  th.tick {
+    width: 2.5rem;
+    text-align: center;
+  }
+
+  td.tick input {
+    width: auto;
   }
 
   .row input {

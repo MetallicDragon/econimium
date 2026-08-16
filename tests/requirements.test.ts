@@ -9,10 +9,14 @@
 import { describe, expect, it } from 'vitest';
 import { solve } from '../src/lib/engine/prices.ts';
 import { collectRequirements } from '../src/lib/engine/requirements.ts';
-import type { GameData, Item, Recipe } from '../src/lib/engine/types.ts';
+import type { GameData, Item, Recipe, Skill } from '../src/lib/engine/types.ts';
 
 function item(name: string, price?: number): Item {
   return { name, hasOverride: price !== undefined, overrideValue: price ?? null, category: null };
+}
+
+function skill(name: string, known = true): Skill {
+  return { name, known, level: 0, talents: { resource: 1, labor: 1, time: 1 } };
 }
 
 function recipe(partial: Partial<Recipe> & Pick<Recipe, 'name' | 'products'>): Recipe {
@@ -65,10 +69,7 @@ function baseData(partial: Partial<GameData> = {}): GameData {
 function chain(overrides: Partial<GameData> = {}) {
   return baseData({
     items: [item('Ore'), item('Bar'), item('Widget')],
-    skills: [
-      { name: 'Mining', level: 0, talents: { resource: 1, labor: 1, time: 1 } },
-      { name: 'Smithing', level: 0, talents: { resource: 1, labor: 1, time: 1 } },
-    ],
+    skills: [skill('Mining'), skill('Smithing')],
     craftingTables: [table('Furnace'), table('Anvil')],
     recipes: [
       recipe({
@@ -94,11 +95,18 @@ function requirementsFor(data: GameData, target: string) {
   return collectRequirements(data, solve(data), target);
 }
 
+/** The gaps' item names, which is what most assertions here care about. */
+function gaps(data: GameData, target: string): string[] {
+  return requirementsFor(data, target).unpricedItems.map((gap) => gap.item);
+}
+
 describe('item requirements', () => {
   it('finds the unpriced root at the bottom of a chain', () => {
     const requirements = requirementsFor(chain(), 'Widget');
     expect(requirements.priced).toBe(false);
-    expect(requirements.unpricedItems).toEqual(['Ore']);
+    expect(requirements.unpricedItems).toEqual([
+      { item: 'Ore', reason: 'no-recipe', skills: [] },
+    ]);
   });
 
   it('collects every skill and table along the chain', () => {
@@ -128,6 +136,53 @@ describe('item requirements', () => {
     expect(requirements.unpricedItems).toEqual([]);
     expect(requirements.skills).toEqual(['Smithing']);
     expect(requirements.tables).toEqual(['Anvil']);
+  });
+
+  it('stops at an item you have no skill to make, and says so', () => {
+    const data = chain();
+    // No Mining, so Bar is something you buy rather than smelt.
+    data.skills = [skill('Mining', false), skill('Smithing')];
+
+    const requirements = requirementsFor(data, 'Widget');
+    expect(requirements.unpricedItems).toEqual([
+      { item: 'Bar', reason: 'unknown-skill', skills: ['Mining'] },
+    ]);
+    // Ore is below Bar, and Bar is now bought, so Ore is beside the point.
+    expect(gaps(data, 'Widget')).not.toContain('Ore');
+    expect(requirements.skills).toEqual(['Smithing']);
+    expect(requirements.tables).toEqual(['Anvil']);
+  });
+
+  it('prices the whole chain once the missing skill is learned', () => {
+    const data = chain();
+    data.items = [item('Ore', 5), item('Bar'), item('Widget')];
+    data.skills = [skill('Mining', false), skill('Smithing')];
+
+    expect(requirementsFor(data, 'Widget').priced).toBe(false);
+
+    data.skills = [skill('Mining'), skill('Smithing')];
+    const learned = requirementsFor(data, 'Widget');
+    expect(learned.priced).toBe(true);
+    expect(learned.unpricedItems).toEqual([]);
+  });
+
+  it('offers no recipe choice among recipes you have no skill for', () => {
+    const data = chain();
+    data.recipes.push(
+      recipe({
+        name: 'Cast',
+        skill: 'Casting',
+        table: 'Foundry',
+        products: [{ item: 'Bar', amount: 1 }],
+        inputs: [{ item: 'Ore', amount: 1, isStatic: false, isTag: false }],
+      }),
+    );
+    data.skills = [skill('Mining'), skill('Smithing'), skill('Casting', false)];
+
+    // Two recipes make Bar, but only one is yours — so there's nothing to pick.
+    const requirements = requirementsFor(data, 'Widget');
+    expect(requirements.choices).toEqual([]);
+    expect(requirements.tables).toEqual(['Anvil', 'Furnace']);
   });
 
   it('reports a recipe choice, and flags it when nothing is enabled', () => {

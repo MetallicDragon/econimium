@@ -159,8 +159,12 @@ async function main(): Promise<void> {
 
     // The sheet's per-skill upgrade levels fed the 11.1 discount formula, which
     // no longer exists; their effect is carried on each recipe instead.
+    // Every skill is marked known: the spreadsheet had no notion of a recipe
+    // being out of reach, so it costed all of them. Leaving these unknown would
+    // make the golden suite compare against a different model, not a bug.
     skills.push({
       name,
+      known: true,
       level: numOr(row.getCell('B'), 0),
       talents: { resource: 1, labor: 1, time: 1 },
     });

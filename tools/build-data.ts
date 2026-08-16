@@ -263,8 +263,11 @@ function buildDataset(
   const contestedProducts = [...producerCount.values()].filter((n) => n > 1).length;
 
   // ---- Skills --------------------------------------------------------------
+  // Every skill starts unknown: on a fresh server you have none of them, and
+  // recipes needing a skill you lack are priced as things you'd buy instead.
   const skills: Skill[] = [...skillNames].sort().map((name) => ({
     name,
+    known: false,
     level: 0,
     talents: { resource: 1, labor: 1, time: 1 },
   }));

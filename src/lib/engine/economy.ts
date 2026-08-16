@@ -9,6 +9,7 @@ import type {
   GameData,
   Globals,
   Multipliers,
+  Recipe,
   Skill,
   UpgradeModule,
 } from './types.ts';
@@ -18,6 +19,8 @@ const SECONDS_PER_HOUR = 3600;
 
 export interface SkillEconomics {
   name: string;
+  /** Whether you have the skill, and so can use recipes that need it. */
+  known: boolean;
   level: number;
   calorieMultiplier: number;
   /** Currency cost of 1000 calories of labor for this skill. */
@@ -33,10 +36,27 @@ export interface Economy {
   /** Currency per watt-second of electricity, via the configured generator. */
   electricCostPerWatt: number;
   skills: Map<string, SkillEconomics>;
+  /** Skills you have, so the recipes needing them are yours to use. */
+  knownSkills: Set<string>;
   /** Running cost per second, by crafting table name. */
   tableCostPerSecond: Map<string, number>;
   /** Combined effect of the modules fitted to each table. */
   tableModules: Map<string, Multipliers>;
+}
+
+/**
+ * Whether a recipe is one you could actually run.
+ *
+ * Two independent gates: you must have the skill at all, and — where a product
+ * can be made several ways — you must have unlocked this particular recipe. A
+ * recipe needing no skill is always yours; hand-crafting needs no training.
+ *
+ * Anything that fails this is left out of pricing entirely, which is the point:
+ * if you can't make an item, its cost to you is whatever you pay for it, not
+ * what its ingredients would have come to.
+ */
+export function isRecipeAvailable(recipe: Recipe, knownSkills: ReadonlySet<string>): boolean {
+  return recipe.active && (recipe.skill === '' || knownSkills.has(recipe.skill));
 }
 
 /** Reductions can't take a cost below zero however many modules are stacked. */
@@ -126,6 +146,7 @@ export function computeSkillEconomics(skill: Skill, globals: Globals): SkillEcon
 
   return {
     name: skill.name,
+    known: skill.known ?? false,
     level,
     calorieMultiplier,
     laborCostPer1k,
@@ -191,8 +212,10 @@ export function computeEconomy(data: GameData): Economy {
       : 0;
 
   const skills = new Map<string, SkillEconomics>();
+  const knownSkills = new Set<string>();
   for (const skill of data.skills) {
     skills.set(skill.name, computeSkillEconomics(skill, globals));
+    if (skill.known) knownSkills.add(skill.name);
   }
 
   const catalogue = new Map((data.modules ?? []).map((module) => [module.id, module]));
@@ -214,6 +237,7 @@ export function computeEconomy(data: GameData): Economy {
     cheapestFuelName: fuel.name,
     electricCostPerWatt,
     skills,
+    knownSkills,
     tableCostPerSecond: tableCosts,
     tableModules,
   };

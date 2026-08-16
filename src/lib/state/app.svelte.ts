@@ -42,8 +42,12 @@ const LEGACY_STORAGE_KEY = 'econimium:settings';
  * Bumped to 4 when modules gained power requirements and real per-server
  * values. A v3 patch would restore the all-zero placeholders it saved over the
  * top of them, quietly undoing the numbers the app now ships.
+ *
+ * Bumped to 5 when skills gained `known`. A v4 patch has no such field, so
+ * restoring one would leave every skill unknown and every item unpriced with no
+ * indication why — worse than starting from the dataset's own defaults.
  */
-const PATCH_VERSION = 4;
+const PATCH_VERSION = 5;
 
 export function storageKeyFor(contextId: string): string {
   return `${STORAGE_PREFIX}:${contextId}`;
@@ -68,7 +72,7 @@ interface SavedPatch {
   version: number;
   globals: Globals;
   shopSettings: ShopSettings;
-  skills: Record<string, { level: number; talents: Multipliers }>;
+  skills: Record<string, { known: boolean; level: number; talents: Multipliers }>;
   /** Module effects are entered by hand, so they are entirely user data. */
   modules: Record<string, SavedModule>;
   craftingTables: Record<string, SavedTable>;
@@ -112,6 +116,11 @@ export class AppState {
   /** Modules fitted somewhere but left with no bonuses entered. */
   unconfiguredModules = $derived(findUnconfiguredModules(this.data));
 
+  /** Skills you've said you have. Recipes needing anything else aren't costed. */
+  knownSkills = $derived(this.solution.economy.knownSkills);
+
+  knownSkillCount = $derived(this.knownSkills.size);
+
   /** Sorted list of the categories present in the data, for filtering. */
   categories = $derived(
     [...new Set(this.data.items.map((i) => i.category).filter((c): c is string => !!c))].sort(),
@@ -151,14 +160,26 @@ export class AppState {
     }).length,
   );
 
-  /** Contested products with nothing chosen, so they can't be priced at all. */
+  /**
+   * Contested products you could make but haven't chosen a recipe for.
+   *
+   * Products whose recipes all need skills you don't have are left out: you
+   * aren't making those however you decide, so nagging about them would bury
+   * the decisions that actually matter.
+   */
   undecidedProducts = $derived.by(() => {
     const decided = new Set<string>();
+    const reachable = new Set<string>();
     for (const recipe of this.data.recipes) {
       const primary = recipe.products[0];
-      if (recipe.active && primary) decided.add(primary.item);
+      if (!primary) continue;
+      if (recipe.skill !== '' && !this.knownSkills.has(recipe.skill)) continue;
+      reachable.add(primary.item);
+      if (recipe.active) decided.add(primary.item);
     }
-    return [...this.contestedProducts].filter((item) => !decided.has(item)).sort();
+    return [...this.contestedProducts]
+      .filter((item) => reachable.has(item) && !decided.has(item))
+      .sort();
   });
 
   /**
@@ -253,7 +274,11 @@ export class AppState {
   toPatch(): SavedPatch {
     const skills: SavedPatch['skills'] = {};
     for (const skill of this.data.skills) {
-      skills[skill.name] = { level: skill.level, talents: { ...skill.talents } };
+      skills[skill.name] = {
+        known: skill.known,
+        level: skill.level,
+        talents: { ...skill.talents },
+      };
     }
 
     const modules: SavedPatch['modules'] = {};
@@ -321,6 +346,7 @@ export class AppState {
     for (const skill of next.skills) {
       const saved = patch.skills?.[skill.name];
       if (!saved) continue;
+      skill.known = saved.known ?? false;
       skill.level = saved.level;
       if (saved.talents) skill.talents = { ...skill.talents, ...saved.talents };
     }
