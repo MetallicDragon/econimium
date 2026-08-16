@@ -12,6 +12,7 @@
   import { money, multiplier, recipeLabel } from '../format.ts';
   import type { Multipliers } from '../engine/types.ts';
   import ModuleChips from './ModuleChips.svelte';
+  import CostBreakdown from './CostBreakdown.svelte';
 
   interface Props {
     item: string;
@@ -22,6 +23,9 @@
 
   const requirements = $derived(collectRequirements(app.data, app.solution, item));
   const price = $derived(app.solution.prices.get(item));
+
+  /** Collapsed by default: the decisions above it come first. */
+  let showBreakdown = $state(false);
 
   const TALENT_FIELDS = [
     { key: 'resource', label: 'Res' },
@@ -143,6 +147,28 @@
           {/if}
         </p>
         {@render options(choice)}
+      </section>
+    {/if}
+
+    {#if price?.sourceRecipe}
+      <section>
+        <h3>
+          <button
+            class="disclose"
+            aria-expanded={showBreakdown}
+            onclick={() => (showBreakdown = !showBreakdown)}
+          >
+            {showBreakdown ? '▾' : '▸'} Cost breakdown
+          </button>
+          <span class="badge">{money(price.cost)} · via {price.sourceRecipe}</span>
+        </h3>
+        {#if showBreakdown}
+          <p class="note">
+            Where the price comes from, all the way down to raw materials — the same view as the
+            Items tab. Talents entered here apply to this recipe only.
+          </p>
+          <CostBreakdown {item} />
+        {/if}
       </section>
     {/if}
 
@@ -431,6 +457,19 @@
   .badge.warn {
     border-color: var(--warn);
     color: var(--warn);
+  }
+
+  .disclose {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .disclose:hover {
+    color: var(--accent);
   }
 
   .note {

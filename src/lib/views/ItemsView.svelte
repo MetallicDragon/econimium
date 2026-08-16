@@ -1,15 +1,7 @@
 <script lang="ts">
   import { app } from '../state/app.svelte.ts';
   import { money } from '../format.ts';
-  import type { Multipliers } from '../engine/types.ts';
-  import RecipeTree from '../components/RecipeTree.svelte';
-
-  /** Talents that apply to a single recipe, entered as percentages saved. */
-  const TALENT_FIELDS = [
-    { key: 'resource', label: 'Resources' },
-    { key: 'labor', label: 'Labor' },
-    { key: 'time', label: 'Time' },
-  ] as const satisfies ReadonlyArray<{ key: keyof Multipliers; label: string }>;
+  import CostBreakdown from '../components/CostBreakdown.svelte';
 
   type SortKey = 'name' | 'cost';
 
@@ -148,47 +140,7 @@
       {#if isOpen}
         <tr class="detail">
           <td colspan="6">
-            {#if price?.sourceRecipe}
-              {@const talents = app.recipeTalents(price.sourceRecipe)}
-              <div class="talents">
-                <span class="talents-label" title="Talents affecting only this recipe">
-                  Recipe talents
-                </span>
-                {#each TALENT_FIELDS as field (field.key)}
-                  <label class="talent">
-                    {field.label}
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="any"
-                      value={Math.round((1 - talents[field.key]) * 1e6) / 1e4}
-                      oninput={(event) =>
-                        app.setRecipeTalent(
-                          price.sourceRecipe!,
-                          field.key,
-                          1 - Number(event.currentTarget.value || 0) / 100,
-                        )}
-                    />%
-                  </label>
-                {/each}
-              </div>
-              <div class="tree-header">
-                <span></span>
-                <span class="num">unit</span>
-                <span class="num">total</span>
-              </div>
-              <RecipeTree item={item.name} />
-            {:else if price?.fromOverride}
-              <p class="note">
-                Priced at a fixed {money(price.cost)}. Untick the box to price it from recipes
-                instead.
-              </p>
-            {:else}
-              <p class="note missing">
-                No price available — {price?.unpriceableReason?.replace(/-/g, ' ')}.
-              </p>
-            {/if}
+            <CostBreakdown item={item.name} />
           </td>
         </tr>
       {/if}
@@ -302,46 +254,4 @@
     padding: 0.75rem 0.5rem 1rem 2rem;
   }
 
-  .tree-header {
-    display: grid;
-    grid-template-columns: 1.4rem minmax(0, 1fr) minmax(0, 14rem) 6rem 7rem;
-    gap: 0.5rem;
-    color: var(--text-dim);
-    font-size: 0.75rem;
-    padding: 0 0.5rem 0.25rem;
-  }
-
-  .tree-header span:first-child {
-    grid-column: 1 / 4;
-  }
-
-  .note {
-    color: var(--text-dim);
-    margin: 0;
-  }
-
-  .talents {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    flex-wrap: wrap;
-    margin: 0 0 0.75rem 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
-
-  .talents-label {
-    font-weight: 600;
-  }
-
-  .talent {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .talent input {
-    width: 4.5rem;
-    text-align: right;
-  }
 </style>
