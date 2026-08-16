@@ -1,0 +1,217 @@
+/**
+ * What the per-item settings panel collects.
+ *
+ * The panel's whole value is being able to say "these specific things are
+ * stopping this item having a price", so the split between blocking gaps and
+ * merely-relevant settings is worth pinning down.
+ */
+
+import { describe, expect, it } from 'vitest';
+import { solve } from '../src/lib/engine/prices.ts';
+import { collectRequirements } from '../src/lib/engine/requirements.ts';
+import type { GameData, Item, Recipe } from '../src/lib/engine/types.ts';
+
+function item(name: string, price?: number): Item {
+  return { name, hasOverride: price !== undefined, overrideValue: price ?? null, category: null };
+}
+
+function recipe(partial: Partial<Recipe> & Pick<Recipe, 'name' | 'products'>): Recipe {
+  return {
+    skill: '',
+    table: '',
+    labor: 0,
+    timeSeconds: 0,
+    active: true,
+    inputs: [],
+    ...partial,
+  };
+}
+
+function table(name: string) {
+  return {
+    name,
+    canUseModules: true,
+    fittedModules: [],
+    burnableWatts: 0,
+    electricWatts: 0,
+    ppmPerHour: 0,
+  };
+}
+
+function baseData(partial: Partial<GameData> = {}): GameData {
+  return {
+    version: 'test',
+    globals: {
+      foodCostPer1kCal: 0,
+      minWagePer1k: 0,
+      pricePerPpm: 0,
+      burnables: [],
+      generator: { name: 'gen', wattsProduced: 0, wattsConsumed: 0, ppmPerHour: 0 },
+    },
+    modules: [],
+    skills: [],
+    craftingTables: [],
+    recipes: [],
+    recipeTalents: {},
+    items: [],
+    tags: {},
+    shopSettings: { taxRate: 0, sellMarkup: 0 },
+    shopSelling: [],
+    ...partial,
+  };
+}
+
+/** Ore -> Bar -> Widget, each step at its own table and skill. */
+function chain(overrides: Partial<GameData> = {}) {
+  return baseData({
+    items: [item('Ore'), item('Bar'), item('Widget')],
+    skills: [
+      { name: 'Mining', level: 0, talents: { resource: 1, labor: 1, time: 1 } },
+      { name: 'Smithing', level: 0, talents: { resource: 1, labor: 1, time: 1 } },
+    ],
+    craftingTables: [table('Furnace'), table('Anvil')],
+    recipes: [
+      recipe({
+        name: 'Smelt',
+        skill: 'Mining',
+        table: 'Furnace',
+        products: [{ item: 'Bar', amount: 1 }],
+        inputs: [{ item: 'Ore', amount: 1, isStatic: false, isTag: false }],
+      }),
+      recipe({
+        name: 'Assemble',
+        skill: 'Smithing',
+        table: 'Anvil',
+        products: [{ item: 'Widget', amount: 1 }],
+        inputs: [{ item: 'Bar', amount: 2, isStatic: false, isTag: false }],
+      }),
+    ],
+    ...overrides,
+  });
+}
+
+function requirementsFor(data: GameData, target: string) {
+  return collectRequirements(data, solve(data), target);
+}
+
+describe('item requirements', () => {
+  it('finds the unpriced root at the bottom of a chain', () => {
+    const requirements = requirementsFor(chain(), 'Widget');
+    expect(requirements.priced).toBe(false);
+    expect(requirements.unpricedItems).toEqual(['Ore']);
+  });
+
+  it('collects every skill and table along the chain', () => {
+    const requirements = requirementsFor(chain(), 'Widget');
+    expect(requirements.skills).toEqual(['Mining', 'Smithing']);
+    expect(requirements.tables).toEqual(['Anvil', 'Furnace']);
+  });
+
+  it('reports nothing blocking once the root is priced', () => {
+    const data = chain();
+    data.items = [item('Ore', 5), item('Bar'), item('Widget')];
+
+    const requirements = requirementsFor(data, 'Widget');
+    expect(requirements.priced).toBe(true);
+    expect(requirements.unpricedItems).toEqual([]);
+    expect(requirements.undecided).toEqual([]);
+    // Skills and tables are still relevant even when nothing is missing.
+    expect(requirements.skills).toEqual(['Mining', 'Smithing']);
+  });
+
+  it('stops at an item priced by hand, ignoring what is under it', () => {
+    const data = chain();
+    data.items = [item('Ore'), item('Bar', 3), item('Widget')];
+
+    const requirements = requirementsFor(data, 'Widget');
+    // Bar has a fixed price, so Ore beneath it no longer matters.
+    expect(requirements.unpricedItems).toEqual([]);
+    expect(requirements.skills).toEqual(['Smithing']);
+    expect(requirements.tables).toEqual(['Anvil']);
+  });
+
+  it('reports a recipe choice, and flags it when nothing is enabled', () => {
+    const data = chain();
+    data.recipes.push(
+      recipe({
+        name: 'Smelt slowly',
+        skill: 'Mining',
+        table: 'Furnace',
+        active: false,
+        products: [{ item: 'Bar', amount: 1 }],
+        inputs: [{ item: 'Ore', amount: 2, isStatic: false, isTag: false }],
+      }),
+    );
+
+    const decided = requirementsFor(data, 'Widget');
+    expect(decided.choices.map((c) => c.product)).toEqual(['Bar']);
+    expect(decided.undecided).toEqual([]);
+
+    // Now switch the other one off too, leaving nothing enabled.
+    data.recipes[0]!.active = false;
+    const undecided = requirementsFor(data, 'Widget');
+    expect(undecided.undecided.map((c) => c.product)).toEqual(['Bar']);
+    expect(undecided.choices[0]?.recipes.map((r) => r.name)).toEqual(['Smelt', 'Smelt slowly']);
+  });
+
+  it('reports an unsatisfied tag with its members rather than each one separately', () => {
+    const data = baseData({
+      items: [item('Oak Log'), item('Birch Log'), item('Plank')],
+      tags: { Wood: ['Oak Log', 'Birch Log'] },
+      recipes: [
+        recipe({
+          name: 'Plank',
+          products: [{ item: 'Plank', amount: 1 }],
+          inputs: [{ item: 'Wood', amount: 2, isStatic: false, isTag: true }],
+        }),
+      ],
+    });
+
+    const requirements = requirementsFor(data, 'Plank');
+    expect(requirements.unpricedTags).toEqual([
+      { tag: 'Wood', members: ['Oak Log', 'Birch Log'] },
+    ]);
+    expect(requirements.unpricedItems).toEqual([]);
+  });
+
+  it('follows the chosen member once a tag resolves', () => {
+    const data = baseData({
+      items: [item('Oak Log', 3), item('Birch Log'), item('Plank')],
+      tags: { Wood: ['Oak Log', 'Birch Log'] },
+      recipes: [
+        recipe({
+          name: 'Plank',
+          products: [{ item: 'Plank', amount: 1 }],
+          inputs: [{ item: 'Wood', amount: 2, isStatic: false, isTag: true }],
+        }),
+      ],
+    });
+
+    const requirements = requirementsFor(data, 'Plank');
+    expect(requirements.unpricedTags).toEqual([]);
+    expect(requirements.priced).toBe(true);
+  });
+
+  it('terminates on a dependency cycle', () => {
+    const data = baseData({
+      items: [item('A'), item('B')],
+      recipes: [
+        recipe({
+          name: 'A from B',
+          products: [{ item: 'A', amount: 1 }],
+          inputs: [{ item: 'B', amount: 1, isStatic: false, isTag: false }],
+        }),
+        recipe({
+          name: 'B from A',
+          products: [{ item: 'B', amount: 1 }],
+          inputs: [{ item: 'A', amount: 1, isStatic: false, isTag: false }],
+        }),
+      ],
+    });
+
+    const requirements = requirementsFor(data, 'A');
+    expect(requirements.priced).toBe(false);
+    // Nothing to price and no choice to make — the loop simply has no way in.
+    expect(requirements.unpricedItems).toEqual([]);
+  });
+});

@@ -7,6 +7,7 @@
   import { app } from '../state/app.svelte.ts';
   import { sellMultiplier } from '../engine/shop.ts';
   import { money, percent } from '../format.ts';
+  import ItemConfig from '../components/ItemConfig.svelte';
 
   const settings = $derived(app.data.shopSettings);
   const defaultMultiplier = $derived(sellMultiplier(settings.sellMarkup, settings.taxRate));
@@ -14,6 +15,8 @@
 
   let toAdd = $state('');
   let addError = $state('');
+  /** Item whose settings panel is open, if any. */
+  let configuring = $state<string | null>(null);
   /** Index being dragged, or null. */
   let dragging = $state<number | null>(null);
   let dragOver = $state<number | null>(null);
@@ -178,7 +181,20 @@
               ⠿
             </span>
           </td>
-          <td>{entry.item}</td>
+          <td>
+            <button
+              class="configure"
+              class:unpriced={price.cost === null}
+              title={price.cost === null
+                ? `${entry.item} has no price — open to see what's missing`
+                : `Settings affecting ${entry.item}`}
+              aria-label="Settings affecting {entry.item}"
+              onclick={() => (configuring = entry.item)}
+            >
+              ⚙
+            </button>
+            {entry.item}
+          </td>
           <td class="num dim" class:missing={price.cost === null}>{money(price.cost)}</td>
           <td class="num">
             <span class="pct">
@@ -229,8 +245,13 @@
     </tbody>
   </table>
   <p class="footnote">
-    Tax is {percent(settings.taxRate)}; margin is what's left after it.
+    Tax is {percent(settings.taxRate)}; margin is what's left after it. Use the ⚙ beside an item to
+    reach every setting that affects its cost.
   </p>
+{/if}
+
+{#if configuring}
+  <ItemConfig item={configuring} onclose={() => (configuring = null)} />
 {/if}
 
 <style>
@@ -355,6 +376,31 @@
   .handle:hover,
   .handle:focus-visible {
     color: var(--accent);
+  }
+
+  .configure {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 0 0.35rem 0 0;
+    line-height: 1;
+    font-size: 0.95rem;
+  }
+
+  .configure:hover {
+    color: var(--accent);
+  }
+
+  /* Flagged when the item has no price, so the fix is one click away. */
+  .configure.unpriced {
+    color: var(--warn);
+  }
+
+  .configure.unpriced::after {
+    content: '!';
+    font-size: 0.7rem;
+    vertical-align: super;
+    font-weight: 700;
   }
 
   .remove {

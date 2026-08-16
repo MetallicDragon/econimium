@@ -144,6 +144,13 @@ The cost model, in order:
    into the order your stall uses. Percentages are entered as percentages, and
    *margin* is what's left after tax. Buying prices were removed for now.
 
+   Each row has a **⚙ button** opening everything that feeds that item's price
+   — its own price, the recipe choices in its chain, and the skills and tables
+   involved — so you don't have to hunt across three tabs to find which of
+   hundreds of settings actually reach it. Gaps that are genuinely stopping the
+   calculation are highlighted, and the ⚙ itself is flagged when the item has
+   no price at all.
+
 An item with no price shows as **unpriceable** rather than as a number, which
 happens when nothing makes it, an ingredient is unpriceable, or it sits in a
 dependency cycle.
@@ -295,8 +302,9 @@ settings between browsers. **Reset** clears only the active context.
   app warns when one is fitted but blank
 - **Talent values** — the structure is in place; the percentages are yours
 - **Crafting table figures** — power and pollution are all zero
-- **Price entry UX** — currently one item at a time in the Items tab
 - **Shop buying prices** — removed for now, to be revisited
+- **Automatic module/table/price values** — deliberately user-entered; the API
+  exposes none of them
 - **Lazy-loading datasets** — both are bundled eagerly, which is most of the
   134 kB gzipped payload. A dynamic import per context would cut the initial
   load roughly in half, and matters more as servers are added.

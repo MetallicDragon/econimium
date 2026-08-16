@@ -3,6 +3,7 @@
   import { cheapestFuel } from '../engine/economy.ts';
   import { money, multiplier } from '../format.ts';
   import type { Multipliers, UpgradeModule } from '../engine/types.ts';
+  import ModuleChips from '../components/ModuleChips.svelte';
   import NumberField from '../components/NumberField.svelte';
 
   const globals = $derived(app.data.globals);
@@ -60,19 +61,6 @@
     );
   });
 
-  /**
-   * Which skill each table is used by, so a table only offers the Specialty
-   * module that could actually go in it. Tables used by several skills offer
-   * the first one seen, which is enough to keep the list short.
-   */
-  const skillOfTable = $derived.by(() => {
-    const map = new Map<string, string>();
-    for (const recipe of app.data.recipes) {
-      if (!recipe.table || !recipe.skill || map.has(recipe.table)) continue;
-      map.set(recipe.table, recipe.skill);
-    }
-    return map;
-  });
 </script>
 
 <section>
@@ -231,33 +219,7 @@
         <tr>
           <td>{table.name}</td>
           <td>
-            {#if table.canUseModules}
-              <span class="modules">
-                {#each app.data.modules as module (module.id)}
-                  {#if module.skill === null || module.skill === skillOfTable.get(table.name)}
-                    {@const fitted = table.fittedModules.includes(module.id)}
-                    <label
-                      class="chip"
-                      class:on={fitted}
-                      class:blank={fitted && unconfiguredIds.has(module.id)}
-                      title={fitted && unconfiguredIds.has(module.id)
-                        ? `${module.name} is fitted but has no bonuses entered — set them above`
-                        : module.name}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={fitted}
-                        onchange={(event) =>
-                          app.toggleModule(table.name, module.id, event.currentTarget.checked)}
-                      />
-                      {module.kind === 'Specialty' ? module.name : module.kind}
-                    </label>
-                  {/if}
-                {/each}
-              </span>
-            {:else}
-              <span class="dim">no modules</span>
-            {/if}
+            <ModuleChips {table} />
           </td>
           <td class="num dim">{multiplier(economy.tableModules.get(table.name)?.resource)}</td>
           <td class="num"><input type="number" min="0" step="any" bind:value={table.burnableWatts} /></td>
@@ -401,37 +363,10 @@
     width: 4.5rem;
   }
 
-  .modules {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-  }
 
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.05rem 0.5rem;
-    font-size: 0.78rem;
-    color: var(--text-dim);
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .chip.on {
-    border-color: var(--accent-dim);
-    background: color-mix(in srgb, var(--accent) 15%, var(--surface-2));
-    color: var(--text);
-  }
-
-  .chip.on.blank {
-    border-color: var(--warn);
-    background: color-mix(in srgb, var(--warn) 18%, var(--surface-2));
-    color: var(--warn);
-  }
-
+  
+  
+  
   .warning {
     background: color-mix(in srgb, var(--warn) 12%, var(--surface));
     border: 1px solid var(--warn);
@@ -456,11 +391,7 @@
     white-space: nowrap;
   }
 
-  .chip input {
-    width: auto;
-    margin: 0;
-  }
-
+  
   .dim {
     color: var(--text-dim);
     font-family: var(--mono);
