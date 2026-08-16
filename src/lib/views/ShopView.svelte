@@ -127,12 +127,14 @@
     <thead>
       <tr>
         <th class="grip"></th>
+        <!-- Sell and margin lead: they're the numbers you read off to price a
+             stall, and the rest of the row is how they were arrived at. -->
+        <th class="num">Sell</th>
+        <th class="num">Margin</th>
         <th>Item</th>
         <th class="num">Cost</th>
         <th class="num">Markup</th>
         <th class="num">Flat add</th>
-        <th class="num">Sell</th>
-        <th class="num">Margin</th>
         <th class="grip"></th>
       </tr>
     </thead>
@@ -181,6 +183,10 @@
               ⠿
             </span>
           </td>
+          <td class="num strong">{money(price.price)}</td>
+          <td class="num" class:negative={price.margin !== null && price.margin < 0}>
+            {money(price.margin)}
+          </td>
           <td>
             <button
               class="configure"
@@ -225,10 +231,6 @@
                 app.setShopTweak(entry.item, 'flatAddition', raw === '' ? null : Number(raw));
               }}
             />
-          </td>
-          <td class="num strong">{money(price.price)}</td>
-          <td class="num" class:negative={price.margin !== null && price.margin < 0}>
-            {money(price.margin)}
           </td>
           <td class="grip">
             <button
