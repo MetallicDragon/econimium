@@ -19,8 +19,9 @@
  */
 
 import type { Economy } from './economy.ts';
-import { computeEconomy } from './economy.ts';
-import type { GameData, Item, Recipe, UpgradeTier } from './types.ts';
+import { computeEconomy, multiply } from './economy.ts';
+import type { GameData, Item, Multipliers, Recipe } from './types.ts';
+import { NO_EFFECT } from './types.ts';
 
 export type Cost = number | null;
 
@@ -58,9 +59,16 @@ export interface RecipeBreakdown {
   name: string;
   skill: string;
   table: string;
-  upgradeTier: UpgradeTier;
+  /** Combined effect of fitted modules alone. */
+  moduleEffect: Multipliers;
+  /** Combined effect of skill and recipe talents alone. */
+  talentEffect: Multipliers;
   /** The input multiplier applied to non-static ingredients. */
   inputMultiplier: number;
+  /** Multiplier applied to labor calories. */
+  laborMultiplier: number;
+  /** Multiplier applied to craft time. */
+  timeMultiplier: number;
   laborCost: number;
   timeCost: number;
   inputs: RecipeInputBreakdown[];
@@ -101,9 +109,6 @@ export interface Solution {
   /** A sample of dependency cycles, for diagnostics. Capped, not exhaustive. */
   cycles: string[][];
 }
-
-/** Literal type, so comparing against it narrows `UpgradeTier` to the real tiers. */
-const NO_MODULE = 'None' as const;
 
 /** Cycle reporting is a diagnostic, not a guarantee — don't spend the day on it. */
 const MAX_REPORTED_CYCLES = 20;
@@ -175,7 +180,9 @@ export function solve(data: GameData): Solution {
   // Everything here depends only on settings, not on any item's price, so it is
   // computed once rather than per resolution attempt.
   const multiplier = new Array<number>(recipes.length);
-  const appliedTier = new Array<UpgradeTier>(recipes.length);
+  const moduleEffects = new Array<Multipliers>(recipes.length);
+  const talentEffects = new Array<Multipliers>(recipes.length);
+  const combined = new Array<Multipliers>(recipes.length);
   const laborCost = new Array<number>(recipes.length);
   const timeCost = new Array<number>(recipes.length);
   const fixedCost = new Array<number>(recipes.length);
@@ -186,16 +193,25 @@ export function solve(data: GameData): Solution {
   for (let i = 0; i < recipes.length; i++) {
     const recipe = recipes[i]!;
     const table = recipe.table ? tablesByName.get(recipe.table) : undefined;
-    const moduleTier = table && table.canUseModules ? table.moduleTier : NO_MODULE;
     const skill = economy.skills.get(recipe.skill);
 
-    const inputMultiplier =
-      moduleTier === NO_MODULE || !skill ? 1 : skill.upgradeMultipliers[moduleTier];
-    multiplier[i] = inputMultiplier;
-    appliedTier[i] = moduleTier;
-    laborCost[i] = skill ? (skill.laborCostPer1k * recipe.labor) / 1000 : 0;
+    // Modules stack additively among themselves; talents then compose with
+    // them multiplicatively, so the two systems stay independent.
+    const moduleEffect = table ? (economy.tableModules.get(table.name) ?? NO_EFFECT) : NO_EFFECT;
+    const talentEffect = multiply(
+      skill?.talents ?? NO_EFFECT,
+      data.recipeTalents?.[recipe.name] ?? NO_EFFECT,
+    );
+    const effect = multiply(moduleEffect, talentEffect);
+
+    moduleEffects[i] = moduleEffect;
+    talentEffects[i] = talentEffect;
+    combined[i] = effect;
+    multiplier[i] = effect.resource;
+
+    laborCost[i] = skill ? (skill.laborCostPer1k * recipe.labor * effect.labor) / 1000 : 0;
     const perSecond = table ? (economy.tableCostPerSecond.get(table.name) ?? 0) : 0;
-    timeCost[i] = recipe.timeSeconds * perSecond * inputMultiplier;
+    timeCost[i] = recipe.timeSeconds * effect.time * perSecond;
     fixedCost[i] = laborCost[i]! + timeCost[i]!;
 
     // Byproducts are credited at the price the user set for them. Deriving that
@@ -409,8 +425,11 @@ export function solve(data: GameData): Solution {
       name: recipe.name,
       skill: recipe.skill,
       table: recipe.table,
-      upgradeTier: appliedTier[i]!,
+      moduleEffect: moduleEffects[i]!,
+      talentEffect: talentEffects[i]!,
       inputMultiplier: multiplier[i]!,
+      laborMultiplier: combined[i]!.labor,
+      timeMultiplier: combined[i]!.time,
       laborCost: laborCost[i]!,
       timeCost: timeCost[i]!,
       inputs,

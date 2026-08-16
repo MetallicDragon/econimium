@@ -77,18 +77,26 @@ save the three endpoint responses from a browser into `data-snapshots/` as
 ## What the API does and doesn't give us
 
 The API supplies recipes, ingredients, products, labor, craft time, skills and
-tags. It supplies **no prices and no crafting-table figures**, which has two
-consequences worth understanding:
+tags. It supplies **no prices, no crafting-table figures, no module effects and
+no talents**. Everything below is therefore yours to enter, and everything
+starts at zero or no-effect — inventing plausible numbers would quietly corrupt
+every cost that depends on them.
 
 - **Nothing is priced until you price the roots.** Around 320 items have no
   recipe — raw resources, carcasses, cosmetics — and everything else is costed
   from them. Tick *Fixed price* on an item in the Items tab to set one. Use the
   *Only unpriced* filter to find what's still missing.
-- **Crafting tables start at zero.** Power draw, pollution, and which upgrade
-  module is fitted are all unknown to the API, so tables contribute no running
-  cost and no ingredient discount until you fill them in under Settings.
-  Inventing plausible numbers would have quietly corrupted every cost that
-  depends on them.
+- **Upgrade modules** are defined once under Settings (a percentage off
+  resources, labor and time), then ticked onto each table that has them fitted.
+- **Talents** are entered as percentages: per skill under Settings, or per
+  recipe in that recipe's breakdown under Items.
+- **Crafting table power and pollution** start at zero, so tables add no
+  running cost until filled in.
+
+Economic defaults — wages, tax, markups, pollution pricing — are all **zero**,
+because they vary wildly between servers and often don't exist at all. A
+plausible-looking default would just be a wrong number you'd have to notice and
+undo.
 
 **Adding another server:** generate its dataset, then add an entry to
 `CONTEXTS` in `src/lib/data/contexts.ts` pointing at it. Nothing else changes —
@@ -133,7 +141,20 @@ An item with no price shows as **unpriceable** rather than as a number, which
 happens when nothing makes it, an ingredient is unpriceable, or it sits in a
 dependency cycle.
 
-### Three rules worth knowing
+### Four rules worth knowing
+
+**Modules add up; talents multiply.** Eco 0.14 lets a table hold several
+modules at once — a Basic, an Advanced, a Modern and a skill Specialty — and
+their reductions **stack additively**: 10% + 25% + 40% is 75% off, not the 59.5%
+multiplying would give. The total is clamped so no amount of stacking takes a
+cost below zero. Talents then apply **multiplicatively** on top, so the two
+systems stay independent and neither can zero out the other. A table that can't
+take modules gets no reduction regardless of what's listed.
+
+Talents come in two scopes, both entered by hand: skill talents apply to
+everything made with that skill, recipe talents to one recipe. Each can reduce
+resources, labor and craft time independently.
+
 
 **Byproducts are credited, not produced.** A recipe's cost is attributed to its
 primary product; any other output is valued at the price *you* set for it and
@@ -175,9 +196,20 @@ every shop price — several hundred independent assertions on the costing maths
 
 Nothing about the API data can replace that, because the API ships no expected
 costs to check against. Keeping it made the move to API data far safer: the
-byproduct, tag and Dijkstra rewrites all had to keep reproducing the
-spreadsheet's numbers exactly, and did. The fixture lives in `tests/fixtures/`
-and is not part of the app.
+byproduct, tag, Dijkstra and module/talent rewrites all had to keep reproducing
+the spreadsheet's numbers exactly, and did. The fixture lives in
+`tests/fixtures/` and is not part of the app.
+
+One caveat on how it survives. Eco 11.1 derived a recipe's ingredient discount
+from the crafting skill's upgrade level and the table's tier; 0.14 replaced that
+mechanic wholesale, so the engine no longer has that formula to reproduce. The
+converter carries the sheet's own cached multiplier across as a **recipe-level
+talent**, which under the current model is exactly what a fixed per-recipe
+multiplier is. Everything downstream — ingredient scaling, labor, time,
+byproducts, item resolution, shop prices — is still checked against the original
+numbers. The one assertion this makes circular is `inputMultiplier` itself,
+which now checks plumbing rather than a formula; module and talent arithmetic is
+covered by `engine.test.ts` instead.
 
 ### Where we deliberately differ
 
@@ -222,7 +254,10 @@ settings between browsers. **Reset** clears only the active context.
 - **Base prices** — the roots need pricing before most of the tree is useful;
   ranking unpriced items by how many recipes depend on them would make that far
   less tedious
-- **Crafting table figures** — power, pollution and module tiers are all zero
+- **Real module and talent values** — the structure is in place, but every
+  percentage is still zero pending the actual 0.14 figures for each server
+- **Crafting table figures** — power and pollution are all zero
+- **Price entry UX** — currently one item at a time in the Items tab
 - **Lazy-loading datasets** — both are bundled eagerly, which is most of the
   134 kB gzipped payload. A dynamic import per context would cut the initial
   load roughly in half, and matters more as servers are added.

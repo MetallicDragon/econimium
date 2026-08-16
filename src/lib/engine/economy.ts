@@ -1,22 +1,20 @@
 /**
  * Stage 1 of the costing pipeline: everything that depends only on settings,
- * not on any particular recipe — fuel, electricity, skills, and table running
- * costs.
+ * not on any particular recipe — fuel, electricity, skills, module stacking,
+ * and table running costs.
  */
 
-import type { CraftingTable, GameData, Globals, RealUpgradeTier, Skill } from './types.ts';
+import type {
+  CraftingTable,
+  GameData,
+  Globals,
+  Multipliers,
+  Skill,
+  UpgradeModule,
+} from './types.ts';
+import { NO_EFFECT } from './types.ts';
 
 const SECONDS_PER_HOUR = 3600;
-
-/**
- * Eco's upgrade multiplier ladder, indexed by upgrade level.
- * The spreadsheet encodes this as SWITCH(level, 0,1, 1,0.9, 2,0.75, 3,0.6, 4,0.55, 5,0.5).
- */
-const UPGRADE_MULTIPLIERS = [1, 0.9, 0.75, 0.6, 0.55, 0.5] as const;
-
-/** Skill level at which Eco grants an extra flat efficiency bonus. */
-const LAVISH_SKILL_LEVEL = 6;
-const LAVISH_BONUS = 0.95;
 
 export interface SkillEconomics {
   name: string;
@@ -24,8 +22,8 @@ export interface SkillEconomics {
   calorieMultiplier: number;
   /** Currency cost of 1000 calories of labor for this skill. */
   laborCostPer1k: number;
-  /** Input multiplier by table tier, already including the level-6 bonus. */
-  upgradeMultipliers: Record<RealUpgradeTier, number>;
+  /** Talents that apply to everything made with this skill. */
+  talents: Multipliers;
 }
 
 export interface Economy {
@@ -37,13 +35,52 @@ export interface Economy {
   skills: Map<string, SkillEconomics>;
   /** Running cost per second, by crafting table name. */
   tableCostPerSecond: Map<string, number>;
+  /** Combined effect of the modules fitted to each table. */
+  tableModules: Map<string, Multipliers>;
 }
 
-function upgradeMultiplier(level: number): number {
-  // The spreadsheet's SWITCH has no default branch, so out-of-range levels
-  // produced an error there. Clamping is the sane equivalent.
-  const index = Math.min(Math.max(Math.round(level), 0), UPGRADE_MULTIPLIERS.length - 1);
-  return UPGRADE_MULTIPLIERS[index]!;
+/** Reductions can't take a cost below zero however many modules are stacked. */
+function clampReduction(total: number): number {
+  return Math.min(Math.max(total, 0), 1);
+}
+
+/**
+ * Combines the modules fitted to a table.
+ *
+ * Reductions stack **additively** — three modules at 10%, 25% and 40% give 75%
+ * off, not the 59.5% that multiplying would give — then clamp so the total can
+ * never exceed 100%.
+ */
+export function combineModules(
+  fitted: readonly string[],
+  catalogue: Map<string, UpgradeModule>,
+): Multipliers {
+  let resource = 0;
+  let labor = 0;
+  let time = 0;
+  for (const id of fitted) {
+    const module = catalogue.get(id);
+    if (!module) continue;
+    resource += module.resourceReduction;
+    labor += module.laborReduction;
+    time += module.timeReduction;
+  }
+  return {
+    resource: 1 - clampReduction(resource),
+    labor: 1 - clampReduction(labor),
+    time: 1 - clampReduction(time),
+  };
+}
+
+/** Talents and module reductions compose multiplicatively. */
+export function multiply(...all: Multipliers[]): Multipliers {
+  const result = { resource: 1, labor: 1, time: 1 };
+  for (const one of all) {
+    result.resource *= one.resource;
+    result.labor *= one.labor;
+    result.time *= one.time;
+  }
+  return result;
 }
 
 export function computeSkillEconomics(skill: Skill, globals: Globals): SkillEconomics {
@@ -54,20 +91,12 @@ export function computeSkillEconomics(skill: Skill, globals: Globals): SkillEcon
   const laborCostPer1k =
     level > 0 ? globals.foodCostPer1kCal * calorieMultiplier : globals.minWagePer1k;
 
-  const lavish = level >= LAVISH_SKILL_LEVEL ? LAVISH_BONUS : 1;
-  const forTier = (tier: RealUpgradeTier): number =>
-    upgradeMultiplier(skill.upgradeLevels[tier] ?? globals.genericUpgradeLevels[tier]) * lavish;
-
   return {
     name: skill.name,
     level,
     calorieMultiplier,
     laborCostPer1k,
-    upgradeMultipliers: {
-      Basic: forTier('Basic'),
-      Advanced: forTier('Advanced'),
-      Modern: forTier('Modern'),
-    },
+    talents: skill.talents ?? NO_EFFECT,
   };
 }
 
@@ -112,11 +141,17 @@ export function computeEconomy(data: GameData): Economy {
     skills.set(skill.name, computeSkillEconomics(skill, globals));
   }
 
+  const catalogue = new Map((data.modules ?? []).map((module) => [module.id, module]));
   const tableCosts = new Map<string, number>();
+  const tableModules = new Map<string, Multipliers>();
   for (const table of data.craftingTables) {
     tableCosts.set(
       table.name,
       tableCostPerSecond(table, globals, fuel.costPerJoule, electricCostPerWatt),
+    );
+    tableModules.set(
+      table.name,
+      table.canUseModules ? combineModules(table.fittedModules ?? [], catalogue) : NO_EFFECT,
     );
   }
 
@@ -126,5 +161,6 @@ export function computeEconomy(data: GameData): Economy {
     electricCostPerWatt,
     skills,
     tableCostPerSecond: tableCosts,
+    tableModules,
   };
 }

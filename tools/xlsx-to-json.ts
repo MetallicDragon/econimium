@@ -21,10 +21,9 @@ import type {
   Item,
   Recipe,
   RecipeInput,
-  RealUpgradeTier,
+
   ShopEntry,
   Skill,
-  UpgradeTier,
 } from '../src/lib/engine/types.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -93,16 +92,17 @@ function sheet(wb: ExcelJS.Workbook, name: string): ExcelJS.Worksheet {
   return ws;
 }
 
-function asUpgradeTier(value: string | null): UpgradeTier {
+/** The sheet's tier column only tells us whether the table took modules. */
+function acceptsModules(value: string | null): boolean {
   switch (value) {
     case 'Basic':
     case 'Advanced':
     case 'Modern':
-      return value;
+      return true;
     case null:
     case '':
     case 'None':
-      return 'None';
+      return false;
     default:
       throw new Error(`Unknown upgrade tier: ${value}`);
   }
@@ -128,12 +128,6 @@ async function main(): Promise<void> {
   const shopSheet = sheet(wb, 'Shop 1 Prices');
 
   // ---- Globals -------------------------------------------------------------
-  const genericUpgradeLevels: Record<RealUpgradeTier, number> = {
-    Basic: numOr(general.getRow(2).getCell('G'), 0),
-    Advanced: numOr(general.getRow(2).getCell('I'), 0),
-    Modern: numOr(general.getRow(2).getCell('K'), 0),
-  };
-
   // Burnables sit between the "Burnables" header and the "Cheapest" summary row.
   const burnHeader = findRow(general, 'Burnables');
   const burnEnd = findRow(general, 'Cheapest');
@@ -163,23 +157,12 @@ async function main(): Promise<void> {
     const name = str(row.getCell('A'));
     if (!name) continue;
 
-    // A per-skill upgrade level equal to the global default is treated as
-    // inheritance (null), so changing the global setting propagates the way a
-    // user expects. Genuinely different values stay as explicit overrides.
-    const inheritOr = (tier: RealUpgradeTier, col: string): number | null => {
-      const value = num(row.getCell(col));
-      if (value === null) return null;
-      return value === genericUpgradeLevels[tier] ? null : value;
-    };
-
+    // The sheet's per-skill upgrade levels fed the 11.1 discount formula, which
+    // no longer exists; their effect is carried on each recipe instead.
     skills.push({
       name,
       level: numOr(row.getCell('B'), 0),
-      upgradeLevels: {
-        Basic: inheritOr('Basic', 'G'),
-        Advanced: inheritOr('Advanced', 'I'),
-        Modern: inheritOr('Modern', 'K'),
-      },
+      talents: { resource: 1, labor: 1, time: 1 },
     });
   }
 
@@ -191,13 +174,13 @@ async function main(): Promise<void> {
     const name = str(row.getCell('A'));
     if (!name) continue;
     // The sheet recorded which module tier a table takes as a fixed property.
-    // The current model treats the fitted tier as a user setting, so map the
-    // sheet's value straight onto it to preserve the original numbers.
-    const tier = asUpgradeTier(str(row.getCell('B')));
+    // Eco 0.14 replaced that with several modules fitted at once, so the tier
+    // no longer maps onto anything; the discount it produced is preserved
+    // per-recipe instead (see recipeTalents below).
     craftingTables.push({
       name,
-      canUseModules: tier !== 'None',
-      moduleTier: tier,
+      canUseModules: acceptsModules(str(row.getCell('B'))),
+      fittedModules: [],
       burnableWatts: numOr(row.getCell('C'), 0),
       electricWatts: numOr(row.getCell('H'), 0),
       ppmPerHour: numOr(row.getCell('E'), 0),
@@ -287,6 +270,18 @@ async function main(): Promise<void> {
   const recipes: Recipe[] = [];
   const goldenRecipes: GoldenValues['recipes'] = [];
   const stubRecipes: string[] = [];
+  /**
+   * Eco 11.1 derived a recipe's ingredient discount from the crafting skill's
+   * upgrade level and the table's tier. Eco 0.14 replaced that mechanic
+   * wholesale, so the engine no longer has a formula to reproduce it.
+   *
+   * The sheet cached the multiplier it computed (column F), and under the
+   * current model a fixed per-recipe multiplier is exactly what a recipe-level
+   * talent is. Carrying it across that way keeps every downstream golden
+   * assertion — ingredient scaling, labor, time, byproducts, item resolution,
+   * shop prices — checking real behaviour against the original numbers.
+   */
+  const recipeTalents: Record<string, { resource: number; labor: number; time: number }> = {};
   for (let r = 3; r <= recipesSheet.rowCount; r++) {
     const row = recipesSheet.getRow(r);
     const name = str(row.getCell('A'));
@@ -333,6 +328,11 @@ async function main(): Promise<void> {
       ],
       inputs,
     });
+
+    // The sheet applied this same multiplier to ingredients and to the
+    // time-based table cost, but never to labor.
+    const sheetMultiplier = num(row.getCell('F')) ?? 1;
+    recipeTalents[name] = { resource: sheetMultiplier, labor: 1, time: sheetMultiplier };
 
     goldenRecipes.push({
       name,
@@ -422,13 +422,15 @@ async function main(): Promise<void> {
       foodCostPer1kCal: numOr(general.getRow(1).getCell('B'), 0),
       minWagePer1k: numOr(general.getRow(2).getCell('B'), 0),
       pricePerPpm: numOr(general.getRow(1).getCell('D'), 0),
-      genericUpgradeLevels,
       burnables,
       generator,
     },
+    // The 11.1 discount is carried per recipe, so no modules are defined here.
+    modules: [],
     skills,
     craftingTables,
     recipes,
+    recipeTalents,
     items,
     shopSettings,
     shopSelling,

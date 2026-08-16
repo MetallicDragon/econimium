@@ -78,13 +78,21 @@
 
   {#if open && breakdown}
     <div class="children">
-      {#if breakdown.inputMultiplier !== 1}
+      {#if breakdown.inputMultiplier !== 1 || breakdown.laborMultiplier !== 1 || breakdown.timeMultiplier !== 1}
         <div class="row meta">
           <span class="toggle spacer"></span>
           <span class="name">
-            upgrade multiplier {multiplier(breakdown.inputMultiplier)} applied to ingredients
+            {[
+              breakdown.inputMultiplier !== 1
+                ? `ingredients ${multiplier(breakdown.inputMultiplier)}`
+                : null,
+              breakdown.laborMultiplier !== 1 ? `labor ${multiplier(breakdown.laborMultiplier)}` : null,
+              breakdown.timeMultiplier !== 1 ? `time ${multiplier(breakdown.timeMultiplier)}` : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
           </span>
-          <span class="tag"></span>
+          <span class="tag">modules &amp; talents</span>
           <span class="num unit"></span>
           <span class="num total"></span>
         </div>

@@ -25,6 +25,7 @@ import type {
   RecipeInput,
   RecipeProduct,
   Skill,
+  UpgradeModule,
 } from '../src/lib/engine/types.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -208,7 +209,29 @@ function buildDataset(
   const skills: Skill[] = [...skillNames].sort().map((name) => ({
     name,
     level: 0,
-    upgradeLevels: { Basic: null, Advanced: null, Modern: null },
+    talents: { resource: 1, labor: 1, time: 1 },
+  }));
+
+  // ---- Modules -------------------------------------------------------------
+  // A table can hold one of each kind at once. The API exposes none of their
+  // effects, so every reduction starts at zero and is filled in by hand; a
+  // Specialty module is added per skill so the per-skill values have somewhere
+  // to live.
+  const modules: UpgradeModule[] = [
+    { id: 'basic', name: 'Basic Upgrade', kind: 'Basic' as const, skill: null },
+    { id: 'advanced', name: 'Advanced Upgrade', kind: 'Advanced' as const, skill: null },
+    { id: 'modern', name: 'Modern Upgrade', kind: 'Modern' as const, skill: null },
+    ...skills.map((skill) => ({
+      id: `specialty:${skill.name}`,
+      name: `${skill.name} Upgrade`,
+      kind: 'Specialty' as const,
+      skill: skill.name,
+    })),
+  ].map((module) => ({
+    ...module,
+    resourceReduction: 0,
+    laborReduction: 0,
+    timeReduction: 0,
   }));
 
   // ---- Crafting tables -----------------------------------------------------
@@ -220,7 +243,7 @@ function buildDataset(
     .map(([name, canUseModules]) => ({
       name,
       canUseModules,
-      moduleTier: 'None' as const,
+      fittedModules: [],
       burnableWatts: 0,
       electricWatts: 0,
       ppmPerHour: 0,
@@ -275,11 +298,14 @@ function buildDataset(
   const data: GameData = {
     version: GAME_VERSION,
     source: `${server.name} — GoodPrice API`,
+    // Everything economic starts at zero. Wages, taxes, markups and pollution
+    // pricing vary wildly between servers and often don't exist at all, so a
+    // plausible-looking default would just be a wrong number the user has to
+    // notice and undo.
     globals: {
-      foodCostPer1kCal: 5,
-      minWagePer1k: 40,
+      foodCostPer1kCal: 0,
+      minWagePer1k: 0,
       pricePerPpm: 0,
-      genericUpgradeLevels: { Basic: 0, Advanced: 0, Modern: 0 },
       // Fuel joule values are game constants; prices are the user's to set.
       burnables: [
         { name: 'Charcoal', price: 0, joules: 20000 },
@@ -287,12 +313,14 @@ function buildDataset(
       ],
       generator: { name: 'Combustion Generator', wattsProduced: 0, wattsConsumed: 0, ppmPerHour: 0 },
     },
+    modules,
     skills,
     craftingTables,
     recipes,
+    recipeTalents: {},
     items,
     tags,
-    shopSettings: { taxRate: 0.2, sellMarkup: 0.5, buyMarkup: 0.8 },
+    shopSettings: { taxRate: 0, sellMarkup: 0, buyMarkup: 0 },
     shopSelling: [],
     shopBuying: [],
   };

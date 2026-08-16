@@ -6,7 +6,13 @@
 
 import { describe, expect, it } from 'vitest';
 import { solve } from '../src/lib/engine/prices.ts';
-import type { GameData, Item, Recipe } from '../src/lib/engine/types.ts';
+import type {
+  GameData,
+  Item,
+  Multipliers,
+  Recipe,
+  UpgradeModule,
+} from '../src/lib/engine/types.ts';
 
 function item(name: string, price?: number): Item {
   return {
@@ -24,13 +30,14 @@ function baseData(partial: Partial<GameData> = {}): GameData {
       foodCostPer1kCal: 5,
       minWagePer1k: 40,
       pricePerPpm: 0,
-      genericUpgradeLevels: { Basic: 0, Advanced: 0, Modern: 0 },
       burnables: [],
       generator: { name: 'gen', wattsProduced: 0, wattsConsumed: 0, ppmPerHour: 0 },
     },
+    modules: [],
     skills: [],
     craftingTables: [],
     recipes: [],
+    recipeTalents: {},
     items: [],
     tags: {},
     shopSettings: { taxRate: 0, sellMarkup: 0, buyMarkup: 0 },
@@ -143,22 +150,33 @@ describe('tag ingredients', () => {
   });
 });
 
+function moduleDef(id: string, resource: number, labor = 0, time = 0): UpgradeModule {
+  return {
+    id,
+    name: id,
+    kind: 'Basic',
+    skill: null,
+    resourceReduction: resource,
+    laborReduction: labor,
+    timeReduction: time,
+  };
+}
+
 describe('upgrade modules', () => {
-  const build = (canUseModules: boolean, moduleTier: 'None' | 'Basic') =>
+  const build = (
+    fittedModules: string[],
+    canUseModules = true,
+    modules: UpgradeModule[] = [moduleDef('a', 0.1), moduleDef('b', 0.25), moduleDef('c', 0.4)],
+  ) =>
     baseData({
       items: [item('Ore', 10), item('Bar')],
-      skills: [
-        {
-          name: 'Smelting',
-          level: 0,
-          upgradeLevels: { Basic: 5, Advanced: null, Modern: null },
-        },
-      ],
+      modules,
+      skills: [{ name: 'Smelting', level: 0, talents: { resource: 1, labor: 1, time: 1 } }],
       craftingTables: [
         {
           name: 'Furnace',
           canUseModules,
-          moduleTier,
+          fittedModules,
           burnableWatts: 0,
           electricWatts: 0,
           ppmPerHour: 0,
@@ -175,22 +193,103 @@ describe('upgrade modules', () => {
       ],
     });
 
-  it('applies the fitted module tier to ingredient amounts', () => {
-    // Upgrade level 5 halves ingredient use: 10 Ore becomes 5.
-    const solution = solve(build(true, 'Basic'));
-    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBe(0.5);
-    expect(solution.prices.get('Bar')?.cost).toBe(50);
+  it('stacks several fitted modules additively', () => {
+    // 10% + 25% + 40% = 75% off, so x0.25 — not the x0.405 multiplying gives.
+    const solution = solve(build(['a', 'b', 'c']));
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBeCloseTo(0.25, 10);
+    expect(solution.prices.get('Bar')?.cost).toBeCloseTo(25, 10);
   });
 
-  it('gives no discount when no module is fitted', () => {
-    const solution = solve(build(true, 'None'));
-    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBe(1);
-    expect(solution.prices.get('Bar')?.cost).toBe(100);
+  it('applies a single module on its own', () => {
+    const solution = solve(build(['b']));
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBeCloseTo(0.75, 10);
+  });
+
+  it('never reduces below zero however much is stacked', () => {
+    const overpowered = [moduleDef('a', 0.8), moduleDef('b', 0.8)];
+    const solution = solve(build(['a', 'b'], true, overpowered));
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBe(0);
+    expect(solution.prices.get('Bar')?.cost).toBe(0);
+  });
+
+  it('gives no discount when nothing is fitted', () => {
+    expect(solve(build([])).recipes.get('Smelt')?.inputMultiplier).toBe(1);
   });
 
   it('gives no discount on a table that cannot take modules', () => {
-    const solution = solve(build(false, 'Basic'));
+    const solution = solve(build(['a', 'b', 'c'], false));
     expect(solution.recipes.get('Smelt')?.inputMultiplier).toBe(1);
     expect(solution.prices.get('Bar')?.cost).toBe(100);
+  });
+
+  it('reduces labor and time only when the module says so', () => {
+    const solution = solve(build(['x'], true, [moduleDef('x', 0, 0.5, 0.25)]));
+    const breakdown = solution.recipes.get('Smelt')!;
+    expect(breakdown.inputMultiplier).toBe(1);
+    expect(breakdown.laborMultiplier).toBeCloseTo(0.5, 10);
+    expect(breakdown.timeMultiplier).toBeCloseTo(0.75, 10);
+  });
+});
+
+describe('talents', () => {
+  const build = (skillTalents: Multipliers, recipeTalents: Record<string, Multipliers>) =>
+    baseData({
+      items: [item('Ore', 10), item('Bar')],
+      modules: [moduleDef('a', 0.5)],
+      skills: [{ name: 'Smelting', level: 0, talents: skillTalents }],
+      craftingTables: [
+        {
+          name: 'Furnace',
+          canUseModules: true,
+          fittedModules: ['a'],
+          burnableWatts: 0,
+          electricWatts: 0,
+          ppmPerHour: 0,
+        },
+      ],
+      recipeTalents,
+      recipes: [
+        recipe({
+          name: 'Smelt',
+          skill: 'Smelting',
+          table: 'Furnace',
+          labor: 1000,
+          timeSeconds: 100,
+          products: [{ item: 'Bar', amount: 1 }],
+          inputs: [{ item: 'Ore', amount: 10, isStatic: false, isTag: false }],
+        }),
+      ],
+    });
+
+  it('multiplies talents with the module reduction rather than adding them', () => {
+    // Module gives x0.5; an 80% talent multiplies to x0.4, not (50%+20%)=x0.3.
+    const solution = solve(build({ resource: 0.8, labor: 1, time: 1 }, {}));
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBeCloseTo(0.4, 10);
+  });
+
+  it('composes skill and recipe talents together', () => {
+    const solution = solve(
+      build({ resource: 0.8, labor: 1, time: 1 }, { Smelt: { resource: 0.5, labor: 1, time: 1 } }),
+    );
+    // x0.5 module x 0.8 skill x 0.5 recipe.
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBeCloseTo(0.2, 10);
+  });
+
+  it('applies labor and time talents independently of resources', () => {
+    const solution = solve(
+      build({ resource: 1, labor: 0.5, time: 1 }, { Smelt: { resource: 1, labor: 1, time: 0.25 } }),
+    );
+    const breakdown = solution.recipes.get('Smelt')!;
+    expect(breakdown.inputMultiplier).toBeCloseTo(0.5, 10); // module only
+    expect(breakdown.laborMultiplier).toBeCloseTo(0.5, 10);
+    expect(breakdown.timeMultiplier).toBeCloseTo(0.25, 10);
+    // 1000 cal at level 0 costs minimum wage 40/1k, halved by the labor talent.
+    expect(breakdown.laborCost).toBeCloseTo(20, 10);
+  });
+
+  it('leaves recipes untouched when no talents are set', () => {
+    const solution = solve(build({ resource: 1, labor: 1, time: 1 }, {}));
+    expect(solution.recipes.get('Smelt')?.inputMultiplier).toBeCloseTo(0.5, 10);
+    expect(solution.recipes.get('Smelt')?.laborMultiplier).toBe(1);
   });
 });

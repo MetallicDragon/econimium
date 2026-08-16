@@ -1,7 +1,15 @@
 <script lang="ts">
   import { app } from '../state/app.svelte.ts';
   import { money } from '../format.ts';
+  import type { Multipliers } from '../engine/types.ts';
   import RecipeTree from '../components/RecipeTree.svelte';
+
+  /** Talents that apply to a single recipe, entered as percentages saved. */
+  const TALENT_FIELDS = [
+    { key: 'resource', label: 'Resources' },
+    { key: 'labor', label: 'Labor' },
+    { key: 'time', label: 'Time' },
+  ] as const satisfies ReadonlyArray<{ key: keyof Multipliers; label: string }>;
 
   type SortKey = 'name' | 'cost';
 
@@ -141,6 +149,30 @@
         <tr class="detail">
           <td colspan="6">
             {#if price?.sourceRecipe}
+              {@const talents = app.recipeTalents(price.sourceRecipe)}
+              <div class="talents">
+                <span class="talents-label" title="Talents affecting only this recipe">
+                  Recipe talents
+                </span>
+                {#each TALENT_FIELDS as field (field.key)}
+                  <label class="talent">
+                    {field.label}
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="any"
+                      value={Math.round((1 - talents[field.key]) * 1e6) / 1e4}
+                      oninput={(event) =>
+                        app.setRecipeTalent(
+                          price.sourceRecipe!,
+                          field.key,
+                          1 - Number(event.currentTarget.value || 0) / 100,
+                        )}
+                    />%
+                  </label>
+                {/each}
+              </div>
               <div class="tree-header">
                 <span></span>
                 <span class="num">unit</span>
@@ -286,5 +318,30 @@
   .note {
     color: var(--text-dim);
     margin: 0;
+  }
+
+  .talents {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    margin: 0 0 0.75rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  .talents-label {
+    font-weight: 600;
+  }
+
+  .talent {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .talent input {
+    width: 4.5rem;
+    text-align: right;
   }
 </style>

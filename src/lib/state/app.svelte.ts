@@ -22,14 +22,7 @@ import {
 } from '../data/contexts.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
-import type {
-  GameData,
-  Globals,
-  RealUpgradeTier,
-  ShopEntry,
-  ShopSettings,
-  UpgradeTier,
-} from '../engine/types.ts';
+import type { GameData, Globals, Multipliers, ShopEntry, ShopSettings } from '../engine/types.ts';
 
 const STORAGE_PREFIX = 'econimium:settings';
 /** Remembers which context was last open. */
@@ -41,26 +34,38 @@ const LEGACY_STORAGE_KEY = 'econimium:settings';
  * game's own API. Patches merge by name, so a stale patch would otherwise
  * staple 11.1-era price overrides and table figures onto 0.14 data — silently,
  * and on items that merely happen to share a name.
+ *
+ * Bumped to 3 when upgrade modules became a stacking per-table set and talents
+ * arrived: a v2 patch's single `moduleTier` has no meaning under the new model.
  */
-const PATCH_VERSION = 2;
+const PATCH_VERSION = 3;
 
 export function storageKeyFor(contextId: string): string {
   return `${STORAGE_PREFIX}:${contextId}`;
 }
 
 interface SavedTable {
-  moduleTier: UpgradeTier;
+  fittedModules: string[];
   burnableWatts: number;
   electricWatts: number;
   ppmPerHour: number;
+}
+
+interface SavedModule {
+  resourceReduction: number;
+  laborReduction: number;
+  timeReduction: number;
 }
 
 interface SavedPatch {
   version: number;
   globals: Globals;
   shopSettings: ShopSettings;
-  skills: Record<string, { level: number; upgradeLevels: Record<RealUpgradeTier, number | null> }>;
+  skills: Record<string, { level: number; talents: Multipliers }>;
+  /** Module effects are entered by hand, so they are entirely user data. */
+  modules: Record<string, SavedModule>;
   craftingTables: Record<string, SavedTable>;
+  recipeTalents: Record<string, Multipliers>;
   itemOverrides: Record<string, { hasOverride: boolean; overrideValue: number | null }>;
   shopEntries: Record<string, { flatAddition: number | null; individualMarkup: number | null }>;
 }
@@ -95,6 +100,26 @@ export class AppState {
 
   cost(item: string): number | null {
     return this.solution.prices.get(item)?.cost ?? null;
+  }
+
+  /** Talents for one recipe, defaulting to no effect. */
+  recipeTalents(recipe: string): Multipliers {
+    return this.data.recipeTalents[recipe] ?? { resource: 1, labor: 1, time: 1 };
+  }
+
+  /** Called from event handlers only, never during render. */
+  setRecipeTalent(recipe: string, field: keyof Multipliers, value: number): void {
+    const current = this.data.recipeTalents[recipe];
+    if (current) current[field] = value;
+    else this.data.recipeTalents[recipe] = { resource: 1, labor: 1, time: 1, [field]: value };
+  }
+
+  /** Toggles a module on a table. */
+  toggleModule(tableName: string, moduleId: string, fitted: boolean): void {
+    const table = this.data.craftingTables.find((t) => t.name === tableName);
+    if (!table) return;
+    const without = table.fittedModules.filter((id) => id !== moduleId);
+    table.fittedModules = fitted ? [...without, moduleId] : without;
   }
 
   private entryFor(item: string, side: 'sell' | 'buy'): ShopEntry {
@@ -148,7 +173,16 @@ export class AppState {
   toPatch(): SavedPatch {
     const skills: SavedPatch['skills'] = {};
     for (const skill of this.data.skills) {
-      skills[skill.name] = { level: skill.level, upgradeLevels: { ...skill.upgradeLevels } };
+      skills[skill.name] = { level: skill.level, talents: { ...skill.talents } };
+    }
+
+    const modules: SavedPatch['modules'] = {};
+    for (const module of this.data.modules) {
+      modules[module.id] = {
+        resourceReduction: module.resourceReduction,
+        laborReduction: module.laborReduction,
+        timeReduction: module.timeReduction,
+      };
     }
 
     const itemOverrides: SavedPatch['itemOverrides'] = {};
@@ -172,7 +206,7 @@ export class AppState {
     const craftingTables: SavedPatch['craftingTables'] = {};
     for (const table of this.data.craftingTables) {
       craftingTables[table.name] = {
-        moduleTier: table.moduleTier,
+        fittedModules: [...table.fittedModules],
         burnableWatts: table.burnableWatts,
         electricWatts: table.electricWatts,
         ppmPerHour: table.ppmPerHour,
@@ -184,7 +218,9 @@ export class AppState {
       globals: structuredClone($state.snapshot(this.data.globals)),
       shopSettings: { ...this.data.shopSettings },
       skills,
+      modules,
       craftingTables,
+      recipeTalents: structuredClone($state.snapshot(this.data.recipeTalents)),
       itemOverrides,
       shopEntries,
     };
@@ -205,18 +241,36 @@ export class AppState {
       const saved = patch.skills?.[skill.name];
       if (!saved) continue;
       skill.level = saved.level;
-      skill.upgradeLevels = { ...skill.upgradeLevels, ...saved.upgradeLevels };
+      if (saved.talents) skill.talents = { ...skill.talents, ...saved.talents };
+    }
+
+    for (const module of next.modules) {
+      const saved = patch.modules?.[module.id];
+      if (!saved) continue;
+      module.resourceReduction = saved.resourceReduction;
+      module.laborReduction = saved.laborReduction;
+      module.timeReduction = saved.timeReduction;
     }
 
     for (const table of next.craftingTables) {
       const saved = patch.craftingTables?.[table.name];
       if (!saved) continue;
       // `canUseModules` comes from the game and is never user-editable, so it
-      // is deliberately not restored from the patch.
-      table.moduleTier = saved.moduleTier;
+      // is deliberately not restored from the patch. Modules that no longer
+      // exist are dropped rather than kept as dangling ids.
+      const known = new Set(next.modules.map((m) => m.id));
+      table.fittedModules = (saved.fittedModules ?? []).filter((id) => known.has(id));
       table.burnableWatts = saved.burnableWatts;
       table.electricWatts = saved.electricWatts;
       table.ppmPerHour = saved.ppmPerHour;
+    }
+
+    // Overlaid on whatever the dataset itself ships, and only for recipes it
+    // still has, so a renamed recipe doesn't keep an invisible talent attached
+    // to nothing.
+    const recipeNames = new Set(next.recipes.map((recipe) => recipe.name));
+    for (const [name, talents] of Object.entries(patch.recipeTalents ?? {})) {
+      if (recipeNames.has(name)) next.recipeTalents[name] = { ...talents };
     }
 
     for (const item of next.items) {

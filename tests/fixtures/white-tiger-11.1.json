@@ -6,11 +6,6 @@
     "foodCostPer1kCal": 5,
     "minWagePer1k": 40,
     "pricePerPpm": 100,
-    "genericUpgradeLevels": {
-      "Basic": 4,
-      "Advanced": 0,
-      "Modern": 0
-    },
     "burnables": [
       {
         "name": "Charcoal",
@@ -30,284 +25,285 @@
       "ppmPerHour": 1.12
     }
   },
+  "modules": [],
   "skills": [
     {
       "name": "Carpentry",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Logging",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Composites",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Paper Milling",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Masonry",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Mining",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Advanced Masonry",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Glassworking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": 5,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Pottery",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Campfire Cooking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Advanced Baking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Advanced Cooking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Baking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Cooking",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Basic Engineering",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Electronics",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Industry",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Mechanics",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Oil Drilling",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Farming",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Gathering",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Fertilizers",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Milling",
       "level": 7,
-      "upgradeLevels": {
-        "Basic": 5,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Butchery",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Hunting",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Smelting",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Advanced Smelting",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Shipwright",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Painting",
       "level": 3,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "None",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     },
     {
       "name": "Tailoring",
       "level": 0,
-      "upgradeLevels": {
-        "Basic": null,
-        "Advanced": null,
-        "Modern": null
+      "talents": {
+        "resource": 1,
+        "labor": 1,
+        "time": 1
       }
     }
   ],
@@ -315,7 +311,7 @@
     {
       "name": "Carpentry Table",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -323,7 +319,7 @@
     {
       "name": "Workbench",
       "canUseModules": false,
-      "moduleTier": "None",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -331,7 +327,7 @@
     {
       "name": "Small Shipyard",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -339,7 +335,7 @@
     {
       "name": "Masonry Table",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -347,7 +343,7 @@
     {
       "name": "Kiln",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -355,7 +351,7 @@
     {
       "name": "Campfire",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -363,7 +359,7 @@
     {
       "name": "Sawmill",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -371,7 +367,7 @@
     {
       "name": "Wainwright Table",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -379,7 +375,7 @@
     {
       "name": "Research Table",
       "canUseModules": false,
-      "moduleTier": "None",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -387,7 +383,7 @@
     {
       "name": "Arrastra",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -395,7 +391,7 @@
     {
       "name": "Rocker Box",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -403,7 +399,7 @@
     {
       "name": "Bloomery",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 10,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -411,7 +407,7 @@
     {
       "name": "Cement Kiln",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0.94
@@ -419,7 +415,7 @@
     {
       "name": "Blast Furnace",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0.94
@@ -427,7 +423,7 @@
     {
       "name": "Screening Machine",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 30,
       "electricWatts": 0,
       "ppmPerHour": 1.31
@@ -435,7 +431,7 @@
     {
       "name": "Stamp Mill",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 30,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -443,7 +439,7 @@
     {
       "name": "Rolling Mill",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
@@ -451,7 +447,7 @@
     {
       "name": "Advanced Masonry Table",
       "canUseModules": true,
-      "moduleTier": "Modern",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
@@ -459,7 +455,7 @@
     {
       "name": "Tailoring Table",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -467,7 +463,7 @@
     {
       "name": "Loom",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -475,7 +471,7 @@
     {
       "name": "Pump Jack",
       "canUseModules": false,
-      "moduleTier": "None",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
@@ -483,7 +479,7 @@
     {
       "name": "Electric Machinist Table",
       "canUseModules": true,
-      "moduleTier": "Modern",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
@@ -491,7 +487,7 @@
     {
       "name": "Oil Refinery",
       "canUseModules": true,
-      "moduleTier": "Modern",
+      "fittedModules": [],
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -499,7 +495,7 @@
     {
       "name": "Electronics Assembly",
       "canUseModules": true,
-      "moduleTier": "Modern",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -507,7 +503,7 @@
     {
       "name": "Glassworks",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -515,7 +511,7 @@
     {
       "name": "Robotic Assembly Line",
       "canUseModules": true,
-      "moduleTier": "Modern",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 6000,
       "ppmPerHour": 0
@@ -523,7 +519,7 @@
     {
       "name": "Farmer's Table",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -531,7 +527,7 @@
     {
       "name": "Machinist Table",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -539,7 +535,7 @@
     {
       "name": "Laboratory",
       "canUseModules": false,
-      "moduleTier": "None",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -547,7 +543,7 @@
     {
       "name": "Shaper",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -555,7 +551,7 @@
     {
       "name": "Screw Press",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -563,7 +559,7 @@
     {
       "name": "Lathe",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -571,7 +567,7 @@
     {
       "name": "Assembly Line",
       "canUseModules": true,
-      "moduleTier": "Advanced",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -579,7 +575,7 @@
     {
       "name": "Mill",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -587,7 +583,7 @@
     {
       "name": "Paint Mixer",
       "canUseModules": true,
-      "moduleTier": "Basic",
+      "fittedModules": [],
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -5878,6 +5874,928 @@
       ]
     }
   ],
+  "recipeTalents": {
+    "Dowel": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Log": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn (Workbench)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Board (Workbench)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Board (Carpentry Table)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Particle Boards": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Saw Boards": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Butchery Table": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Fiber Scutching Station": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Bench": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Chair": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Door": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Dresser": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Nightstand": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Hewn Table": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Mold": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Keel": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Oar": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Small Shipyard": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Small Wooden Ship Frame": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Hull Planks": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Small Canoe": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Large Canoe": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Outpost Netting": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Moorage Post": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Wooden Transport Ship": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Basic Upgrade 1": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Basic Upgrade 2": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Basic Upgrade 3": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Basic Upgrade 4": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Charcoal": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Wet Brick": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Wet Brick (Shale)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Brick": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Mortar (Campfire)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Mortar (Masonry)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Advanced Upgrade 1": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Recycle Hewn Log": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Glassworks": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Bakery Oven": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Small Sink": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Toilet": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Round/Square Pot": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Brick Fireplace": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Bathtub": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Wooden Wheel": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Small Wooden Boat": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Medium Wooden Ship Frame": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Lumber": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Large Lumber Stockpile": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Large Hanging Lumber Sign": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Large Standing Lumber Sign": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Small Hanging Lumber Sign": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Small Standing Lumber Sign": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Mortared Stone": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Limestone Owl Statue": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Limestone Otter Statue": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Limestone Wolf Statue": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Limestone Bison Statue": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Geology Research Paper Advanced": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Mortared Stone Bench": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Mortared Stone Table": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Bloomery": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Mill": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Stone Road": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Crushed Iron Ore (Arrastra)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Crushed Iron Ore (Stamp Mill)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Iron Concentrate (Rocker Box)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Iron Concentrate (Screening Machine)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Iron Bar (Bloomery)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Iron Bar (Blast Furnace)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Crushed Copper Ore (Arrastra)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Crushed Copper Ore (Stamp Mill)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Copper Concentrate (Rocker Box)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Copper Bar (Bloomery)": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Copper Bar (Blast Furnace)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Dynamite": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Waterwheel": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Windmill": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Engineering Research Paper Advanced": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Mechanical Water Pump": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Cement": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Reinforced Concrete": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Sulfurcrete": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Quicklime": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Asphalt Concrete": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Steel Bar": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Rebar": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Rivet": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steel Pipe": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Corrugated Steel": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Ashlar Stone": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Linen Yarn": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Linen Fabric": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Barrel": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Petroleum": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Biodiesel": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Epoxy": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Gasoline": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Nylon": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Plastic": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Synthetic Rubber": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Fiberglass": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Glass (Limestone)": {
+      "resource": 0.5,
+      "labor": 1,
+      "time": 0.5
+    },
+    "Glass (Quicklime)": {
+      "resource": 0.5,
+      "labor": 1,
+      "time": 0.5
+    },
+    "Light Bulb": {
+      "resource": 0.5,
+      "labor": 1,
+      "time": 0.5
+    },
+    "Glass Lens": {
+      "resource": 0.5,
+      "labor": 1,
+      "time": 0.5
+    },
+    "Substrate": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Basic Circuit": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Advanced Circuit": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Gold Flakes": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Servo": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Electric Motor": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Robotic Assembly Line": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Solar Generator": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Wind Turbine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Jaw Crusher": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Industrial Generator": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Copper Wiring": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Geology Research Paper Modern": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Geology Research Paper Modern (Glass)": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Black Powder": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Laboratory": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Iron Gear": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Iron Plate": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Small Paper Machine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Piston": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Engine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Copper Plate": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Screw": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Boiler": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Stamp Mill": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Screening Machine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Engineering Research Paper Modern": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Iron Axle": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Portable Steam Engine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Tractor": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Tractor Scoop": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Tractor Harvester": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Tractor Sower": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Tractor Plow": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Steam Truck": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Medium Shipyard": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Combustion Engine": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Combustion Generator": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Gearbox": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Rolling Mill": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Heat Sink": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Printing Press": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Cement Kiln": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Blast Furnace": {
+      "resource": 1,
+      "labor": 1,
+      "time": 1
+    },
+    "Bean Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Corn Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Cottonseed Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Fish Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Oil (Cereal Germ)": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Sunflower Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Flaxseed Oil": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Bean Paste": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Beet Sugar": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Sugar (Huckleberries)": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Blue Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Colored Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Copper Hydroxide": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Cyan Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Iron Oxide": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Charcoal Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Magenta Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "White Powder": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Yellow Powder (Sunflower)": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Yellow Powder (Creosote)": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Camas Paste": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Cornmeal": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Flour": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Huckleberry Extract": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Rice Flour": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Simple Syrup": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Sun Cheese": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Yeast": {
+      "resource": 0.475,
+      "labor": 1,
+      "time": 0.475
+    },
+    "Art Supplies": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Base Paint": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Ink": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Oil Paint": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    },
+    "Decorative Book": {
+      "resource": 0.55,
+      "labor": 1,
+      "time": 0.55
+    }
+  },
   "items": [
     {
       "name": "Wood (Tag)",

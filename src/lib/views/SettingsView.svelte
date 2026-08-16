@@ -2,18 +2,67 @@
   import { app } from '../state/app.svelte.ts';
   import { cheapestFuel } from '../engine/economy.ts';
   import { money, multiplier, percent } from '../format.ts';
-  import { UPGRADE_TIERS } from '../engine/types.ts';
+  import type { Multipliers, UpgradeModule } from '../engine/types.ts';
   import NumberField from '../components/NumberField.svelte';
 
   const globals = $derived(app.data.globals);
   const fuel = $derived(cheapestFuel(globals));
   const economy = $derived(app.solution.economy);
 
+  /** The three things a module or talent can reduce. */
+  const REDUCTION_FIELDS = [
+    { key: 'resourceReduction', label: 'Resources' },
+    { key: 'laborReduction', label: 'Labor' },
+    { key: 'timeReduction', label: 'Time' },
+  ] as const satisfies ReadonlyArray<{ key: keyof UpgradeModule & string; label: string }>;
+
+  const TALENT_FIELDS = [
+    { key: 'resource', label: 'Resources' },
+    { key: 'labor', label: 'Labor' },
+    { key: 'time', label: 'Time' },
+  ] as const satisfies ReadonlyArray<{ key: keyof Multipliers; label: string }>;
+
+  /** Percentages are stored as fractions; round for display so 0.15 shows as 15. */
+  function round(value: number): number {
+    return Math.round(value * 1e6) / 1e6;
+  }
+
   let tableFilter = $state('');
+  let moduleFilter = $state('');
+  let skillFilter = $state('');
+
+  const visibleSkills = $derived.by(() => {
+    const needle = skillFilter.trim().toLowerCase();
+    if (!needle) return app.data.skills;
+    return app.data.skills.filter((s) => s.name.toLowerCase().includes(needle));
+  });
+
   const visibleTables = $derived.by(() => {
     const needle = tableFilter.trim().toLowerCase();
     if (!needle) return app.data.craftingTables;
     return app.data.craftingTables.filter((t) => t.name.toLowerCase().includes(needle));
+  });
+
+  const visibleModules = $derived.by(() => {
+    const needle = moduleFilter.trim().toLowerCase();
+    if (!needle) return app.data.modules;
+    return app.data.modules.filter(
+      (m) => m.name.toLowerCase().includes(needle) || m.kind.toLowerCase().includes(needle),
+    );
+  });
+
+  /**
+   * Which skill each table is used by, so a table only offers the Specialty
+   * module that could actually go in it. Tables used by several skills offer
+   * the first one seen, which is enough to keep the list short.
+   */
+  const skillOfTable = $derived.by(() => {
+    const map = new Map<string, string>();
+    for (const recipe of app.data.recipes) {
+      if (!recipe.table || !recipe.skill || map.has(recipe.table)) continue;
+      map.set(recipe.table, recipe.skill);
+    }
+    return map;
   });
 </script>
 
@@ -66,31 +115,68 @@
 </section>
 
 <section>
-  <h2>Upgrade defaults</h2>
+  <h2>Upgrade modules</h2>
   <p class="hint">
-    Upgrade level 0–5 cuts ingredient use: 0 is no discount, 5 uses half. Skills below inherit these
-    unless you give them their own value.
+    A table can hold several modules at once — a Basic, an Advanced, a Modern and a skill Specialty.
+    Their reductions <strong>add up</strong> across everything fitted, then combine with talents by
+    multiplying. The API doesn't expose module effects, so enter them here as percentages; they
+    apply everywhere that module is fitted.
   </p>
-  <div class="grid">
-    {#each UPGRADE_TIERS as tier (tier)}
-      <NumberField label="{tier} upgrade level" bind:value={globals.genericUpgradeLevels[tier]} min={0} max={5} step={1} width="5rem" />
-    {/each}
-  </div>
+  <input class="filter" type="search" placeholder="Filter modules…" bind:value={moduleFilter} />
+  <table>
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Kind</th>
+        <th class="num">Resources</th>
+        <th class="num">Labor</th>
+        <th class="num">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each visibleModules as module (module.id)}
+        <tr>
+          <td>{module.name}</td>
+          <td class="dim">{module.kind}</td>
+          {#each REDUCTION_FIELDS as field (field.key)}
+            <td class="num">
+              <span class="pct">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="any"
+                  value={round(module[field.key] * 100)}
+                  oninput={(event) => {
+                    module[field.key] = Number(event.currentTarget.value || 0) / 100;
+                  }}
+                />%
+              </span>
+            </td>
+          {/each}
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+  {#if visibleModules.length < app.data.modules.length}
+    <p class="hint">Showing {visibleModules.length} of {app.data.modules.length} modules.</p>
+  {/if}
 </section>
 
 <section>
   <h2>Crafting tables</h2>
   <p class="hint">
-    The game's API doesn't report power draw, pollution, or which upgrade module is fitted, so these
-    all start at zero — meaning tables currently add no running cost and no ingredient discount.
-    Fill in the tables you use. Tables that can't take modules are marked.
+    Tick the modules you have fitted to each table. Power draw and pollution aren't exposed by the
+    API either, so they start at zero and add no running cost until you fill them in. Tables that
+    can't take modules are marked.
   </p>
   <input class="filter" type="search" placeholder="Filter tables…" bind:value={tableFilter} />
   <table>
     <thead>
       <tr>
         <th>Table</th>
-        <th>Module fitted</th>
+        <th>Modules fitted</th>
+        <th class="num">Resources</th>
         <th class="num">Fuel W</th>
         <th class="num">Electric W</th>
         <th class="num">PPM/hr</th>
@@ -103,16 +189,26 @@
           <td>{table.name}</td>
           <td>
             {#if table.canUseModules}
-              <select bind:value={table.moduleTier}>
-                <option value="None">None</option>
-                {#each UPGRADE_TIERS as tier (tier)}
-                  <option value={tier}>{tier}</option>
+              <span class="modules">
+                {#each app.data.modules as module (module.id)}
+                  {#if module.skill === null || module.skill === skillOfTable.get(table.name)}
+                    <label class="chip" class:on={table.fittedModules.includes(module.id)}>
+                      <input
+                        type="checkbox"
+                        checked={table.fittedModules.includes(module.id)}
+                        onchange={(event) =>
+                          app.toggleModule(table.name, module.id, event.currentTarget.checked)}
+                      />
+                      {module.kind === 'Specialty' ? module.name : module.kind}
+                    </label>
+                  {/if}
                 {/each}
-              </select>
+              </span>
             {:else}
               <span class="dim">no modules</span>
             {/if}
           </td>
+          <td class="num dim">{multiplier(economy.tableModules.get(table.name)?.resource)}</td>
           <td class="num"><input type="number" min="0" step="any" bind:value={table.burnableWatts} /></td>
           <td class="num"><input type="number" min="0" step="any" bind:value={table.electricWatts} /></td>
           <td class="num"><input type="number" min="0" step="any" bind:value={table.ppmPerHour} /></td>
@@ -129,51 +225,48 @@
 </section>
 
 <section>
-  <h2>Skills</h2>
+  <h2>Skills &amp; talents</h2>
   <p class="hint">
-    Level 1+ switches labor from minimum wage to food cost; level 6 adds a further 5% ingredient
-    saving. Leave an upgrade box empty to inherit the default above.
+    Level 1+ switches labor from minimum wage to food cost. Talents aren't exposed by the API, so
+    enter them as percentages saved — they apply to everything made with that skill and combine with
+    module reductions by multiplying. Talents that only affect one recipe go on the recipe itself,
+    in the breakdown under Items.
   </p>
+  <input class="filter" type="search" placeholder="Filter skills…" bind:value={skillFilter} />
   <table class="skills">
     <thead>
       <tr>
         <th>Skill</th>
         <th class="num">Level</th>
         <th class="num">Labor $/1k cal</th>
-        {#each UPGRADE_TIERS as tier (tier)}
-          <th class="num" title="Upgrade level for {tier} modules">{tier}</th>
+        {#each TALENT_FIELDS as field (field.key)}
+          <th class="num" title="Talent saving on {field.label.toLowerCase()}">{field.label}</th>
         {/each}
-        <th class="num">Multipliers</th>
       </tr>
     </thead>
     <tbody>
-      {#each app.data.skills as skill (skill.name)}
+      {#each visibleSkills as skill (skill.name)}
         {@const economics = economy.skills.get(skill.name)}
         <tr>
           <td>{skill.name}</td>
           <td class="num"><input type="number" bind:value={skill.level} min="0" max="10" step="1" /></td>
           <td class="num">{money(economics?.laborCostPer1k)}</td>
-          {#each UPGRADE_TIERS as tier (tier)}
+          {#each TALENT_FIELDS as field (field.key)}
             <td class="num">
-              <input
-                type="number"
-                min="0"
-                max="5"
-                step="1"
-                placeholder={String(globals.genericUpgradeLevels[tier])}
-                value={skill.upgradeLevels[tier] ?? ''}
-                oninput={(event) => {
-                  const raw = event.currentTarget.value;
-                  skill.upgradeLevels[tier] = raw === '' ? null : Number(raw);
-                }}
-              />
+              <span class="pct">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="any"
+                  value={round((1 - skill.talents[field.key]) * 100)}
+                  oninput={(event) => {
+                    skill.talents[field.key] = 1 - Number(event.currentTarget.value || 0) / 100;
+                  }}
+                />%
+              </span>
             </td>
           {/each}
-          <td class="num dim">
-            {#if economics}
-              {UPGRADE_TIERS.map((t) => multiplier(economics.upgradeMultipliers[t])).join(' / ')}
-            {/if}
-          </td>
         </tr>
       {/each}
     </tbody>
@@ -251,6 +344,47 @@
   .filter {
     min-width: 16rem;
     margin-bottom: 0.75rem;
+  }
+
+  .pct {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    color: var(--text-dim);
+  }
+
+  .pct input {
+    width: 4.5rem;
+  }
+
+  .modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .chip.on {
+    border-color: var(--accent-dim);
+    background: color-mix(in srgb, var(--accent) 15%, var(--surface-2));
+    color: var(--text);
+  }
+
+  .chip input {
+    width: auto;
+    margin: 0;
   }
 
   .dim {

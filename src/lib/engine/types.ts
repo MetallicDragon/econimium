@@ -6,11 +6,51 @@
  * they are recomputed by the engine. Only source data lives in this file's types.
  */
 
-export type UpgradeTier = 'None' | 'Basic' | 'Advanced' | 'Modern';
+/**
+ * The kinds of upgrade module a table can hold. In Eco 0.14 a table can carry
+ * one of each simultaneously — a Basic, an Advanced, a Modern and a skill
+ * Specialty module all at once — rather than a single tier as in 11.1.
+ */
+export const MODULE_KINDS = ['Basic', 'Advanced', 'Modern', 'Specialty'] as const;
+export type ModuleKind = (typeof MODULE_KINDS)[number];
 
-/** The three tiers that actually carry an upgrade multiplier. */
-export const UPGRADE_TIERS = ['Basic', 'Advanced', 'Modern'] as const;
-export type RealUpgradeTier = (typeof UPGRADE_TIERS)[number];
+/**
+ * What a talent or module reduces. All three are expressed as multipliers
+ * where 1 means "no effect".
+ */
+export interface Multipliers {
+  /** Applied to non-static ingredient amounts. */
+  resource: number;
+  /** Applied to labor calories. */
+  labor: number;
+  /** Applied to craft time. */
+  time: number;
+}
+
+export const NO_EFFECT: Multipliers = { resource: 1, labor: 1, time: 1 };
+
+/**
+ * An upgrade module a table can have fitted.
+ *
+ * The game's API doesn't expose module effects, so these values are entered by
+ * hand per context. Reductions are fractions (0.25 = 25% off) and are summed
+ * across every fitted module, then clamped — additive stacking, per the game's
+ * behaviour.
+ */
+export interface UpgradeModule {
+  /** Stable id, referenced by CraftingTable.fittedModules. */
+  id: string;
+  name: string;
+  kind: ModuleKind;
+  /**
+   * The skill a Specialty module belongs to, e.g. 'Mining'. Null for the
+   * generic Basic/Advanced/Modern modules.
+   */
+  skill: string | null;
+  resourceReduction: number;
+  laborReduction: number;
+  timeReduction: number;
+}
 
 /** A fuel that can be burned for power, priced per joule. */
 export interface Burnable {
@@ -27,34 +67,30 @@ export interface Generator {
 }
 
 /**
- * Per-skill configuration. `level` drives the calorie discount; the three
- * upgrade levels drive the input multiplier for recipes crafted at a table
- * of the matching tier.
+ * Per-skill configuration. `level` drives the calorie discount on labor.
  *
- * `null` on an upgrade level means "inherit the global default". The
- * spreadsheet mostly repeated the global value literally in every row; we
- * model that as inheritance so changing the global setting propagates,
- * while genuinely per-skill values (e.g. Glassworking's Advanced 5) stay put.
+ * `talents` covers talents that apply to everything made with this skill.
+ * Talents aren't exposed by the game's API, so they're entered by hand as
+ * plain multipliers and combine multiplicatively with module reductions.
  */
 export interface Skill {
   name: string;
   level: number;
-  upgradeLevels: Record<RealUpgradeTier, number | null>;
+  talents: Multipliers;
 }
 
 export interface CraftingTable {
   name: string;
   /**
-   * Whether the table accepts upgrade modules at all. Tables that don't can
-   * never discount ingredients, regardless of the tier chosen below.
+   * Whether the table accepts upgrade modules at all. Tables that don't get no
+   * reduction, whatever is listed below.
    */
   canUseModules: boolean;
   /**
-   * Which tier of module is installed here. A user setting — the game API
-   * doesn't report it — so it defaults to 'None' (no discount) rather than
-   * guessing.
+   * Ids of the modules fitted to this table — a table can hold several at once.
+   * A user setting, since the API doesn't report what's installed.
    */
-  moduleTier: UpgradeTier;
+  fittedModules: string[];
   /** Watts of burnable fuel consumed while running. */
   burnableWatts: number;
   /** Watts of electricity consumed while running. */
@@ -132,8 +168,6 @@ export interface Globals {
   minWagePer1k: number;
   /** Currency cost assigned to one PPM of pollution (per PPM-hour). */
   pricePerPpm: number;
-  /** Default upgrade level per tier, inherited by skills that don't override. */
-  genericUpgradeLevels: Record<RealUpgradeTier, number>;
   burnables: Burnable[];
   generator: Generator;
 }
@@ -144,9 +178,16 @@ export interface GameData {
   /** Where this dataset came from, for display and debugging. */
   source?: string;
   globals: Globals;
+  /** Every module that can be fitted, with the reductions it grants. */
+  modules: UpgradeModule[];
   skills: Skill[];
   craftingTables: CraftingTable[];
   recipes: Recipe[];
+  /**
+   * Talents that apply to one recipe only, keyed by recipe name. Kept apart
+   * from `recipes` so regenerating from the API never clobbers user input.
+   */
+  recipeTalents: Record<string, Multipliers>;
   items: Item[];
   /** Tag name -> the items that carry it, for tag-based ingredients. */
   tags: Record<string, string[]>;
