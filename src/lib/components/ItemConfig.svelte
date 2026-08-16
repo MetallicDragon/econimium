@@ -8,7 +8,7 @@
    * and marks the ones that are actually stopping the calculation.
    */
   import { app } from '../state/app.svelte.ts';
-  import { collectRequirements } from '../engine/requirements.ts';
+  import { collectRequirements, type RecipeChoice } from '../engine/requirements.ts';
   import { money, multiplier, recipeLabel } from '../format.ts';
   import type { Multipliers } from '../engine/types.ts';
   import ModuleChips from './ModuleChips.svelte';
@@ -57,6 +57,25 @@
     if (target) target.known = true;
   }
 </script>
+
+{#snippet options(choice: RecipeChoice)}
+  <div class="options">
+    {#each choice.recipes as option (option.name)}
+      {@const breakdown = app.solution.recipes.get(option.name)}
+      {@const winner = app.solution.prices.get(choice.product)?.sourceRecipe === option.name}
+      <label class="chip" class:on={option.active} title="{option.name} at the {option.table}">
+        <input
+          type="checkbox"
+          checked={option.active}
+          onchange={(event) => app.setRecipeActive(option.name, event.currentTarget.checked)}
+        />
+        {recipeLabel(option.name, option.table)}
+        <span class="chip-cost">{money(breakdown?.costPerUnit)}</span>
+        {#if winner}<span class="chip-win">✓</span>{/if}
+      </label>
+    {/each}
+  </div>
+{/snippet}
 
 <div
   class="scrim"
@@ -108,39 +127,43 @@
       </p>
     </section>
 
+    {#if requirements.ownChoice}
+      {@const choice = requirements.ownChoice}
+      <section>
+        <h3>
+          How you make {item}
+          {#if !choice.decided}<span class="badge warn">not chosen</span>{/if}
+        </h3>
+        <p class="note">
+          {#if choice.decided}
+            The cheapest recipe ticked here sets this item's cost.
+          {:else}
+            Pick the recipe you've unlocked. Nothing below this can be worked out until you do —
+            each option needs different ingredients.
+          {/if}
+        </p>
+        {@render options(choice)}
+      </section>
+    {/if}
+
     {#if requirements.choices.length > 0}
       <section>
         <h3>
-          Recipe choices
-          {#if requirements.undecided.length > 0}
-            <span class="badge warn">{requirements.undecided.length} unchosen</span>
+          Ingredient recipes
+          {#if requirements.choices.some((choice) => !choice.decided)}
+            <span class="badge warn">
+              {requirements.choices.filter((choice) => !choice.decided).length} unchosen
+            </span>
           {/if}
         </h3>
         <p class="note">
-          These products in the chain can be made more than one way. The cheapest enabled recipe
-          wins; with none enabled the product can't be priced. Only recipes you have the skill for
-          are offered.
+          Products further down the chain that can be made more than one way. Only what the recipes
+          you've chosen actually call for appears here, so choosing one may reveal more.
         </p>
         {#each requirements.choices as choice (choice.product)}
           <div class="choice" class:blocking={!choice.decided}>
             <span class="name">{choice.product}</span>
-            <div class="options">
-              {#each choice.recipes as option (option.name)}
-                {@const breakdown = app.solution.recipes.get(option.name)}
-                {@const winner = app.solution.prices.get(choice.product)?.sourceRecipe === option.name}
-                <label class="chip" class:on={option.active} title="{option.name} at the {option.table}">
-                  <input
-                    type="checkbox"
-                    checked={option.active}
-                    onchange={(event) =>
-                      app.setRecipeActive(option.name, event.currentTarget.checked)}
-                  />
-                  {recipeLabel(option.name, option.table)}
-                  <span class="chip-cost">{money(breakdown?.costPerUnit)}</span>
-                  {#if winner}<span class="chip-win">✓</span>{/if}
-                </label>
-              {/each}
-            </div>
+            {@render options(choice)}
           </div>
         {/each}
       </section>

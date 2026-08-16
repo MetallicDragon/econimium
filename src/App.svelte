@@ -6,16 +6,18 @@
   import SettingsView from './lib/views/SettingsView.svelte';
   import ShopView from './lib/views/ShopView.svelte';
 
-  type Tab = 'items' | 'recipes' | 'shop' | 'settings';
+  type Tab = 'shop' | 'items' | 'recipes' | 'settings';
 
+  // The shop leads: it's the working screen, and its per-item ⚙ reaches every
+  // setting the other tabs hold anyway.
   const TABS: Array<{ id: Tab; label: string }> = [
+    { id: 'shop', label: 'Shop' },
     { id: 'items', label: 'Items' },
     { id: 'recipes', label: 'Recipes' },
-    { id: 'shop', label: 'Shop' },
     { id: 'settings', label: 'Settings' },
   ];
 
-  let tab = $state<Tab>('items');
+  let tab = $state<Tab>('shop');
   let fileInput = $state<HTMLInputElement | null>(null);
   let status = $state('');
 
@@ -126,12 +128,12 @@
 {/if}
 
 <main>
-  {#if tab === 'items'}
+  {#if tab === 'shop'}
+    <ShopView />
+  {:else if tab === 'items'}
     <ItemsView />
   {:else if tab === 'recipes'}
     <RecipesView />
-  {:else if tab === 'shop'}
-    <ShopView />
   {:else}
     <SettingsView />
   {/if}

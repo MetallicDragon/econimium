@@ -8,8 +8,11 @@
  * merely relevant.
  *
  * The walk stops wherever the cost stops depending on what's below: at an item
- * priced by hand, and at an item you have no skill to make. In both cases the
- * price is simply what you'd pay, so the chain beneath it is irrelevant.
+ * priced by hand, at an item you have no skill to make, and at a product whose
+ * recipe you haven't picked yet. In the first two cases the price is simply
+ * what you'd pay. In the third, which alternatives a *different* recipe would
+ * have needed is a question you can't answer until you've chosen — so asking it
+ * early would bury one real decision under a tree of hypothetical ones.
  */
 
 import { isRecipeAvailable } from './economy.ts';
@@ -50,11 +53,17 @@ export interface ItemRequirements {
   unpricedItems: PriceGap[];
   /** Tag ingredients where nothing carrying the tag is priced. */
   unpricedTags: TagGap[];
-  /** Products whose competing recipes have none enabled. */
+  /** Every recipe still to be chosen, this item's own included. */
   undecided: RecipeChoice[];
 
   // --- Things that are relevant but not blocking ---------------------------
-  /** Every recipe choice in the chain, decided or not. */
+  /**
+   * How this item itself is made, when that's a decision — kept apart from the
+   * rest because it's the one you came here to make, and everything below it
+   * only appears once it's settled.
+   */
+  ownChoice: RecipeChoice | null;
+  /** Recipe choices on ingredients further down the chain. */
   choices: RecipeChoice[];
   skills: string[];
   tables: string[];
@@ -112,7 +121,11 @@ export function collectRequirements(
       return;
     }
 
-    if (producers.length > 1) {
+    const enabled = producers.filter((recipe) => isRecipeAvailable(recipe, knownSkills));
+
+    // Worth showing when there's genuinely something to pick: several ways to
+    // make it, or nothing picked at all. A lone enabled recipe is no decision.
+    if (producers.length > 1 || enabled.length === 0) {
       choices.set(name, {
         product: name,
         recipes: producers.map((recipe) => ({
@@ -121,14 +134,14 @@ export function collectRequirements(
           skill: recipe.skill,
           active: recipe.active,
         })),
-        decided: producers.some((recipe) => recipe.active),
+        decided: enabled.length > 0,
       });
     }
 
-    // Walk what's enabled. If nothing is, walk every candidate so the panel can
-    // still show what each option would need.
-    const active = producers.filter((recipe) => isRecipeAvailable(recipe, knownSkills));
-    for (const recipe of active.length > 0 ? active : producers) {
+    // Descend only through recipes you've actually chosen. An unsettled product
+    // ends the walk here: what its alternatives would each need is a question
+    // that only has an answer once one of them is picked.
+    for (const recipe of enabled) {
       if (recipe.skill) skills.add(recipe.skill);
       if (recipe.table) tables.add(recipe.table);
 
@@ -154,15 +167,21 @@ export function collectRequirements(
 
   visit(item);
 
-  const allChoices = [...choices.values()].sort((a, b) => a.product.localeCompare(b.product));
+  const ownChoice = choices.get(item) ?? null;
+  const ingredientChoices = [...choices.values()]
+    .filter((choice) => choice.product !== item)
+    .sort((a, b) => a.product.localeCompare(b.product));
 
   return {
     item,
     priced: solution.prices.get(item)?.cost !== null,
     unpricedItems: [...unpricedItems.values()].sort((a, b) => a.item.localeCompare(b.item)),
     unpricedTags: [...unpricedTags.values()].sort((a, b) => a.tag.localeCompare(b.tag)),
-    undecided: allChoices.filter((choice) => !choice.decided),
-    choices: allChoices,
+    undecided: [ownChoice, ...ingredientChoices].filter(
+      (choice): choice is RecipeChoice => choice !== null && !choice.decided,
+    ),
+    ownChoice,
+    choices: ingredientChoices,
     skills: [...skills].sort(),
     tables: [...tables].sort(),
   };

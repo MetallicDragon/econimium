@@ -209,6 +209,91 @@ describe('item requirements', () => {
     expect(undecided.choices[0]?.recipes.map((r) => r.name)).toEqual(['Smelt', 'Smelt slowly']);
   });
 
+  /**
+   * A product with no recipe chosen ends the walk. Asking about the ingredients
+   * of every option at once would bury one real decision under a tree of
+   * hypothetical ones — most of which vanish the moment you pick.
+   */
+  describe('choices are asked for one level at a time', () => {
+    /**
+     * Widget two ways, each needing Bar, which is itself made two ways — and
+     * nothing chosen at either level, so the staging is visible.
+     */
+    function twoDeep() {
+      const data = chain();
+      for (const existing of data.recipes) existing.active = false;
+      data.recipes.push(
+        recipe({
+          name: 'Fabricate',
+          skill: 'Smithing',
+          table: 'Anvil',
+          active: false,
+          products: [{ item: 'Widget', amount: 1 }],
+          inputs: [{ item: 'Bar', amount: 3, isStatic: false, isTag: false }],
+        }),
+        recipe({
+          name: 'Smelt slowly',
+          skill: 'Mining',
+          table: 'Furnace',
+          active: false,
+          products: [{ item: 'Bar', amount: 1 }],
+          inputs: [{ item: 'Ore', amount: 2, isStatic: false, isTag: false }],
+        }),
+      );
+      return data;
+    }
+
+    it('asks only about the item itself while its own recipe is unchosen', () => {
+      const requirements = requirementsFor(twoDeep(), 'Widget');
+
+      expect(requirements.ownChoice?.product).toBe('Widget');
+      expect(requirements.ownChoice?.decided).toBe(false);
+      // Bar is below an unmade decision, so it isn't raised yet.
+      expect(requirements.choices).toEqual([]);
+      expect(requirements.unpricedItems).toEqual([]);
+      expect(requirements.undecided.map((c) => c.product)).toEqual(['Widget']);
+    });
+
+    it('reveals the next level down once that choice is made', () => {
+      const data = twoDeep();
+      data.recipes.find((r) => r.name === 'Assemble')!.active = true;
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.ownChoice?.decided).toBe(true);
+      expect(requirements.choices.map((c) => c.product)).toEqual(['Bar']);
+      // And Ore, below Bar, still waits on Bar being settled.
+      expect(requirements.unpricedItems).toEqual([]);
+    });
+
+    it('reaches the raw material only once the whole path is chosen', () => {
+      const data = twoDeep();
+      data.recipes.find((r) => r.name === 'Assemble')!.active = true;
+      data.recipes.find((r) => r.name === 'Smelt')!.active = true;
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.choices.map((c) => c.product)).toEqual(['Bar']);
+      expect(requirements.unpricedItems.map((gap) => gap.item)).toEqual(['Ore']);
+    });
+
+    it('keeps the item out of the ingredient list even when both need choosing', () => {
+      const data = twoDeep();
+      data.recipes.find((r) => r.name === 'Assemble')!.active = true;
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.choices.map((c) => c.product)).not.toContain('Widget');
+      expect(requirements.undecided.map((c) => c.product)).toEqual(['Bar']);
+    });
+
+    it('treats a lone recipe switched off as a decision too', () => {
+      const data = chain();
+      data.recipes.find((r) => r.name === 'Assemble')!.active = false;
+
+      const requirements = requirementsFor(data, 'Widget');
+      expect(requirements.ownChoice?.recipes.map((r) => r.name)).toEqual(['Assemble']);
+      expect(requirements.ownChoice?.decided).toBe(false);
+    });
+  });
+
   it('reports an unsatisfied tag with its members rather than each one separately', () => {
     const data = baseData({
       items: [item('Oak Log'), item('Birch Log'), item('Plank')],
