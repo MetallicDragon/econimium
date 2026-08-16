@@ -6,7 +6,11 @@
 
 import { beforeEach, describe, expect, it } from 'vitest';
 import { AppState, storageKeyFor } from '../src/lib/state/app.svelte.ts';
-import { CONTEXTS } from '../src/lib/data/contexts.ts';
+import {
+  CONTEXTS,
+  DEFAULT_CONTEXT_ID,
+  LEGACY_CONTEXT_ID,
+} from '../src/lib/data/contexts.ts';
 
 /** Minimal in-memory stand-in for the browser's localStorage. */
 function installStorage(): Map<string, string> {
@@ -25,6 +29,7 @@ function installStorage(): Map<string, string> {
 
 const VANILLA = 'vanilla';
 const MODDED = 'lumber-ridge';
+const WHITE_TIGER = 'white-tiger';
 
 let store: Map<string, string>;
 
@@ -44,14 +49,25 @@ describe('data contexts', () => {
   it('registers every context with a unique id', () => {
     const ids = CONTEXTS.map((context) => context.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(ids).toContain(VANILLA);
-    expect(ids).toContain(MODDED);
+    expect(ids).toEqual(expect.arrayContaining([VANILLA, MODDED, WHITE_TIGER]));
+  });
+
+  it('opens on the primary server by default', () => {
+    expect(DEFAULT_CONTEXT_ID).toBe(MODDED);
+    const app = new AppState();
+    app.restore();
+    expect(app.contextId).toBe(MODDED);
+  });
+
+  it('marks the contexts that are not yet trusted as WIP', () => {
+    const wip = CONTEXTS.filter((context) => context.wip).map((context) => context.id);
+    expect(wip.sort()).toEqual([VANILLA, WHITE_TIGER].sort());
   });
 
   it('keeps skill levels separate across contexts', () => {
     const app = new AppState();
     app.restore();
-    expect(app.contextId).toBe(VANILLA);
+    app.switchContext(VANILLA);
 
     setSkillLevel(app, 'Logging', 7);
     app.switchContext(MODDED);
@@ -70,6 +86,7 @@ describe('data contexts', () => {
   it('keeps price overrides separate across contexts', () => {
     const app = new AppState();
     app.restore();
+    app.switchContext(VANILLA);
 
     const item = app.data.items.find((i) => !i.hasOverride && i.name === 'Board') ?? app.data.items[0]!;
     const name = item.name;
@@ -87,6 +104,7 @@ describe('data contexts', () => {
   it('writes each context to its own storage key', () => {
     const app = new AppState();
     app.restore();
+    app.switchContext(VANILLA);
     setSkillLevel(app, 'Mining', 5);
     app.save();
 
@@ -94,27 +112,34 @@ describe('data contexts', () => {
     setSkillLevel(app, 'Mining', 2);
     app.save();
 
-    const vanillaSaved = JSON.parse(store.get(storageKeyFor(VANILLA))!);
-    const moddedSaved = JSON.parse(store.get(storageKeyFor(MODDED))!);
-    expect(vanillaSaved.skills.Mining.level).toBe(5);
-    expect(moddedSaved.skills.Mining.level).toBe(2);
+    app.switchContext(WHITE_TIGER);
+    setSkillLevel(app, 'Mining', 7);
+    app.save();
+
+    const saved = (id: string) => JSON.parse(store.get(storageKeyFor(id))!);
+    expect(saved(VANILLA).skills.Mining.level).toBe(5);
+    expect(saved(MODDED).skills.Mining.level).toBe(2);
+    expect(saved(WHITE_TIGER).skills.Mining.level).toBe(7);
   });
 
   it('restores the context that was last active', () => {
     const first = new AppState();
     first.restore();
-    first.switchContext(MODDED);
+    first.switchContext(WHITE_TIGER);
     setSkillLevel(first, 'Farming', 4);
     first.save();
 
     const second = new AppState();
     second.restore();
-    expect(second.contextId).toBe(MODDED);
+    expect(second.contextId).toBe(WHITE_TIGER);
     expect(skillLevel(second, 'Farming')).toBe(4);
   });
 
-  it('migrates pre-context settings into the vanilla context', () => {
-    // Simulate a user who saved settings before contexts existed.
+  it('migrates pre-context settings into the context they were made against', () => {
+    // Settings saved before contexts existed were built against the ported
+    // spreadsheet, which is White Tiger's data — not the default context.
+    expect(LEGACY_CONTEXT_ID).toBe(WHITE_TIGER);
+
     const legacy = new AppState();
     setSkillLevel(legacy, 'Masonry', 6);
     store.set('econimium:settings', JSON.stringify(legacy.toPatch()));
@@ -122,10 +147,15 @@ describe('data contexts', () => {
     const app = new AppState();
     app.restore();
 
-    expect(app.contextId).toBe(VANILLA);
-    expect(skillLevel(app, 'Masonry')).toBe(6);
     expect(store.has('econimium:settings')).toBe(false);
-    expect(store.has(storageKeyFor(VANILLA))).toBe(true);
+    expect(store.has(storageKeyFor(WHITE_TIGER))).toBe(true);
+
+    app.switchContext(WHITE_TIGER);
+    expect(skillLevel(app, 'Masonry')).toBe(6);
+
+    // ...and must not have leaked into any other context.
+    app.switchContext(MODDED);
+    expect(skillLevel(app, 'Masonry')).toBe(0);
   });
 
   it('never mutates the source datasets', () => {
@@ -135,6 +165,7 @@ describe('data contexts', () => {
 
     const app = new AppState();
     app.restore();
+    app.switchContext(VANILLA);
     setSkillLevel(app, 'Logging', 9);
     app.data.items[0]!.hasOverride = true;
     app.data.items[0]!.overrideValue = 1234;
@@ -150,6 +181,7 @@ describe('data contexts', () => {
   it('resets only the active context', () => {
     const app = new AppState();
     app.restore();
+    app.switchContext(VANILLA);
     setSkillLevel(app, 'Mining', 5);
     app.save();
 

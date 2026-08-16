@@ -13,7 +13,13 @@
  * loaded independently, so the two never share settings.
  */
 
-import { CONTEXTS, DEFAULT_CONTEXT_ID, getContext, type DataContext } from '../data/contexts.ts';
+import {
+  CONTEXTS,
+  DEFAULT_CONTEXT_ID,
+  LEGACY_CONTEXT_ID,
+  getContext,
+  type DataContext,
+} from '../data/contexts.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
 import type { GameData, Globals, RealUpgradeTier, ShopEntry, ShopSettings } from '../engine/types.ts';
@@ -21,7 +27,7 @@ import type { GameData, Globals, RealUpgradeTier, ShopEntry, ShopSettings } from
 const STORAGE_PREFIX = 'econimium:settings';
 /** Remembers which context was last open. */
 const ACTIVE_CONTEXT_KEY = 'econimium:context';
-/** Pre-contexts key, migrated into the vanilla context on first run. */
+/** Pre-contexts key, migrated into the context it was actually built against. */
 const LEGACY_STORAGE_KEY = 'econimium:settings';
 const PATCH_VERSION = 1;
 
@@ -239,13 +245,15 @@ export class AppState {
 
   /**
    * Restores the last used context and its settings. Also migrates settings
-   * saved before contexts existed, which were all vanilla.
+   * saved before contexts existed — those were made against the ported
+   * spreadsheet, so they belong to that server rather than to whichever
+   * context happens to open first.
    */
   restore(): void {
     try {
       const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
-      if (legacy !== null && localStorage.getItem(storageKeyFor(DEFAULT_CONTEXT_ID)) === null) {
-        localStorage.setItem(storageKeyFor(DEFAULT_CONTEXT_ID), legacy);
+      if (legacy !== null && localStorage.getItem(storageKeyFor(LEGACY_CONTEXT_ID)) === null) {
+        localStorage.setItem(storageKeyFor(LEGACY_CONTEXT_ID), legacy);
         localStorage.removeItem(LEGACY_STORAGE_KEY);
       }
 

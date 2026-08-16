@@ -1,5 +1,6 @@
 <script lang="ts">
   import { app } from './lib/state/app.svelte.ts';
+  import { TARGET_ECO_VERSION } from './lib/data/contexts.ts';
   import ItemsView from './lib/views/ItemsView.svelte';
   import SettingsView from './lib/views/SettingsView.svelte';
   import ShopView from './lib/views/ShopView.svelte';
@@ -74,7 +75,7 @@
 <header>
   <div class="brand">
     <h1>Econimium</h1>
-    <span class="version">Eco {app.data.version}</span>
+    <span class="version">Eco {TARGET_ECO_VERSION}</span>
   </div>
 
   <label class="context">
@@ -84,9 +85,12 @@
       onchange={(event) => app.switchContext(event.currentTarget.value)}
     >
       {#each app.contexts as context (context.id)}
-        <option value={context.id}>{context.name}</option>
+        <option value={context.id}>{context.name}{context.wip ? ' (WIP)' : ''}</option>
       {/each}
     </select>
+    {#if app.context.wip}
+      <span class="badge" title="Not yet updated for Eco {TARGET_ECO_VERSION}">WIP</span>
+    {/if}
   </label>
 
   <nav>
@@ -132,6 +136,7 @@
 <footer>
   <span>{app.context.name} · {app.context.description}</span>
   <span>{app.data.recipes.length} recipes · {app.data.items.length} items</span>
+  <span class="warn">data from Eco {app.data.version}</span>
   {#if unpriced > 0}
     <span class="warn">{unpriced} unpriced</span>
   {/if}
@@ -169,8 +174,25 @@
     font-size: 0.8rem;
   }
 
+  .context {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
   .context select {
     font-weight: 600;
+  }
+
+  .badge {
+    background: color-mix(in srgb, var(--warn) 25%, var(--surface-2));
+    border: 1px solid var(--warn);
+    color: var(--warn);
+    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
   }
 
   .sr-only {

@@ -30,8 +30,9 @@ import type {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
 const SOURCE = resolve(ROOT, 'Eco 11.1 Crafting (White Tiger).xlsx');
-const DATA_OUT = resolve(ROOT, 'src/lib/data/eco-11.1.json');
-const GOLDEN_OUT = resolve(ROOT, 'tests/fixtures/golden-11.1.json');
+const DATA_OUT = resolve(ROOT, 'src/lib/data/white-tiger-11.1.json');
+const GOLDEN_OUT = resolve(ROOT, 'tests/fixtures/golden-white-tiger-11.1.json');
+/** The Eco version this spreadsheet's numbers came from, not the target version. */
 const VERSION = '11.1';
 
 type Cell = ExcelJS.Cell;

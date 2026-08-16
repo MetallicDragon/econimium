@@ -9,11 +9,11 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { vanillaData as gameData } from '../src/lib/data/index.ts';
+import { whiteTigerData as gameData } from '../src/lib/data/index.ts';
 import { solve } from '../src/lib/engine/prices.ts';
 import { computeBuyPrice, computeSellPrice } from '../src/lib/engine/shop.ts';
 import type { GoldenValues, ShopEntry } from '../src/lib/engine/types.ts';
-import goldenRaw from './fixtures/golden-11.1.json';
+import goldenRaw from './fixtures/golden-white-tiger-11.1.json';
 
 const golden = goldenRaw as unknown as GoldenValues;
 const solution = solve(gameData);
@@ -129,7 +129,7 @@ function check(
   });
 }
 
-describe('Eco 11.1 golden values', () => {
+describe('White Tiger (Eco 11.1) golden values', () => {
   check(
     'reproduces crafting table running costs',
     golden.craftingTables.map((t) => ({

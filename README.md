@@ -33,19 +33,29 @@ its **own dataset and its own saved settings** — skill levels, price overrides
 and shop tweaks set for one never leak into another. Switch between them with
 the picker in the header; the app reopens whichever you used last.
 
-| Context | Contents |
-| --- | --- |
-| Vanilla | Stock Eco 11.1 recipes |
-| Lumber Ridge | Modded server — *currently a placeholder using vanilla recipes* |
+| Context | Status | Contents |
+| --- | --- | --- |
+| Lumber Ridge | Primary target | *Placeholder — its own recipes not yet imported* |
+| White Tiger | WIP | Modded recipes ported from the original spreadsheet |
+| Vanilla | WIP | *Placeholder — stock recipes not yet imported* |
 
-Lumber Ridge shows a banner saying so until its real recipe data is imported,
-so nobody mistakes vanilla numbers for modded ones.
+Only White Tiger has real data today; it came from the original spreadsheet,
+which was built for that modded server. Contexts without their own data yet
+borrow it and show a banner saying so, so nobody mistakes one server's numbers
+for another's.
+
+**Target version: Eco 0.14.0.3**, shown in the header. The data is still Eco
+11.1-derived, which the footer states outright — updating it is the work the WIP
+markers refer to.
 
 **Adding another server:** generate its dataset, then add an entry to
 `CONTEXTS` in `src/lib/data/contexts.ts` pointing at it. Nothing else changes —
 storage keys, the switcher, and reset/export all derive from the registry. Note
 that a context's `id` is used in its storage key, so renaming one would orphan
 existing users' saved settings.
+
+Drop the `provisional` note from an entry once it has real data, and `wip: true`
+once it is trusted for the target version.
 
 ## How it fits together
 
@@ -130,4 +140,7 @@ settings between browsers. **Reset** clears only the active context.
 - **Housing planner** — a port of the `T1/T2 House Plan` sheets
 - **In-app recipe editing / import** — currently the JSON is regenerated from
   the spreadsheet
-- **Updating to the current Eco version** — on top of the verified 11.1 baseline
+- **Updating to Eco 0.14.0.3** — on top of the verified 11.1 baseline. This is
+  what the WIP markers track.
+- **Real datasets for Lumber Ridge and Vanilla** — both currently borrow White
+  Tiger's data
