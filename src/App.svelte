@@ -139,11 +139,11 @@
 
 <footer>
   <span>{app.context.name} · {app.context.description}</span>
-  <span>
-    {app.enabledRecipeCount} of {app.data.recipes.length} recipes · {app.data.items.length} items
-  </span>
-  {#if app.enabledRecipeCount === 0}
-    <span class="warn">no recipes enabled yet — pick them under Recipes</span>
+  <span>{app.enabledRecipeCount} of {app.data.recipes.length} recipes · {app.data.items.length} items</span>
+  {#if app.undecidedProducts.length > 0}
+    <span class="warn">
+      {app.undecidedProducts.length} products need a recipe chosen
+    </span>
   {/if}
   <span class="warn">data from Eco {app.data.version}</span>
   {#if unpriced > 0}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { app } from '../state/app.svelte.ts';
   import { cheapestFuel } from '../engine/economy.ts';
-  import { money, multiplier, percent } from '../format.ts';
+  import { money, multiplier } from '../format.ts';
   import type { Multipliers, UpgradeModule } from '../engine/types.ts';
   import NumberField from '../components/NumberField.svelte';
 
@@ -324,14 +324,7 @@
   </table>
 </section>
 
-<section>
-  <h2>Shop</h2>
-  <div class="grid">
-    <NumberField label="Sales tax" bind:value={app.data.shopSettings.taxRate} min={0} max={0.99} step={0.01} suffix={percent(app.data.shopSettings.taxRate)} />
-    <NumberField label="Sell markup" bind:value={app.data.shopSettings.sellMarkup} min={0} step={0.05} suffix={percent(app.data.shopSettings.sellMarkup)} />
-    <NumberField label="Buy markup" bind:value={app.data.shopSettings.buyMarkup} min={0} step={0.05} suffix={percent(app.data.shopSettings.buyMarkup)} />
-  </div>
-</section>
+<!-- Tax and markup live on the Shop tab, next to the prices they affect. -->
 
 <style>
   section {

@@ -364,54 +364,30 @@ async function main(): Promise<void> {
   const shopSettings = {
     taxRate: numOr(shopHeader.getCell('E'), 0),
     sellMarkup: numOr(shopHeader.getCell('G'), 0),
-    buyMarkup: numOr(shopHeader.getCell('K'), 0),
   };
 
-  const readShopSide = (
-    nameCol: string,
-    cols: {
-      flatAddition?: string;
-      individualMarkup: string;
-      overrideFlag: string;
-      costOverride: string;
-      /** The sheet's computed price, captured as an expected value. */
-      price: string;
-    },
-  ): { entries: ShopEntry[]; golden: Array<{ item: string; price: number | null }> } => {
-    const entries: ShopEntry[] = [];
-    const golden: Array<{ item: string; price: number | null }> = [];
-    for (let r = 3; r <= shopSheet.rowCount; r++) {
-      const row = shopSheet.getRow(r);
-      const rawItem = str(row.getCell(nameCol));
-      if (!rawItem) continue;
-      const item = canonicalise(rawItem, `shop row ${r}`);
-      entries.push({
-        item,
-        flatAddition: cols.flatAddition ? num(row.getCell(cols.flatAddition)) : null,
-        individualMarkup: num(row.getCell(cols.individualMarkup)),
-        hasCostOverride: flag(row.getCell(cols.overrideFlag)),
-        costOverride: num(row.getCell(cols.costOverride)),
-      });
-      golden.push({ item, price: num(row.getCell(cols.price)) });
-    }
-    return { entries, golden };
-  };
+  // The sheet's per-item column held a whole multiplier on cost, whereas the
+  // model now stores a markup that gets grossed up for tax. Converting keeps
+  // the resulting price identical: multiplier = (1 + markup) / (1 - tax).
+  const asMarkup = (multiplier: number | null): number | null =>
+    multiplier === null ? null : multiplier * (1 - shopSettings.taxRate) - 1;
 
-  const selling = readShopSide('A', {
-    flatAddition: 'C',
-    individualMarkup: 'D',
-    overrideFlag: 'E',
-    costOverride: 'F',
-    price: 'B',
-  });
-  const buying = readShopSide('I', {
-    individualMarkup: 'K',
-    overrideFlag: 'L',
-    costOverride: 'M',
-    price: 'J',
-  });
-  const shopSelling = selling.entries;
-  const shopBuying = buying.entries;
+  const shopSelling: ShopEntry[] = [];
+  const shopGolden: Array<{ item: string; price: number | null }> = [];
+  for (let r = 3; r <= shopSheet.rowCount; r++) {
+    const row = shopSheet.getRow(r);
+    const rawItem = str(row.getCell('A'));
+    if (!rawItem) continue;
+    const item = canonicalise(rawItem, `shop row ${r}`);
+    shopSelling.push({
+      item,
+      flatAddition: num(row.getCell('C')),
+      individualMarkup: asMarkup(num(row.getCell('D'))),
+      hasCostOverride: flag(row.getCell('E')),
+      costOverride: num(row.getCell('F')),
+    });
+    shopGolden.push({ item, price: num(row.getCell('B')) });
+  }
 
   // ---- Emit ----------------------------------------------------------------
   const data: GameData = {
@@ -434,7 +410,6 @@ async function main(): Promise<void> {
     items,
     shopSettings,
     shopSelling,
-    shopBuying,
   };
 
   const golden: GoldenValues = {
@@ -442,8 +417,7 @@ async function main(): Promise<void> {
     items: goldenItems,
     recipes: goldenRecipes,
     craftingTables: goldenTables,
-    shopSelling: selling.golden,
-    shopBuying: buying.golden,
+    shopSelling: shopGolden,
   };
 
   await mkdir(dirname(DATA_OUT), { recursive: true });
@@ -456,7 +430,6 @@ async function main(): Promise<void> {
   console.log(`recipes           ${recipes.length} (${stubRecipes.length} empty stubs skipped)`);
   console.log(`items             ${items.length}`);
   console.log(`shop selling      ${shopSelling.length}`);
-  console.log(`shop buying       ${shopBuying.length}`);
 
   const note = (label: string, entries: string[]) => {
     if (!entries.length) return;

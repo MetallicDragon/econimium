@@ -22,7 +22,7 @@ import {
 } from '../data/contexts.ts';
 import { findUnconfiguredModules } from '../engine/economy.ts';
 import { solve, type Solution } from '../engine/prices.ts';
-import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
+import { computeSellPrice, type ShopPrice } from '../engine/shop.ts';
 import type { GameData, Globals, Multipliers, ShopEntry, ShopSettings } from '../engine/types.ts';
 
 const STORAGE_PREFIX = 'econimium:settings';
@@ -79,7 +79,12 @@ interface SavedPatch {
   enabledRecipes: string[];
   recipeTalents: Record<string, Multipliers>;
   itemOverrides: Record<string, { hasOverride: boolean; overrideValue: number | null }>;
-  shopEntries: Record<string, { flatAddition: number | null; individualMarkup: number | null }>;
+  /** An array, not a map: the shop's display order is user-set and must survive. */
+  shopEntries: Array<{
+    item: string;
+    flatAddition: number | null;
+    individualMarkup: number | null;
+  }>;
 }
 
 function freshData(contextId: string): GameData {
@@ -103,7 +108,6 @@ export class AppState {
   itemsByName = $derived(new Map(this.data.items.map((item) => [item.name, item])));
 
   sellEntries = $derived(new Map(this.data.shopSelling.map((entry) => [entry.item, entry])));
-  buyEntries = $derived(new Map(this.data.shopBuying.map((entry) => [entry.item, entry])));
 
   /** Modules fitted somewhere but left with no bonuses entered. */
   unconfiguredModules = $derived(findUnconfiguredModules(this.data));
@@ -131,6 +135,31 @@ export class AppState {
 
   /** How many recipes are currently enabled. */
   enabledRecipeCount = $derived(this.data.recipes.filter((recipe) => recipe.active).length);
+
+  /** Recipes competing with another for the same product — the ones you choose between. */
+  contestedRecipeCount = $derived(
+    this.data.recipes.filter((recipe) => {
+      const primary = recipe.products[0];
+      return primary ? this.contestedProducts.has(primary.item) : false;
+    }).length,
+  );
+
+  enabledContestedCount = $derived(
+    this.data.recipes.filter((recipe) => {
+      const primary = recipe.products[0];
+      return recipe.active && primary ? this.contestedProducts.has(primary.item) : false;
+    }).length,
+  );
+
+  /** Contested products with nothing chosen, so they can't be priced at all. */
+  undecidedProducts = $derived.by(() => {
+    const decided = new Set<string>();
+    for (const recipe of this.data.recipes) {
+      const primary = recipe.products[0];
+      if (recipe.active && primary) decided.add(primary.item);
+    }
+    return [...this.contestedProducts].filter((item) => !decided.has(item)).sort();
+  });
 
   /**
    * Primary products made by more than one recipe — the cases where enabling a
@@ -167,50 +196,56 @@ export class AppState {
     table.fittedModules = fitted ? [...without, moduleId] : without;
   }
 
-  private entryFor(item: string, side: 'sell' | 'buy'): ShopEntry {
-    const existing = side === 'sell' ? this.sellEntries.get(item) : this.buyEntries.get(item);
-    return (
-      existing ?? {
-        item,
-        flatAddition: null,
-        individualMarkup: null,
-        hasCostOverride: false,
-        costOverride: null,
-      }
-    );
+  sellPrice(entry: ShopEntry): ShopPrice {
+    return computeSellPrice(entry, this.cost(entry.item), this.data.shopSettings);
   }
 
-  sellPrice(item: string): ShopPrice {
-    return computeSellPrice(this.entryFor(item, 'sell'), this.cost(item), this.data.shopSettings);
-  }
-
-  buyPrice(item: string): ShopPrice {
-    return computeBuyPrice(this.entryFor(item, 'buy'), this.cost(item), this.data.shopSettings);
-  }
+  /** Items not already stocked, for the add picker. */
+  stockableItems = $derived.by(() => {
+    const stocked = new Set(this.data.shopSelling.map((entry) => entry.item));
+    return this.data.items.filter((item) => !stocked.has(item.name)).map((item) => item.name);
+  });
 
   /**
-   * Updates a per-item shop tweak, creating the row on first edit.
-   * Called from event handlers only — never during render, which would mutate
-   * state mid-pass and retrigger the derived solve.
+   * Adds an item to the end of the shop list. Called from event handlers only —
+   * never during render, which would mutate state mid-pass.
    */
-  setSellTweak(
-    item: string,
-    field: 'flatAddition' | 'individualMarkup',
-    value: number | null,
-  ): void {
-    const existing = this.data.shopSelling.find((entry) => entry.item === item);
-    if (existing) {
-      existing[field] = value;
-      return;
-    }
+  addShopItem(item: string): boolean {
+    if (!item) return false;
+    if (this.data.shopSelling.some((entry) => entry.item === item)) return false;
+    if (!this.data.items.some((known) => known.name === item)) return false;
     this.data.shopSelling.push({
       item,
       flatAddition: null,
       individualMarkup: null,
       hasCostOverride: false,
       costOverride: null,
-      [field]: value,
     });
+    return true;
+  }
+
+  removeShopItem(item: string): void {
+    this.data.shopSelling = this.data.shopSelling.filter((entry) => entry.item !== item);
+  }
+
+  setShopTweak(
+    item: string,
+    field: 'flatAddition' | 'individualMarkup',
+    value: number | null,
+  ): void {
+    const entry = this.data.shopSelling.find((e) => e.item === item);
+    if (entry) entry[field] = value;
+  }
+
+  /** Moves a stocked item to a new position, keeping the rest in order. */
+  moveShopItem(from: number, to: number): void {
+    const list = this.data.shopSelling;
+    if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) return;
+    const next = [...list];
+    const [moved] = next.splice(from, 1);
+    if (!moved) return;
+    next.splice(to, 0, moved);
+    this.data.shopSelling = next;
   }
 
   // ---- Persistence ---------------------------------------------------------
@@ -240,13 +275,11 @@ export class AppState {
       };
     }
 
-    const shopEntries: SavedPatch['shopEntries'] = {};
-    for (const entry of this.data.shopSelling) {
-      shopEntries[entry.item] = {
-        flatAddition: entry.flatAddition,
-        individualMarkup: entry.individualMarkup,
-      };
-    }
+    const shopEntries: SavedPatch['shopEntries'] = this.data.shopSelling.map((entry) => ({
+      item: entry.item,
+      flatAddition: entry.flatAddition,
+      individualMarkup: entry.individualMarkup,
+    }));
 
     // The API reports no power draw, pollution, or fitted module tier, so these
     // are entirely the user's figures and must survive a reload.
@@ -337,23 +370,20 @@ export class AppState {
       item.overrideValue = saved.overrideValue;
     }
 
-    for (const entry of next.shopSelling) {
-      const saved = patch.shopEntries?.[entry.item];
-      if (!saved) continue;
-      entry.flatAddition = saved.flatAddition;
-      entry.individualMarkup = saved.individualMarkup;
-    }
-    // Shop rows the user added for items the sheet never listed.
-    const known = new Set(next.shopSelling.map((e) => e.item));
-    for (const [item, saved] of Object.entries(patch.shopEntries ?? {})) {
-      if (known.has(item)) continue;
-      next.shopSelling.push({
-        item,
-        flatAddition: saved.flatAddition,
-        individualMarkup: saved.individualMarkup,
-        hasCostOverride: false,
-        costOverride: null,
-      });
+    // The shop list is entirely user-curated, order included, so the saved
+    // array replaces whatever the dataset shipped rather than merging into it.
+    // Items the dataset no longer knows about are dropped.
+    if (Array.isArray(patch.shopEntries)) {
+      const knownItems = new Set(next.items.map((item) => item.name));
+      next.shopSelling = patch.shopEntries
+        .filter((saved) => knownItems.has(saved.item))
+        .map((saved) => ({
+          item: saved.item,
+          flatAddition: saved.flatAddition,
+          individualMarkup: saved.individualMarkup,
+          hasCostOverride: false,
+          costOverride: null,
+        }));
     }
 
     this.data = next;

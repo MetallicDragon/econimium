@@ -158,17 +158,18 @@ export interface Item {
 }
 
 export interface ShopSettings {
+  /** Sales tax, as a fraction: 0.2 is 20%. */
   taxRate: number;
+  /** Default markup over cost, as a fraction: 0.5 is 50%. */
   sellMarkup: number;
-  buyMarkup: number;
 }
 
-/** Per-item shop tweaks, keyed by item name. */
+/** An item stocked in the shop. The array order is the display order. */
 export interface ShopEntry {
   item: string;
   /** Added after markup, in currency units. */
   flatAddition: number | null;
-  /** Overrides the global markup for this item only. */
+  /** Markup for this item only, as a fraction. Null uses the global markup. */
   individualMarkup: number | null;
   hasCostOverride: boolean;
   costOverride: number | null;
@@ -203,8 +204,8 @@ export interface GameData {
   /** Tag name -> the items that carry it, for tag-based ingredients. */
   tags: Record<string, string[]>;
   shopSettings: ShopSettings;
+  /** Items stocked in the shop, in display order. */
   shopSelling: ShopEntry[];
-  shopBuying: ShopEntry[];
 }
 
 /**
@@ -224,5 +225,4 @@ export interface GoldenValues {
   }>;
   craftingTables: Array<{ name: string; costPerSecond: number | null }>;
   shopSelling: Array<{ item: string; price: number | null }>;
-  shopBuying: Array<{ item: string; price: number | null }>;
 }

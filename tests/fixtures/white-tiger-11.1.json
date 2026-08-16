@@ -8168,8 +8168,7 @@
   ],
   "shopSettings": {
     "taxRate": 0.2,
-    "sellMarkup": 0.5,
-    "buyMarkup": 0.8
+    "sellMarkup": 0.5
   },
   "shopSelling": [
     {
@@ -8273,7 +8272,7 @@
     {
       "item": "Oil",
       "flatAddition": null,
-      "individualMarkup": 1.6,
+      "individualMarkup": 0.28000000000000025,
       "hasCostOverride": false,
       "costOverride": null
     },
@@ -8363,15 +8362,6 @@
     },
     {
       "item": "Decorative Book",
-      "flatAddition": null,
-      "individualMarkup": null,
-      "hasCostOverride": false,
-      "costOverride": null
-    }
-  ],
-  "shopBuying": [
-    {
-      "item": "Wood (Tag)",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,

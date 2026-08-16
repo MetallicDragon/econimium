@@ -140,6 +140,9 @@ The cost model, in order:
 4. **Items** — the cheapest active recipe that makes it, or a fixed price you
    set.
 5. **Shop** — markup, grossed up for sales tax, plus optional per-item tweaks.
+   The shop is a curated, ordered list: add the items you stock and drag them
+   into the order your stall uses. Percentages are entered as percentages, and
+   *margin* is what's left after tax. Buying prices were removed for now.
 
 An item with no price shows as **unpriceable** rather than as a number, which
 happens when nothing makes it, an ingredient is unpriceable, or it sits in a
@@ -147,14 +150,15 @@ dependency cycle.
 
 ### Five rules worth knowing
 
-**Only enabled recipes count, and the cheapest of them wins.** Recipes unlock
-over time and 138 products have more than one way to make them (up to nine), so
-everything starts **disabled** — pricing an item from a recipe you can't craft
-is worse than showing no price. Turn on what you've unlocked in the Recipes tab,
-grouped by skill, with per-skill and bulk toggles and an *Only where there's a
-choice* filter for the products that actually have competing recipes. Each
-recipe shows what it *would* cost whether enabled or not, so you can compare
-before committing, and the winning one is badged.
+**Only enabled recipes count, and the cheapest of them wins.** A product made
+just one way needs no decision, so its recipe is simply available. Where a
+product has competing recipes — 138 of them on Lumber Ridge, up to nine for a
+single item — those start **disabled**, because pricing an item from a recipe
+you can't craft is worse than showing no price. The Recipes tab lists only those
+choices, grouped by skill with per-skill and bulk toggles. Each shows what it
+*would* cost whether enabled or not, so you can compare before committing, and
+the winning one is badged. A product with none of its recipes ticked stays
+unpriced, along with anything made from it; the footer counts those.
 
 
 **Modules add up; talents multiply.** Eco 0.14 lets a table hold several
@@ -222,7 +226,8 @@ That last one is why the retired spreadsheet is still in the repo. The workbook
 saved its last-computed values next to its formulas, giving a complete
 expected-output fixture: every crafting table's running cost, every recipe's
 multiplier, labor, time, total and per-unit cost, every item's final cost, and
-every shop price — several hundred independent assertions on the costing maths.
+every shop sell price — several hundred independent assertions on the costing
+maths. (The buy-price assertions went when buying was removed from the app.)
 
 Nothing about the API data can replace that, because the API ships no expected
 costs to check against. Keeping it made the move to API data far safer: the
@@ -291,6 +296,7 @@ settings between browsers. **Reset** clears only the active context.
 - **Talent values** — the structure is in place; the percentages are yours
 - **Crafting table figures** — power and pollution are all zero
 - **Price entry UX** — currently one item at a time in the Items tab
+- **Shop buying prices** — removed for now, to be revisited
 - **Lazy-loading datasets** — both are bundled eagerly, which is most of the
   134 kB gzipped payload. A dynamic import per context would cut the initial
   load roughly in half, and matters more as servers are added.

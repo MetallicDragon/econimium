@@ -178,6 +178,50 @@ describe('data contexts', () => {
     expect(CONTEXTS.map((context) => JSON.stringify(context.data))).toEqual(before);
   });
 
+  it('preserves the shop list and its order across a reload', () => {
+    const app = new AppState();
+    app.restore();
+
+    const names = app.data.items.slice(0, 3).map((item) => item.name);
+    for (const name of names) app.addShopItem(name);
+    // Move the last to the front, so the order is deliberately not insertion
+    // order and a map-based save would lose it.
+    app.moveShopItem(2, 0);
+    app.setShopTweak(names[0]!, 'individualMarkup', 0.4);
+    app.save();
+
+    const reloaded = new AppState();
+    reloaded.restore();
+    expect(reloaded.data.shopSelling.map((entry) => entry.item)).toEqual([
+      names[2],
+      names[0],
+      names[1],
+    ]);
+    expect(reloaded.data.shopSelling.find((e) => e.item === names[0])?.individualMarkup).toBe(0.4);
+  });
+
+  it('refuses to stock an unknown or duplicate item', () => {
+    const app = new AppState();
+    app.restore();
+    const name = app.data.items[0]!.name;
+
+    expect(app.addShopItem(name)).toBe(true);
+    expect(app.addShopItem(name)).toBe(false);
+    expect(app.addShopItem('Definitely Not An Item')).toBe(false);
+    expect(app.data.shopSelling).toHaveLength(1);
+  });
+
+  it('keeps shop lists separate across contexts', () => {
+    const app = new AppState();
+    app.restore();
+    app.switchContext(VANILLA);
+    app.addShopItem(app.data.items[0]!.name);
+    app.save();
+
+    app.switchContext(MODDED);
+    expect(app.data.shopSelling).toHaveLength(0);
+  });
+
   it('resets only the active context', () => {
     const app = new AppState();
     app.restore();

@@ -235,15 +235,32 @@ function buildDataset(
         table: apiRecipe.CraftingTable ?? '',
         labor: apiRecipe.BaseLaborCost,
         timeSeconds: apiRecipe.BaseCraftTime,
-        // Recipes unlock over time and many items have several, so nothing is
-        // enabled until the user says they have it. The Recipes tab is where
-        // that's configured; the solve then picks the cheapest enabled one.
-        active: false,
+        // Set below, once we know which products have competing recipes.
+        active: true,
         products,
         inputs,
       });
     }
   }
+
+  // ---- Which recipes are a choice -----------------------------------------
+  // A product made only one way needs no decision, so its recipe is simply on.
+  // Where a product has competing recipes the user must say which they've
+  // unlocked, so those start off and are the only ones the Recipes tab shows.
+  const producerCount = new Map<string, number>();
+  for (const recipe of recipes) {
+    const primary = recipe.products[0];
+    if (!primary) continue;
+    producerCount.set(primary.item, (producerCount.get(primary.item) ?? 0) + 1);
+  }
+  let contestedRecipes = 0;
+  for (const recipe of recipes) {
+    const primary = recipe.products[0];
+    const contested = primary ? (producerCount.get(primary.item) ?? 0) > 1 : false;
+    recipe.active = !contested;
+    if (contested) contestedRecipes++;
+  }
+  const contestedProducts = [...producerCount.values()].filter((n) => n > 1).length;
 
   // ---- Skills --------------------------------------------------------------
   const skills: Skill[] = [...skillNames].sort().map((name) => ({
@@ -340,6 +357,9 @@ function buildDataset(
 
   report.push(`recipes           ${recipes.length} (${multiVariant} had multiple variants)`);
   report.push(`  with byproducts ${withByproducts}`);
+  report.push(
+    `  needing a choice ${contestedRecipes} across ${contestedProducts} products (start disabled)`,
+  );
   report.push(`skills            ${skills.length}`);
   report.push(`crafting tables   ${craftingTables.length}`);
   report.push(`items             ${items.length} (${missing.length} added from recipe references)`);
@@ -372,9 +392,8 @@ function buildDataset(
     recipeTalents: {},
     items,
     tags,
-    shopSettings: { taxRate: 0, sellMarkup: 0, buyMarkup: 0 },
+    shopSettings: { taxRate: 0, sellMarkup: 0 },
     shopSelling: [],
-    shopBuying: [],
   };
 
   return { data, report };

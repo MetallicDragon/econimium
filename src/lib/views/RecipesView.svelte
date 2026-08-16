@@ -1,17 +1,16 @@
 <script lang="ts">
   /**
-   * Which recipes you've unlocked.
+   * Which of the competing recipes you've unlocked.
    *
-   * Recipes default to off: many items have several recipes that unlock over
-   * time, and pricing an item from one you can't actually craft is worse than
-   * showing no price at all. The solve uses the cheapest enabled recipe for each
-   * product, so enabling a better one takes effect immediately everywhere.
+   * Only products with more than one recipe appear here — anything made just
+   * one way needs no decision and is simply available. Among the recipes shown,
+   * the solve uses the cheapest one that's enabled, so ticking a better recipe
+   * takes effect everywhere immediately.
    */
   import { app } from '../state/app.svelte.ts';
   import { money } from '../format.ts';
 
   let search = $state('');
-  let onlyContested = $state(false);
   let onlyEnabled = $state(false);
   let openSkills = $state<Set<string>>(new Set());
 
@@ -30,7 +29,8 @@
     const bySkill = new Map<string, Group>();
     for (const recipe of app.data.recipes) {
       const product = recipe.products[0];
-      if (onlyContested && (!product || !contested.has(product.item))) continue;
+      // Recipes without an alternative aren't a decision, so they never appear.
+      if (!product || !contested.has(product.item)) continue;
       if (onlyEnabled && !recipe.active) continue;
       if (
         needle &&
@@ -77,11 +77,6 @@
   <input class="search" type="search" placeholder="Search recipes or products…" bind:value={search} />
 
   <label class="check">
-    <input type="checkbox" bind:checked={onlyContested} />
-    Only where there's a choice
-  </label>
-
-  <label class="check">
     <input type="checkbox" bind:checked={onlyEnabled} />
     Only enabled
   </label>
@@ -92,14 +87,15 @@
   </span>
 
   <span class="count">
-    {app.enabledRecipeCount} of {app.data.recipes.length} enabled
+    {app.enabledContestedCount} of {app.contestedRecipeCount} chosen
   </span>
 </div>
 
 <p class="hint">
-  Recipes start disabled because many unlock over time — pricing an item from one you can't craft is
-  worse than showing no price. Where a product has several recipes, the cheapest enabled one wins.
-  {app.contestedProducts.size} products have more than one recipe.
+  Only products with more than one recipe are listed — {app.contestedProducts.size} of them. Anything
+  made just one way needs no decision and is already available. Tick the recipes you've unlocked;
+  the cheapest enabled one wins. A product with none ticked stays unpriced, along with anything made
+  from it.
 </p>
 
 {#if groups.length === 0}

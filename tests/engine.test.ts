@@ -7,11 +7,13 @@
 import { describe, expect, it } from 'vitest';
 import { solve } from '../src/lib/engine/prices.ts';
 import { findUnconfiguredModules } from '../src/lib/engine/economy.ts';
+import { computeSellPrice } from '../src/lib/engine/shop.ts';
 import type {
   GameData,
   Item,
   Multipliers,
   Recipe,
+  ShopEntry,
   UpgradeModule,
 } from '../src/lib/engine/types.ts';
 
@@ -41,9 +43,8 @@ function baseData(partial: Partial<GameData> = {}): GameData {
     recipeTalents: {},
     items: [],
     tags: {},
-    shopSettings: { taxRate: 0, sellMarkup: 0, buyMarkup: 0 },
+    shopSettings: { taxRate: 0, sellMarkup: 0 },
     shopSelling: [],
-    shopBuying: [],
     ...partial,
   };
 }
@@ -326,6 +327,58 @@ describe('unconfigured module warnings', () => {
     const data = build(['specialty:Mining']);
     data.craftingTables[0]!.canUseModules = false;
     expect(findUnconfiguredModules(data)).toEqual([]);
+  });
+});
+
+describe('shop pricing', () => {
+  const entry = (over: Partial<ShopEntry> = {}): ShopEntry => ({
+    item: 'Widget',
+    flatAddition: null,
+    individualMarkup: null,
+    hasCostOverride: false,
+    costOverride: null,
+    ...over,
+  });
+
+  it('marks up and then grosses up for tax', () => {
+    // 50% markup on a cost of 10 is 15; grossing up for 20% tax gives 18.75,
+    // which leaves exactly 15 after the tax is taken.
+    const price = computeSellPrice(entry(), 10, { taxRate: 0.2, sellMarkup: 0.5 });
+    expect(price.price).toBeCloseTo(18.75, 10);
+    expect(price.margin).toBeCloseTo(5, 10);
+  });
+
+  it('treats a per-item markup as a fraction, not a multiplier', () => {
+    const price = computeSellPrice(entry({ individualMarkup: 0.28 }), 10, {
+      taxRate: 0.2,
+      sellMarkup: 0.5,
+    });
+    // 1.28 / 0.8 = x1.6 on cost.
+    expect(price.markup).toBe(0.28);
+    expect(price.price).toBeCloseTo(16, 10);
+  });
+
+  it('adds the flat addition after the markup', () => {
+    const price = computeSellPrice(entry({ flatAddition: 2 }), 10, {
+      taxRate: 0,
+      sellMarkup: 0,
+    });
+    expect(price.price).toBe(12);
+  });
+
+  it('leaves an unpriceable item unpriced rather than selling it for the flat fee', () => {
+    const price = computeSellPrice(entry({ flatAddition: 2 }), null, {
+      taxRate: 0,
+      sellMarkup: 1,
+    });
+    expect(price.price).toBeNull();
+    expect(price.margin).toBeNull();
+  });
+
+  it('is a no-op multiplier with everything at zero', () => {
+    const price = computeSellPrice(entry(), 7, { taxRate: 0, sellMarkup: 0 });
+    expect(price.price).toBe(7);
+    expect(price.margin).toBe(0);
   });
 });
 

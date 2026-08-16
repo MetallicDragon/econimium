@@ -12,7 +12,7 @@ import { describe, expect, it } from 'vitest';
 import type { GameData } from '../src/lib/engine/types.ts';
 import gameDataRaw from './fixtures/white-tiger-11.1.json';
 import { solve } from '../src/lib/engine/prices.ts';
-import { computeBuyPrice, computeSellPrice } from '../src/lib/engine/shop.ts';
+import { computeSellPrice } from '../src/lib/engine/shop.ts';
 import type { GoldenValues, ShopEntry } from '../src/lib/engine/types.ts';
 import goldenRaw from './fixtures/golden-white-tiger-11.1.json';
 
@@ -170,8 +170,9 @@ describe('White Tiger (Eco 11.1) golden values', () => {
     'usedCost',
   );
 
-  const sellEntries = new Map<string, ShopEntry>(gameData.shopSelling.map((e) => [e.item, e]));
-  const buyEntries = new Map<string, ShopEntry>(gameData.shopBuying.map((e) => [e.item, e]));
+  const sellEntries = new Map<string, ShopEntry>(
+    gameData.shopSelling.map((entry) => [entry.item, entry]),
+  );
 
   check(
     'reproduces shop sell prices',
@@ -185,20 +186,6 @@ describe('White Tiger (Eco 11.1) golden values', () => {
       };
     }),
     'sellPrice',
-  );
-
-  check(
-    'reproduces shop buy prices',
-    golden.shopBuying.map((row) => {
-      const entry = buyEntries.get(row.item);
-      const cost = solution.prices.get(row.item)?.cost ?? null;
-      return {
-        name: row.item,
-        expected: row.price,
-        actual: entry ? computeBuyPrice(entry, cost, gameData.shopSettings).price : null,
-      };
-    }),
-    'buyPrice',
   );
 
   it('has no stale entries in the known-divergence list', () => {
