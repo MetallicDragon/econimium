@@ -5,12 +5,13 @@
  * settings, so skill levels or price overrides set for one server never leak
  * into another.
  *
- * To add a server: generate its dataset, import it, and add an entry below.
- * Nothing else needs to change.
+ * Datasets are generated from each server's GoodPrice API by
+ * `npm run data`, and baked into the build rather than fetched at runtime.
  */
 
 import type { GameData } from '../engine/types.ts';
-import whiteTigerRaw from './white-tiger-11.1.json';
+import lumberRidgeRaw from './generated/lumber-ridge.json';
+import vanillaRaw from './generated/vanilla.json';
 
 /** The Eco version this project targets. */
 export const TARGET_ECO_VERSION = '0.14.0.3';
@@ -25,7 +26,7 @@ export interface DataContext {
   data: GameData;
   /**
    * Set while a context is not yet trusted for real use — data still being
-   * built out or updated for the target Eco version.
+   * built out or verified.
    */
   wip?: boolean;
   /**
@@ -35,38 +36,31 @@ export interface DataContext {
   provisional?: string;
 }
 
-/**
- * Ported from the original `Eco 11.1 Crafting (White Tiger).xlsx`. These are
- * modded recipes, and the numbers still reflect Eco 11.1 rather than the
- * target version.
- */
-export const whiteTigerData = whiteTigerRaw as unknown as GameData;
-
-const PLACEHOLDER_NOTE =
-  'Using the White Tiger dataset as a placeholder — this context’s own recipes have not been imported yet.';
+export const vanillaData = vanillaRaw as unknown as GameData;
+export const lumberRidgeData = lumberRidgeRaw as unknown as GameData;
 
 export const CONTEXTS: DataContext[] = [
   {
     id: 'lumber-ridge',
     name: 'Lumber Ridge',
     description: 'Modded server — the primary target.',
-    data: whiteTigerData,
-    provisional: PLACEHOLDER_NOTE,
+    data: lumberRidgeData,
   },
   {
     id: 'white-tiger',
     name: 'White Tiger',
-    description: 'Modded server, ported from the original spreadsheet (Eco 11.1 data).',
-    data: whiteTigerData,
+    description: 'Modded server.',
+    data: vanillaData,
     wip: true,
+    provisional:
+      'Using vanilla recipes as a placeholder — this server’s own recipes have not been pulled yet.',
   },
   {
     id: 'vanilla',
     name: 'Vanilla',
     description: 'Stock Eco recipes.',
-    data: whiteTigerData,
+    data: vanillaData,
     wip: true,
-    provisional: PLACEHOLDER_NOTE,
   },
 ];
 
@@ -74,8 +68,8 @@ export const CONTEXTS: DataContext[] = [
 export const DEFAULT_CONTEXT_ID = 'lumber-ridge';
 
 /**
- * Where settings saved before contexts existed belong. Those were all made
- * against the ported spreadsheet, which is White Tiger's data.
+ * Where settings saved before contexts existed belong. Those were made against
+ * the original spreadsheet, which was White Tiger's data.
  */
 export const LEGACY_CONTEXT_ID = 'white-tiger';
 

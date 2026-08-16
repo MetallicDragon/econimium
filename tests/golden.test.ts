@@ -9,12 +9,14 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { whiteTigerData as gameData } from '../src/lib/data/index.ts';
+import type { GameData } from '../src/lib/engine/types.ts';
+import gameDataRaw from './fixtures/white-tiger-11.1.json';
 import { solve } from '../src/lib/engine/prices.ts';
 import { computeBuyPrice, computeSellPrice } from '../src/lib/engine/shop.ts';
 import type { GoldenValues, ShopEntry } from '../src/lib/engine/types.ts';
 import goldenRaw from './fixtures/golden-white-tiger-11.1.json';
 
+const gameData = gameDataRaw as unknown as GameData;
 const golden = goldenRaw as unknown as GoldenValues;
 const solution = solve(gameData);
 

@@ -9,11 +9,12 @@
   const fuel = $derived(cheapestFuel(globals));
   const economy = $derived(app.solution.economy);
 
-  const TIER_COLUMN: Record<string, string> = {
-    Basic: 'G',
-    Advanced: 'I',
-    Modern: 'K',
-  };
+  let tableFilter = $state('');
+  const visibleTables = $derived.by(() => {
+    const needle = tableFilter.trim().toLowerCase();
+    if (!needle) return app.data.craftingTables;
+    return app.data.craftingTables.filter((t) => t.name.toLowerCase().includes(needle));
+  });
 </script>
 
 <section>
@@ -78,6 +79,56 @@
 </section>
 
 <section>
+  <h2>Crafting tables</h2>
+  <p class="hint">
+    The game's API doesn't report power draw, pollution, or which upgrade module is fitted, so these
+    all start at zero — meaning tables currently add no running cost and no ingredient discount.
+    Fill in the tables you use. Tables that can't take modules are marked.
+  </p>
+  <input class="filter" type="search" placeholder="Filter tables…" bind:value={tableFilter} />
+  <table>
+    <thead>
+      <tr>
+        <th>Table</th>
+        <th>Module fitted</th>
+        <th class="num">Fuel W</th>
+        <th class="num">Electric W</th>
+        <th class="num">PPM/hr</th>
+        <th class="num">Cost /s</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each visibleTables as table (table.name)}
+        <tr>
+          <td>{table.name}</td>
+          <td>
+            {#if table.canUseModules}
+              <select bind:value={table.moduleTier}>
+                <option value="None">None</option>
+                {#each UPGRADE_TIERS as tier (tier)}
+                  <option value={tier}>{tier}</option>
+                {/each}
+              </select>
+            {:else}
+              <span class="dim">no modules</span>
+            {/if}
+          </td>
+          <td class="num"><input type="number" min="0" step="any" bind:value={table.burnableWatts} /></td>
+          <td class="num"><input type="number" min="0" step="any" bind:value={table.electricWatts} /></td>
+          <td class="num"><input type="number" min="0" step="any" bind:value={table.ppmPerHour} /></td>
+          <td class="num dim">{money(economy.tableCostPerSecond.get(table.name))}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+  {#if visibleTables.length < app.data.craftingTables.length}
+    <p class="hint">
+      Showing {visibleTables.length} of {app.data.craftingTables.length} tables.
+    </p>
+  {/if}
+</section>
+
+<section>
   <h2>Skills</h2>
   <p class="hint">
     Level 1+ switches labor from minimum wage to food cost; level 6 adds a further 5% ingredient
@@ -90,7 +141,7 @@
         <th class="num">Level</th>
         <th class="num">Labor $/1k cal</th>
         {#each UPGRADE_TIERS as tier (tier)}
-          <th class="num" title="Column {TIER_COLUMN[tier]} in the old sheet">{tier}</th>
+          <th class="num" title="Upgrade level for {tier} modules">{tier}</th>
         {/each}
         <th class="num">Multipliers</th>
       </tr>
@@ -195,6 +246,11 @@
 
   .skills input {
     width: 4rem;
+  }
+
+  .filter {
+    min-width: 16rem;
+    margin-bottom: 0.75rem;
   }
 
   .dim {

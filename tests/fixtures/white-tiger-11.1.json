@@ -1,5 +1,7 @@
 {
   "version": "11.1",
+  "source": "Eco 11.1 Crafting (White Tiger).xlsx — historical, test fixture only",
+  "tags": {},
   "globals": {
     "foodCostPer1kCal": 5,
     "minWagePer1k": 40,
@@ -312,245 +314,280 @@
   "craftingTables": [
     {
       "name": "Carpentry Table",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Workbench",
-      "upgradeTier": "None",
+      "canUseModules": false,
+      "moduleTier": "None",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Small Shipyard",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Masonry Table",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Kiln",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Campfire",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Sawmill",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Wainwright Table",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Research Table",
-      "upgradeTier": "None",
+      "canUseModules": false,
+      "moduleTier": "None",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Arrastra",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Rocker Box",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Bloomery",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 10,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Cement Kiln",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0.94
     },
     {
       "name": "Blast Furnace",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0.94
     },
     {
       "name": "Screening Machine",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 30,
       "electricWatts": 0,
       "ppmPerHour": 1.31
     },
     {
       "name": "Stamp Mill",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 30,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Rolling Mill",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
     },
     {
       "name": "Advanced Masonry Table",
-      "upgradeTier": "Modern",
+      "canUseModules": true,
+      "moduleTier": "Modern",
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
     },
     {
       "name": "Tailoring Table",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Loom",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Pump Jack",
-      "upgradeTier": "None",
+      "canUseModules": false,
+      "moduleTier": "None",
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
     },
     {
       "name": "Electric Machinist Table",
-      "upgradeTier": "Modern",
+      "canUseModules": true,
+      "moduleTier": "Modern",
       "burnableWatts": 0,
       "electricWatts": 500,
       "ppmPerHour": 0
     },
     {
       "name": "Oil Refinery",
-      "upgradeTier": "Modern",
+      "canUseModules": true,
+      "moduleTier": "Modern",
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Electronics Assembly",
-      "upgradeTier": "Modern",
+      "canUseModules": true,
+      "moduleTier": "Modern",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Glassworks",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 50,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Robotic Assembly Line",
-      "upgradeTier": "Modern",
+      "canUseModules": true,
+      "moduleTier": "Modern",
       "burnableWatts": 0,
       "electricWatts": 6000,
       "ppmPerHour": 0
     },
     {
       "name": "Farmer's Table",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Machinist Table",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Laboratory",
-      "upgradeTier": "None",
+      "canUseModules": false,
+      "moduleTier": "None",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Shaper",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Screw Press",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Lathe",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Assembly Line",
-      "upgradeTier": "Advanced",
+      "canUseModules": true,
+      "moduleTier": "Advanced",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Mill",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
     },
     {
       "name": "Paint Mixer",
-      "upgradeTier": "Basic",
+      "canUseModules": true,
+      "moduleTier": "Basic",
       "burnableWatts": 0,
       "electricWatts": 0,
       "ppmPerHour": 0
@@ -564,15 +601,18 @@
       "labor": 40,
       "timeSeconds": 24,
       "active": true,
-      "product": {
-        "item": "Dowel",
-        "amount": 16
-      },
+      "products": [
+        {
+          "item": "Dowel",
+          "amount": 16
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -583,20 +623,24 @@
       "labor": 20,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Log",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Log",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Dowel",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -607,15 +651,18 @@
       "labor": 20,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Log",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Log",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -626,15 +673,18 @@
       "labor": 40,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Board",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Board",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -645,15 +695,18 @@
       "labor": 25,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Board",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Board",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -664,15 +717,18 @@
       "labor": 20,
       "timeSeconds": 0,
       "active": false,
-      "product": {
-        "item": "Board",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Board",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood Pulp",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -683,15 +739,18 @@
       "labor": 20,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Board",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Board",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -702,20 +761,24 @@
       "labor": 300,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Butchery Table",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Butchery Table",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -726,20 +789,24 @@
       "labor": 300,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Fiber Scutching Station",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Fiber Scutching Station",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -750,20 +817,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Bench",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Bench",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -774,20 +845,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Chair",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Chair",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -798,15 +873,18 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Door",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Door",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -817,20 +895,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Dresser",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Dresser",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -841,20 +923,24 @@
       "labor": 60,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Hewn Nightstand",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Nightstand",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 14,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -865,20 +951,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Hewn Table",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Hewn Table",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -889,20 +979,24 @@
       "labor": 120,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Mold",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Wooden Mold",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Nails",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -913,15 +1007,18 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Keel",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Keel",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -932,15 +1029,18 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Oar",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Oar",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -951,20 +1051,24 @@
       "labor": 360,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Small Shipyard",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Shipyard",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -975,20 +1079,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Small Wooden Ship Frame",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Wooden Ship Frame",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Keel",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -999,15 +1107,18 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Hull Planks",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Hull Planks",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1018,25 +1129,30 @@
       "labor": 120,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Small Canoe",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Canoe",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wooden Hull Planks",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Oar",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Small Wooden Ship Frame",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1047,25 +1163,30 @@
       "labor": 360,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Large Canoe",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Large Canoe",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wooden Hull Planks",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Oar",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Small Wooden Ship Frame",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1076,20 +1197,24 @@
       "labor": 180,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Outpost Netting",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Outpost Netting",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hemp Mooring Rope",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Hewn Log",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1100,25 +1225,30 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Moorage Post",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Moorage Post",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Hemp Mooring Rope",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1129,10 +1259,12 @@
       "labor": 0,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wooden Transport Ship",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Transport Ship",
+          "amount": 1
+        }
+      ],
       "inputs": []
     },
     {
@@ -1142,25 +1274,30 @@
       "labor": 200,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Basic Upgrade 1",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Basic Upgrade 1",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Gathering Research Paper Basic",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Geology Research Paper Basic",
           "amount": 3,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Dendrology Research Paper Basic",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1171,30 +1308,36 @@
       "labor": 200,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Basic Upgrade 2",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Basic Upgrade 2",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Basic Upgrade 1",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Culinary Research Paper Basic",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Metallurgy Research Paper Basic",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Wooden Hull Planks",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1205,30 +1348,36 @@
       "labor": 200,
       "timeSeconds": 360,
       "active": true,
-      "product": {
-        "item": "Basic Upgrade 3",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Basic Upgrade 3",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Basic Upgrade 2",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Metallurgy Research Paper Advanced",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Dendrology Research Paper Advanced",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Agriculture Research Paper Advanced",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1239,30 +1388,36 @@
       "labor": 200,
       "timeSeconds": 480,
       "active": true,
-      "product": {
-        "item": "Basic Upgrade 4",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Basic Upgrade 4",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Basic Upgrade 3",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Geology Research Paper Advanced",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Engineering Research Paper Advanced",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Geology Research Paper Basic",
           "amount": 3,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1273,15 +1428,18 @@
       "labor": 25,
       "timeSeconds": 72,
       "active": true,
-      "product": {
-        "item": "Charcoal",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Charcoal",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Wood (Tag)",
           "amount": 7,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1292,25 +1450,30 @@
       "labor": 100,
       "timeSeconds": 30,
       "active": true,
-      "product": {
-        "item": "Wet Brick",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Wet Brick",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Clay",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Mold",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1321,30 +1484,36 @@
       "labor": 200,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Wet Brick",
-        "amount": 8
-      },
+      "products": [
+        {
+          "item": "Wet Brick",
+          "amount": 8
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Clay",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Mold",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Shale",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1355,20 +1524,24 @@
       "labor": 15,
       "timeSeconds": 10,
       "active": true,
-      "product": {
-        "item": "Brick",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Brick",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wet Brick",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Mortar",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1379,15 +1552,18 @@
       "labor": 15,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Mortar",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mortar",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Fiber (Tag)",
           "amount": 5,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1398,15 +1574,18 @@
       "labor": 25,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Mortar",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Mortar",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1417,20 +1596,24 @@
       "labor": 90,
       "timeSeconds": 180,
       "active": true,
-      "product": {
-        "item": "Advanced Upgrade 1",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Advanced Upgrade 1",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Clay",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Brick",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1441,15 +1624,18 @@
       "labor": 20,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Wood Pulp",
-        "amount": 10
-      },
+      "products": [
+        {
+          "item": "Wood Pulp",
+          "amount": 10
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1460,25 +1646,30 @@
       "labor": 150,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Glassworks",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Glassworks",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Brick",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1489,20 +1680,24 @@
       "labor": 180,
       "timeSeconds": 480,
       "active": true,
-      "product": {
-        "item": "Bakery Oven",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Bakery Oven",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Brick",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1513,20 +1708,24 @@
       "labor": 120,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Small Sink",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Sink",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Clay",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1537,20 +1736,24 @@
       "labor": 120,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Toilet",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Toilet",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Clay",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1561,15 +1764,18 @@
       "labor": 45,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Round Pot",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Round Pot",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Clay",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1580,20 +1786,24 @@
       "labor": 300,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Brick Fireplace",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Brick Fireplace",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Brick",
           "amount": 50,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1604,20 +1814,24 @@
       "labor": 240,
       "timeSeconds": 180,
       "active": true,
-      "product": {
-        "item": "Bathtub",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Bathtub",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Clay",
           "amount": 40,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1628,15 +1842,18 @@
       "labor": 40,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Wooden Wheel",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wooden Wheel",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1647,30 +1864,36 @@
       "labor": 680,
       "timeSeconds": 360,
       "active": true,
-      "product": {
-        "item": "Small Wooden Boat",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Wooden Boat",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wooden Hull Planks",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Wheel",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Gearbox",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Medium Wooden Ship Frame",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1681,20 +1904,24 @@
       "labor": 120,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Medium Wooden Ship Frame",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Medium Wooden Ship Frame",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Hewn Log",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wooden Keel",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -1705,25 +1932,30 @@
       "labor": 60,
       "timeSeconds": 19.2,
       "active": true,
-      "product": {
-        "item": "Lumber",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Lumber",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Nails",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Flaxeed Oil",
           "amount": 0.5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1734,20 +1966,24 @@
       "labor": 1200,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Large Lumber Stockpile",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Large Lumber Stockpile",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Lumber",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1758,20 +1994,24 @@
       "labor": 120,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Large Hanging Lumber Sign",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Large Hanging Lumber Sign",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Lumber",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1782,20 +2022,24 @@
       "labor": 120,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Large Standing Lumber Sign",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Large Standing Lumber Sign",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Lumber",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1806,20 +2050,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Small Hanging Lumber Sign",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Hanging Lumber Sign",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Lumber",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1830,20 +2078,24 @@
       "labor": 60,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Small Standing Lumber Sign",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Standing Lumber Sign",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Lumber",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1854,20 +2106,24 @@
       "labor": 15,
       "timeSeconds": 4,
       "active": true,
-      "product": {
-        "item": "Mortared Stone",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mortared Stone",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Rock (Tag)",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Mortar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1878,15 +2134,18 @@
       "labor": 60,
       "timeSeconds": 150,
       "active": true,
-      "product": {
-        "item": "Limestone Owl Statue",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Limestone Owl Statue",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Limestone",
           "amount": 40,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1897,15 +2156,18 @@
       "labor": 60,
       "timeSeconds": 150,
       "active": true,
-      "product": {
-        "item": "Limestone Otter Statue",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Limestone Otter Statue",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Limestone",
           "amount": 40,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1916,15 +2178,18 @@
       "labor": 60,
       "timeSeconds": 210,
       "active": true,
-      "product": {
-        "item": "Limestone Wolf Statue",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Limestone Wolf Statue",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Limestone",
           "amount": 80,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1935,15 +2200,18 @@
       "labor": 60,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Limestone Bison Statue",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Limestone Bison Statue",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Limestone",
           "amount": 200,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1954,20 +2222,24 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Geology Research Paper Advanced",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Geology Research Paper Advanced",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Mortared Stone",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": -1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1978,15 +2250,18 @@
       "labor": 30,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Mortared Stone Bench",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mortared Stone Bench",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Mortared Stone",
           "amount": 24,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -1997,15 +2272,18 @@
       "labor": 30,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Mortared Stone Table",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mortared Stone Table",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Mortared Stone",
           "amount": 22,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2016,25 +2294,30 @@
       "labor": 120,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Bloomery",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Bloomery",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Rock (Tag)",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 25,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2045,20 +2328,24 @@
       "labor": 360,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Mill",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mill",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Rock (Tag)",
           "amount": 40,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Wood (Tag)",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2069,20 +2356,24 @@
       "labor": 60,
       "timeSeconds": 30,
       "active": true,
-      "product": {
-        "item": "Stone Road",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Stone Road",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Rock (Tag)",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Mortar",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2093,15 +2384,18 @@
       "labor": 50,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Crushed Iron Ore",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Crushed Iron Ore",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Ore",
           "amount": 12,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2112,15 +2406,18 @@
       "labor": 70,
       "timeSeconds": 60,
       "active": false,
-      "product": {
-        "item": "Crushed Iron Ore",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Crushed Iron Ore",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Ore",
           "amount": 20,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2131,20 +2428,24 @@
       "labor": 50,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Iron Concentrate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Iron Concentrate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Iron Ore",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": -2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2155,20 +2456,24 @@
       "labor": 120,
       "timeSeconds": 72,
       "active": false,
-      "product": {
-        "item": "Iron Concentrate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Iron Concentrate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Iron Ore",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": -1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2179,20 +2484,24 @@
       "labor": 60,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Iron Bar",
-        "amount": 6
-      },
+      "products": [
+        {
+          "item": "Iron Bar",
+          "amount": 6
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Concentrate",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Clay Mold",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2203,15 +2512,18 @@
       "labor": 60,
       "timeSeconds": 18,
       "active": false,
-      "product": {
-        "item": "Iron Bar",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Iron Bar",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Concentrate",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2222,15 +2534,18 @@
       "labor": 70,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Crushed Copper Ore",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Crushed Copper Ore",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Ore",
           "amount": 12,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2241,15 +2556,18 @@
       "labor": 90,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Crushed Copper Ore",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Crushed Copper Ore",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Ore",
           "amount": 20,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2260,20 +2578,24 @@
       "labor": 50,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Copper Concentrate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Copper Concentrate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Copper Ore",
           "amount": 3,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": -3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2284,15 +2606,18 @@
       "labor": 60,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Copper Bar",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Copper Bar",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Concentrate",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2303,15 +2628,18 @@
       "labor": 60,
       "timeSeconds": 18,
       "active": true,
-      "product": {
-        "item": "Copper Bar",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Copper Bar",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Concentrate",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2322,20 +2650,24 @@
       "labor": 300,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Dynamite",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Dynamite",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Black Powder",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Paper",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2346,25 +2678,30 @@
       "labor": 180,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Waterwheel",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Waterwheel",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wooden Hull Planks",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lubricant",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Hewn Log",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2375,25 +2712,30 @@
       "labor": 180,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Windmill",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Windmill",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Linen Fabric",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lubricant",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Hewn Log",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2404,20 +2746,24 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Engineering Research Paper Advanced",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Engineering Research Paper Advanced",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Waterwheel",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Windmill",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2428,20 +2774,24 @@
       "labor": 60,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Mechanical Water Pump",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Mechanical Water Pump",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2452,20 +2802,24 @@
       "labor": 70,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Cement",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Cement",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Quicklime",
           "amount": 2.5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Clay",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2476,30 +2830,36 @@
       "labor": 25,
       "timeSeconds": 19.2,
       "active": true,
-      "product": {
-        "item": "Reinforced Concrete",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Reinforced Concrete",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Cement",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Sand",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rebar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Rock (Tag)",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2510,25 +2870,30 @@
       "labor": 25,
       "timeSeconds": 19.2,
       "active": true,
-      "product": {
-        "item": "Reinforced Concrete",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Reinforced Concrete",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Sulfur",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Sand",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rebar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2539,15 +2904,18 @@
       "labor": 50,
       "timeSeconds": 6,
       "active": true,
-      "product": {
-        "item": "Quicklime",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Quicklime",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Limestone",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2558,25 +2926,30 @@
       "labor": 180,
       "timeSeconds": 0,
       "active": true,
-      "product": {
-        "item": "Asphalt Concrete",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Asphalt Concrete",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Cement",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Sand",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Rock (Tag)",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2587,30 +2960,36 @@
       "labor": 60,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Steel Bar",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Steel Bar",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Concentrate",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Quicklime",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Charcoal",
           "amount": 8,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Ceramic Mold",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2621,15 +3000,18 @@
       "labor": 50,
       "timeSeconds": 12,
       "active": true,
-      "product": {
-        "item": "Rebar",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Rebar",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2640,15 +3022,18 @@
       "labor": 85,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Rivet",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Rivet",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2659,15 +3044,18 @@
       "labor": 60,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Steel Pipe",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steel Pipe",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2678,15 +3066,18 @@
       "labor": 25,
       "timeSeconds": 9.6,
       "active": true,
-      "product": {
-        "item": "Corrugated Steel",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Corrugated Steel",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 1.5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2697,25 +3088,30 @@
       "labor": 180,
       "timeSeconds": 9,
       "active": true,
-      "product": {
-        "item": "Ashlar Stone",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Ashlar Stone",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Cement",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rock (Tag)",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2726,15 +3122,18 @@
       "labor": 30,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Linen Yarn",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Linen Yarn",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Flax Fiber",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2745,15 +3144,18 @@
       "labor": 100,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Linen Fabric",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Linen Fabric",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Linen Yarn",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2764,15 +3166,18 @@
       "labor": 180,
       "timeSeconds": 30,
       "active": true,
-      "product": {
-        "item": "Barrel",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Barrel",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2783,15 +3188,18 @@
       "labor": 60,
       "timeSeconds": 600,
       "active": true,
-      "product": {
-        "item": "Petroleum",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Petroleum",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Barrel",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2802,25 +3210,30 @@
       "labor": 60,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Biodiesel",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Biodiesel",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Barrel",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Ethanol",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Fat (Tag)",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2831,20 +3244,24 @@
       "labor": 180,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Epoxy",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Epoxy",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Petroleum",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Barrel",
           "amount": -3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2855,15 +3272,18 @@
       "labor": 120,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Gasoline",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Gasoline",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Petroleum",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2874,20 +3294,24 @@
       "labor": 180,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Nylon",
-        "amount": 8
-      },
+      "products": [
+        {
+          "item": "Nylon",
+          "amount": 8
+        }
+      ],
       "inputs": [
         {
           "item": "Petroleum",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Barrel",
           "amount": -3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2898,20 +3322,24 @@
       "labor": 180,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Plastic",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Plastic",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Petroleum",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Barrel",
           "amount": -3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2922,20 +3350,24 @@
       "labor": 180,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Synthetic Rubber",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Synthetic Rubber",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Petroleum",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Barrel",
           "amount": -3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2946,20 +3378,24 @@
       "labor": 90,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Fiberglass",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Fiberglass",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Plastic",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Glass",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -2970,20 +3406,24 @@
       "labor": 30,
       "timeSeconds": 72,
       "active": true,
-      "product": {
-        "item": "Glass",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Glass",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Limestone",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -2994,20 +3434,24 @@
       "labor": 45,
       "timeSeconds": 60,
       "active": false,
-      "product": {
-        "item": "Glass",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Glass",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sand",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Quicklime",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3018,20 +3462,24 @@
       "labor": 60,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Light Bulb",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Light Bulb",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Glass",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Wiring",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3042,15 +3490,18 @@
       "labor": 30,
       "timeSeconds": 30,
       "active": true,
-      "product": {
-        "item": "Glass Lens",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Glass Lens",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Glass",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3061,20 +3512,24 @@
       "labor": 60,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Substrate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Substrate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Fiberglass",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Epoxy",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3085,25 +3540,30 @@
       "labor": 45,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Basic Circuit",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Basic Circuit",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Wiring",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Gold Flakes",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Substrate",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3114,30 +3574,36 @@
       "labor": 85,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Advanced Circuit",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Advanced Circuit",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Gold Wiring",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Gold Flakes",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Substrate",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Wiring",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3148,15 +3614,18 @@
       "labor": 75,
       "timeSeconds": 48,
       "active": true,
-      "product": {
-        "item": "Gold Flakes",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Gold Flakes",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Gold Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3167,20 +3636,24 @@
       "labor": 60,
       "timeSeconds": 180,
       "active": true,
-      "product": {
-        "item": "Servo",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Servo",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Basic Circuit",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Fiberglass",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3191,25 +3664,30 @@
       "labor": 360,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Electric Motor",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Electric Motor",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Basic Circuit",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Wiring",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Steel Bar",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3220,30 +3698,36 @@
       "labor": 1200,
       "timeSeconds": 4500,
       "active": true,
-      "product": {
-        "item": "Robotic Assembly Line",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Robotic Assembly Line",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Cement",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Electric Motor",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Servo",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Steel Bar",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3254,25 +3738,30 @@
       "labor": 600,
       "timeSeconds": 1200,
       "active": true,
-      "product": {
-        "item": "Solar Generator",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Solar Generator",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Servo",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Basic Circuit",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3283,30 +3772,36 @@
       "labor": 1200,
       "timeSeconds": 1200,
       "active": true,
-      "product": {
-        "item": "Wind Turbine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Wind Turbine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Gearbox",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Advanced Circuit",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Servo",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3317,30 +3812,36 @@
       "labor": 1200,
       "timeSeconds": 150,
       "active": true,
-      "product": {
-        "item": "Jaw Crusher",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Jaw Crusher",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 25,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Synthetic Rubber",
           "amount": 25,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Steel Gear",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Electric Motor",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -3351,45 +3852,54 @@
       "labor": 2400,
       "timeSeconds": 2400,
       "active": true,
-      "product": {
-        "item": "Industrial Generator",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Industrial Generator",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Plate",
           "amount": 48,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Advanced Circuit",
           "amount": 32,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Steel Pipe",
           "amount": 32,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rivet",
           "amount": 64,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Advanced Combustion Engine",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Radiator",
           "amount": 24,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Steel Axle",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -3400,15 +3910,18 @@
       "labor": 60,
       "timeSeconds": 12,
       "active": true,
-      "product": {
-        "item": "Copper Wiring",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Copper Wiring",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Bar",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3419,30 +3932,36 @@
       "labor": 600,
       "timeSeconds": 60,
       "active": false,
-      "product": {
-        "item": "Geology Research Paper Modern",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Geology Research Paper Modern",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Brick",
           "amount": 30,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Paper",
           "amount": 20,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Ink",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -3453,30 +3972,36 @@
       "labor": 600,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Geology Research Paper Modern",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Geology Research Paper Modern",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Glass",
           "amount": 30,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Paper",
           "amount": 20,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Garbage",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Ink",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -3487,25 +4012,30 @@
       "labor": 35,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Black Powder",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Black Powder",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Charcoal Powder",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Compost",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Crushed Sulfur",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3516,25 +4046,30 @@
       "labor": 120,
       "timeSeconds": 900,
       "active": true,
-      "product": {
-        "item": "Laboratory",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Laboratory",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Glass",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lumber",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3545,15 +4080,18 @@
       "labor": 75,
       "timeSeconds": 24,
       "active": true,
-      "product": {
-        "item": "Iron Gear",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Iron Gear",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3564,15 +4102,18 @@
       "labor": 60,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Iron Plate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Iron Plate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3583,20 +4124,24 @@
       "labor": 240,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Small Paper Machine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Small Paper Machine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Gear",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3607,20 +4152,24 @@
       "labor": 60,
       "timeSeconds": 90,
       "active": true,
-      "product": {
-        "item": "Piston",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Piston",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Pipe",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3631,20 +4180,24 @@
       "labor": 450,
       "timeSeconds": 600,
       "active": true,
-      "product": {
-        "item": "Steam Engine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Engine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 24,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3655,15 +4208,18 @@
       "labor": 60,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Copper Plate",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Copper Plate",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3674,15 +4230,18 @@
       "labor": 25,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Screw",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Screw",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3693,25 +4252,30 @@
       "labor": 180,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Boiler",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Boiler",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Plate",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3722,30 +4286,36 @@
       "labor": 120,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Stamp Mill",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Stamp Mill",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 14,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Gear",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 14,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3756,25 +4326,30 @@
       "labor": 300,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Screening Machine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Screening Machine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 40,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 15,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Gear",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3785,35 +4360,42 @@
       "labor": 600,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Engineering Research Paper Modern",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Engineering Research Paper Modern",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Axle",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Gear",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Ink",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Paper",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3824,15 +4406,18 @@
       "labor": 75,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Iron Axle",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Iron Axle",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3843,40 +4428,48 @@
       "labor": 1200,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Portable Steam Engine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Portable Steam Engine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Piston",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Boiler",
           "amount": 3,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Gear",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Pipe",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3887,55 +4480,66 @@
       "labor": 1000,
       "timeSeconds": 600,
       "active": true,
-      "product": {
-        "item": "Steam Tractor",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Tractor",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 24,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Leather Hide",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lumber",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Portable Steam Engine",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Iron Wheel",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Iron Axle",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Light Bulb",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3946,20 +4550,24 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Steam Tractor Scoop",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Tractor Scoop",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3970,25 +4578,30 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Steam Tractor Harvester",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Tractor Harvester",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -3999,25 +4612,30 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Steam Tractor Sower",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Tractor Sower",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4028,20 +4646,24 @@
       "labor": 120,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Steam Tractor Plow",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Tractor Plow",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 18,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4052,55 +4674,66 @@
       "labor": 1000,
       "timeSeconds": 600,
       "active": true,
-      "product": {
-        "item": "Steam Truck",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Steam Truck",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Screw",
           "amount": 24,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Leather Hide",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lumber",
           "amount": 30,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Portable Steam Engine",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Iron Wheel",
           "amount": 4,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Iron Axle",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         },
         {
           "item": "Light Bulb",
           "amount": 2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -4111,30 +4744,36 @@
       "labor": 800,
       "timeSeconds": 300,
       "active": true,
-      "product": {
-        "item": "Medium Shipyard",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Medium Shipyard",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Plate",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Paper",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Hemp Mooring Rope",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lumber",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4145,30 +4784,36 @@
       "labor": 300,
       "timeSeconds": 240,
       "active": true,
-      "product": {
-        "item": "Combustion Engine",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Combustion Engine",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Piston",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Gearbox",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rivet",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4179,30 +4824,36 @@
       "labor": 60,
       "timeSeconds": 450,
       "active": true,
-      "product": {
-        "item": "Combustion Generator",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Combustion Generator",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Piston",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Lubricant",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Combustion Engine",
           "amount": 1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -4213,20 +4864,24 @@
       "labor": 45,
       "timeSeconds": 45,
       "active": true,
-      "product": {
-        "item": "Gearbox",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Gearbox",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Iron Bar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Gear",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4237,20 +4892,24 @@
       "labor": 360,
       "timeSeconds": 600,
       "active": true,
-      "product": {
-        "item": "Rolling Mill",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Rolling Mill",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Steel Bar",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Gearbox",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4261,20 +4920,24 @@
       "labor": 60,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Heat Sink",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Heat Sink",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Plate",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Copper Wiring",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4285,25 +4948,30 @@
       "labor": 240,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Printing Press",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Printing Press",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Gearbox",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Piston",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4314,25 +4982,30 @@
       "labor": 600,
       "timeSeconds": 6000,
       "active": true,
-      "product": {
-        "item": "Cement Kiln",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Cement Kiln",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Gearbox",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Piston",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4343,30 +5016,36 @@
       "labor": 600,
       "timeSeconds": 1500,
       "active": true,
-      "product": {
-        "item": "Blast Furnace",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Blast Furnace",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Screw",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Brick",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Plate",
           "amount": 12,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Pipe",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4377,15 +5056,18 @@
       "labor": 20,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Beans",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4396,15 +5078,18 @@
       "labor": 20,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Corn",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4415,15 +5100,18 @@
       "labor": 40,
       "timeSeconds": 60,
       "active": false,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Cotton Seed",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4434,15 +5122,18 @@
       "labor": 20,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Raw Fish",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4453,15 +5144,18 @@
       "labor": 15,
       "timeSeconds": 60,
       "active": false,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Cereal Germ",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4472,15 +5166,18 @@
       "labor": 20,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sunflower Seed",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4491,15 +5188,18 @@
       "labor": 25,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Flaxseed Oil",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Flaxseed Oil",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Flax Seed",
           "amount": 16,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4510,15 +5210,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Bean Paste",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Bean Paste",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Beans",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4529,15 +5232,18 @@
       "labor": 50,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Sugar",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Sugar",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Beet",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4548,15 +5254,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Sugar",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Sugar",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Huckleberries",
           "amount": 8,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4567,15 +5276,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Blue Powder",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Blue Powder",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Huckleberries",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4586,15 +5298,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Colored Powder",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Colored Powder",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Petals",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4605,15 +5320,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Copper Hydroxide",
-        "amount": 12
-      },
+      "products": [
+        {
+          "item": "Copper Hydroxide",
+          "amount": 12
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Copper Ore",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4624,25 +5342,30 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Cyan Powder",
-        "amount": 3
-      },
+      "products": [
+        {
+          "item": "Cyan Powder",
+          "amount": 3
+        }
+      ],
       "inputs": [
         {
           "item": "Copper Hydroxide",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Blue Powder",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "White Powder",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4653,15 +5376,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Iron Oxide",
-        "amount": 8
-      },
+      "products": [
+        {
+          "item": "Iron Oxide",
+          "amount": 8
+        }
+      ],
       "inputs": [
         {
           "item": "Crushed Iron Ore",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4672,15 +5398,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Charcoal Powder",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Charcoal Powder",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Charcoal",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4691,15 +5420,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Magenta Powder",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Magenta Powder",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Urchin",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4710,15 +5442,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "White Powder",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "White Powder",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Trillium Flower",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4729,15 +5464,18 @@
       "labor": 24,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Yellow Powder",
-        "amount": 5
-      },
+      "products": [
+        {
+          "item": "Yellow Powder",
+          "amount": 5
+        }
+      ],
       "inputs": [
         {
           "item": "Sunflower",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4748,15 +5486,18 @@
       "labor": 45,
       "timeSeconds": 25,
       "active": true,
-      "product": {
-        "item": "Yellow Powder",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Yellow Powder",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Creosote Flower",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4767,15 +5508,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Camas Paste",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Camas Paste",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Camas Bulb",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4786,20 +5530,24 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Cornmeal",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Cornmeal",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Corn",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Cereal Germ",
           "amount": -2,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -4810,20 +5558,24 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Flour",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Flour",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Wheat",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Cereal Germ",
           "amount": -1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -4834,15 +5586,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Huckleberry Extract",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Huckleberry Extract",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Huckleberries",
           "amount": 20,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4853,20 +5608,24 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Rice Flour",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Rice Flour",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Rice",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Cereal Germ",
           "amount": -1,
-          "isStatic": true
+          "isStatic": true,
+          "isTag": false
         }
       ]
     },
@@ -4877,15 +5636,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Simple Syrup",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Simple Syrup",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sugar",
           "amount": 10,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4896,30 +5658,36 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Sun Cheese",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Sun Cheese",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sunflower Seed",
           "amount": 6,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Yeast",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Rice",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Oil",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4930,15 +5698,18 @@
       "labor": 15,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Yeast",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Yeast",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Sugar",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4949,25 +5720,30 @@
       "labor": 40,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Art Supplies",
-        "amount": 8
-      },
+      "products": [
+        {
+          "item": "Art Supplies",
+          "amount": 8
+        }
+      ],
       "inputs": [
         {
           "item": "Canvas",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Oil Paint",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Board",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -4978,25 +5754,30 @@
       "labor": 40,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Base Paint",
-        "amount": 10
-      },
+      "products": [
+        {
+          "item": "Base Paint",
+          "amount": 10
+        }
+      ],
       "inputs": [
         {
           "item": "White Powder",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Iron Bar",
           "amount": 0.5,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Oil",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -5007,25 +5788,30 @@
       "labor": 180,
       "timeSeconds": 60,
       "active": true,
-      "product": {
-        "item": "Ink",
-        "amount": 2
-      },
+      "products": [
+        {
+          "item": "Ink",
+          "amount": 2
+        }
+      ],
       "inputs": [
         {
           "item": "Charcoal Powder",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Glass",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Oil",
           "amount": 1,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -5036,20 +5822,24 @@
       "labor": 40,
       "timeSeconds": 49,
       "active": true,
-      "product": {
-        "item": "Oil Paint",
-        "amount": 4
-      },
+      "products": [
+        {
+          "item": "Oil Paint",
+          "amount": 4
+        }
+      ],
       "inputs": [
         {
           "item": "Colored Powder",
           "amount": 4,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Flaxseed Oil",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     },
@@ -5060,25 +5850,30 @@
       "labor": 120,
       "timeSeconds": 120,
       "active": true,
-      "product": {
-        "item": "Decorative Book",
-        "amount": 1
-      },
+      "products": [
+        {
+          "item": "Decorative Book",
+          "amount": 1
+        }
+      ],
       "inputs": [
         {
           "item": "Paper",
           "amount": 25,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Ink",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         },
         {
           "item": "Leather Hide",
           "amount": 2,
-          "isStatic": false
+          "isStatic": false,
+          "isTag": false
         }
       ]
     }

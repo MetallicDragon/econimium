@@ -13,9 +13,11 @@
     /** Units of this item needed by the parent, for scaling the subtotal. */
     quantity?: number;
     depth?: number;
+    /** Set when the parent asked for a tag and this item was the cheapest match. */
+    viaTag?: string | null;
   }
 
-  let { item, quantity = 1, depth = 0 }: Props = $props();
+  let { item, quantity = 1, depth = 0, viaTag = null }: Props = $props();
 
   /** Deep chains stay collapsed so the first screen stays readable. */
   const AUTO_EXPAND_DEPTH = 1;
@@ -57,6 +59,7 @@
     <span class="name">
       {#if quantity !== 1}<span class="qty">{amount(quantity)} ×</span>{/if}
       {item}
+      {#if viaTag}<span class="qty" title="Cheapest item tagged “{viaTag}”">({viaTag})</span>{/if}
     </span>
 
     <span class="tag">
@@ -88,7 +91,25 @@
       {/if}
 
       {#each breakdown.inputs as input (input.item)}
-        <Self item={input.item} quantity={input.finalAmount * perUnit} depth={depth + 1} />
+        {#if input.isTag && input.resolvedItem}
+          <!-- A tag accepts any member, so show which one is cheapest today. -->
+          <Self
+            item={input.resolvedItem}
+            quantity={input.finalAmount * perUnit}
+            depth={depth + 1}
+            viaTag={input.item}
+          />
+        {:else if input.isTag}
+          <div class="row meta">
+            <span class="toggle spacer"></span>
+            <span class="name">{amount(input.finalAmount * perUnit)} × any “{input.item}”</span>
+            <span class="tag missing">nothing with this tag is priced</span>
+            <span class="num unit"></span>
+            <span class="num total missing">—</span>
+          </div>
+        {:else}
+          <Self item={input.item} quantity={input.finalAmount * perUnit} depth={depth + 1} />
+        {/if}
       {/each}
 
       {#if breakdown.laborCost > 0}
@@ -110,6 +131,22 @@
           <span class="num total">{money(breakdown.timeCost * perUnit)}</span>
         </div>
       {/if}
+
+      {#each breakdown.byproducts as byproduct (byproduct.item)}
+        <div class="row meta">
+          <span class="toggle spacer"></span>
+          <span class="name">
+            byproduct: {amount(byproduct.amount * perUnit)} × {byproduct.item}
+          </span>
+          <span class="tag">
+            {byproduct.unitPrice === null ? 'unpriced — credits nothing' : 'credited back'}
+          </span>
+          <span class="num unit">{money(byproduct.unitPrice)}</span>
+          <span class="num total credit">
+            {byproduct.credit === 0 ? '—' : `−${money(byproduct.credit * perUnit)}`}
+          </span>
+        </div>
+      {/each}
     </div>
   {/if}
 </div>
@@ -178,6 +215,10 @@
 
   .missing {
     color: var(--error);
+  }
+
+  .credit {
+    color: var(--accent);
   }
 
   .meta {

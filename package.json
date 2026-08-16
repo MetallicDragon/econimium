@@ -10,7 +10,8 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
-    "convert": "tsx tools/xlsx-to-json.ts"
+    "convert": "tsx tools/xlsx-to-json.ts",
+    "data": "tsx tools/build-data.ts"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",

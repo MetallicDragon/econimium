@@ -4,6 +4,7 @@ export {
   LEGACY_CONTEXT_ID,
   TARGET_ECO_VERSION,
   getContext,
-  whiteTigerData,
+  lumberRidgeData,
+  vanillaData,
 } from './contexts.ts';
 export type { DataContext } from './contexts.ts';

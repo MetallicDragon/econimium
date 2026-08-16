@@ -30,7 +30,10 @@ import type {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
 const SOURCE = resolve(ROOT, 'Eco 11.1 Crafting (White Tiger).xlsx');
-const DATA_OUT = resolve(ROOT, 'src/lib/data/white-tiger-11.1.json');
+// Test-only output. The app's datasets now come from the game API
+// (tools/build-data.ts); this spreadsheet port is retained purely because its
+// cached results are the only independent check on the costing engine's maths.
+const DATA_OUT = resolve(ROOT, 'tests/fixtures/white-tiger-11.1.json');
 const GOLDEN_OUT = resolve(ROOT, 'tests/fixtures/golden-white-tiger-11.1.json');
 /** The Eco version this spreadsheet's numbers came from, not the target version. */
 const VERSION = '11.1';
@@ -187,9 +190,14 @@ async function main(): Promise<void> {
     const row = tablesSheet.getRow(r);
     const name = str(row.getCell('A'));
     if (!name) continue;
+    // The sheet recorded which module tier a table takes as a fixed property.
+    // The current model treats the fitted tier as a user setting, so map the
+    // sheet's value straight onto it to preserve the original numbers.
+    const tier = asUpgradeTier(str(row.getCell('B')));
     craftingTables.push({
       name,
-      upgradeTier: asUpgradeTier(str(row.getCell('B'))),
+      canUseModules: tier !== 'None',
+      moduleTier: tier,
       burnableWatts: numOr(row.getCell('C'), 0),
       electricWatts: numOr(row.getCell('H'), 0),
       ppmPerHour: numOr(row.getCell('E'), 0),
@@ -303,6 +311,9 @@ async function main(): Promise<void> {
         item: canonicalise(item, `input of "${name}"`),
         amount,
         isStatic: flag(row.getCell(base + 2)),
+        // The sheet modelled tags as ordinary priced items ("Wood (Tag)"),
+        // not as a lookup into a tag list.
+        isTag: false,
       });
     }
 
@@ -313,10 +324,13 @@ async function main(): Promise<void> {
       labor: numOr(row.getCell('G'), 0),
       timeSeconds: numOr(row.getCell('I'), 0),
       active: flag(row.getCell('K')),
-      product: {
-        item: canonicalise(productItem, `product of "${name}"`),
-        amount: numOr(row.getCell('M'), 1),
-      },
+      // One product per row in this sheet; byproducts were not modelled.
+      products: [
+        {
+          item: canonicalise(productItem, `product of "${name}"`),
+          amount: numOr(row.getCell('M'), 1),
+        },
+      ],
       inputs,
     });
 
@@ -337,7 +351,7 @@ async function main(): Promise<void> {
   const known = new Set(items.map((i) => i.name));
   const referenced = new Set<string>();
   for (const recipe of recipes) {
-    referenced.add(recipe.product.item);
+    for (const product of recipe.products) referenced.add(product.item);
     for (const input of recipe.inputs) referenced.add(input.item);
   }
   const missing = [...referenced].filter((n) => !known.has(n)).sort();
@@ -402,6 +416,8 @@ async function main(): Promise<void> {
   // ---- Emit ----------------------------------------------------------------
   const data: GameData = {
     version: VERSION,
+    source: 'Eco 11.1 Crafting (White Tiger).xlsx — historical, test fixture only',
+    tags: {},
     globals: {
       foodCostPer1kCal: numOr(general.getRow(1).getCell('B'), 0),
       minWagePer1k: numOr(general.getRow(2).getCell('B'), 0),

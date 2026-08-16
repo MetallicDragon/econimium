@@ -22,17 +22,37 @@ import {
 } from '../data/contexts.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeBuyPrice, computeSellPrice, type ShopPrice } from '../engine/shop.ts';
-import type { GameData, Globals, RealUpgradeTier, ShopEntry, ShopSettings } from '../engine/types.ts';
+import type {
+  GameData,
+  Globals,
+  RealUpgradeTier,
+  ShopEntry,
+  ShopSettings,
+  UpgradeTier,
+} from '../engine/types.ts';
 
 const STORAGE_PREFIX = 'econimium:settings';
 /** Remembers which context was last open. */
 const ACTIVE_CONTEXT_KEY = 'econimium:context';
 /** Pre-contexts key, migrated into the context it was actually built against. */
 const LEGACY_STORAGE_KEY = 'econimium:settings';
-const PATCH_VERSION = 1;
+/**
+ * Bumped to 2 when the datasets moved from the Eco 11.1 spreadsheet to the
+ * game's own API. Patches merge by name, so a stale patch would otherwise
+ * staple 11.1-era price overrides and table figures onto 0.14 data — silently,
+ * and on items that merely happen to share a name.
+ */
+const PATCH_VERSION = 2;
 
 export function storageKeyFor(contextId: string): string {
   return `${STORAGE_PREFIX}:${contextId}`;
+}
+
+interface SavedTable {
+  moduleTier: UpgradeTier;
+  burnableWatts: number;
+  electricWatts: number;
+  ppmPerHour: number;
 }
 
 interface SavedPatch {
@@ -40,6 +60,7 @@ interface SavedPatch {
   globals: Globals;
   shopSettings: ShopSettings;
   skills: Record<string, { level: number; upgradeLevels: Record<RealUpgradeTier, number | null> }>;
+  craftingTables: Record<string, SavedTable>;
   itemOverrides: Record<string, { hasOverride: boolean; overrideValue: number | null }>;
   shopEntries: Record<string, { flatAddition: number | null; individualMarkup: number | null }>;
 }
@@ -146,11 +167,24 @@ export class AppState {
       };
     }
 
+    // The API reports no power draw, pollution, or fitted module tier, so these
+    // are entirely the user's figures and must survive a reload.
+    const craftingTables: SavedPatch['craftingTables'] = {};
+    for (const table of this.data.craftingTables) {
+      craftingTables[table.name] = {
+        moduleTier: table.moduleTier,
+        burnableWatts: table.burnableWatts,
+        electricWatts: table.electricWatts,
+        ppmPerHour: table.ppmPerHour,
+      };
+    }
+
     return {
       version: PATCH_VERSION,
       globals: structuredClone($state.snapshot(this.data.globals)),
       shopSettings: { ...this.data.shopSettings },
       skills,
+      craftingTables,
       itemOverrides,
       shopEntries,
     };
@@ -172,6 +206,17 @@ export class AppState {
       if (!saved) continue;
       skill.level = saved.level;
       skill.upgradeLevels = { ...skill.upgradeLevels, ...saved.upgradeLevels };
+    }
+
+    for (const table of next.craftingTables) {
+      const saved = patch.craftingTables?.[table.name];
+      if (!saved) continue;
+      // `canUseModules` comes from the game and is never user-editable, so it
+      // is deliberately not restored from the patch.
+      table.moduleTier = saved.moduleTier;
+      table.burnableWatts = saved.burnableWatts;
+      table.electricWatts = saved.electricWatts;
+      table.ppmPerHour = saved.ppmPerHour;
     }
 
     for (const item of next.items) {

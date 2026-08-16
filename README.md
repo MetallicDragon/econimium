@@ -1,11 +1,16 @@
 # Econimium
 
-A crafting cost calculator for [Eco](https://play.eco/), rebuilt from the
-`Eco 11.1 Crafting (White Tiger).xlsx` spreadsheet as a single-page app.
+A crafting cost calculator for [Eco](https://play.eco/), targeting **Eco
+0.14.0.3**, supporting vanilla and modded servers side by side.
 
 Set your skill levels and upgrades, and it works out what everything costs to
 make — following the dependency chain all the way down to raw resources — plus
 what to charge for it in a shop.
+
+Recipe data comes from each server's `GoodPrice` API and is baked into the
+build, so the app stays a static page with no runtime dependency on any server
+being up. It began as a port of an Eco 11.1 spreadsheet; that data has been
+retired in favour of the API, and survives only as a test fixture.
 
 ## Getting started
 
@@ -20,11 +25,12 @@ npm run dev
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Dev server with hot reload at http://localhost:5173 |
-| `npm test` | Golden-value suite — verifies the engine against the spreadsheet |
+| `npm test` | Engine tests plus the golden-value suite |
 | `npm run check` | TypeScript + Svelte typecheck |
 | `npm run build` | Production build into `dist/` |
 | `npm run preview` | Serve the production build locally |
-| `npm run convert` | Regenerate game data from the `.xlsx` |
+| `npm run data` | Pull each server's API and rebuild its dataset |
+| `npm run convert` | Rebuild the historical spreadsheet test fixture |
 
 ## Data contexts
 
@@ -33,20 +39,56 @@ its **own dataset and its own saved settings** — skill levels, price overrides
 and shop tweaks set for one never leak into another. Switch between them with
 the picker in the header; the app reopens whichever you used last.
 
-| Context | Status | Contents |
+| Context | Status | Source |
 | --- | --- | --- |
-| Lumber Ridge | Primary target | *Placeholder — its own recipes not yet imported* |
-| White Tiger | WIP | Modded recipes ported from the original spreadsheet |
-| Vanilla | WIP | *Placeholder — stock recipes not yet imported* |
+| Lumber Ridge | Primary target | `gs1.play.eco:3051` — 1542 recipes |
+| White Tiger | WIP | *Placeholder — uses vanilla data until its API is pulled* |
+| Vanilla | WIP | `sea-otter.play.eco` — 1485 recipes |
 
-Only White Tiger has real data today; it came from the original spreadsheet,
-which was built for that modded server. Contexts without their own data yet
-borrow it and show a banner saying so, so nobody mistakes one server's numbers
-for another's.
+A context without its own data borrows another's and shows a banner saying so,
+so nobody mistakes one server's numbers for another's.
 
-**Target version: Eco 0.14.0.3**, shown in the header. The data is still Eco
-11.1-derived, which the footer states outright — updating it is the work the WIP
-markers refer to.
+## Rebuilding the data
+
+```bash
+npm run data
+```
+
+`tools/build-data.ts` pulls `recipes`, `tags` and `allItems` from each server's
+`GoodPrice` API, stores the raw responses under `data-snapshots/`, and processes
+them into `src/lib/data/generated/`.
+
+The snapshots are committed deliberately: they make a rebuild reproducible
+without the servers being up, and a diff on them shows exactly what changed
+upstream. Generated datasets are written compactly since they're derived and
+bundled — review changes in the snapshots instead.
+
+```bash
+npm run data -- lumber-ridge     # one server
+npm run data -- --offline        # rebuild from snapshots, no network
+```
+
+Some hosts sit behind a bot challenge that refuses scripted requests (Sea Otter
+does). The tool detects the HTML challenge page and falls back to the existing
+snapshot rather than overwriting good data with it. To refresh such a server,
+save the three endpoint responses from a browser into `data-snapshots/` as
+`<server-id>-<endpoint>.json` and run with `--offline`.
+
+## What the API does and doesn't give us
+
+The API supplies recipes, ingredients, products, labor, craft time, skills and
+tags. It supplies **no prices and no crafting-table figures**, which has two
+consequences worth understanding:
+
+- **Nothing is priced until you price the roots.** Around 320 items have no
+  recipe — raw resources, carcasses, cosmetics — and everything else is costed
+  from them. Tick *Fixed price* on an item in the Items tab to set one. Use the
+  *Only unpriced* filter to find what's still missing.
+- **Crafting tables start at zero.** Power draw, pollution, and which upgrade
+  module is fitted are all unknown to the API, so tables contribute no running
+  cost and no ingredient discount until you fill them in under Settings.
+  Inventing plausible numbers would have quietly corrupted every cost that
+  depends on them.
 
 **Adding another server:** generate its dataset, then add an entry to
 `CONTEXTS` in `src/lib/data/contexts.ts` pointing at it. Nothing else changes —
@@ -60,12 +102,15 @@ once it is trusted for the target version.
 ## How it fits together
 
 ```
-tools/xlsx-to-json.ts     converts the spreadsheet -> JSON (run manually)
-src/lib/data/             datasets + the context registry
+tools/build-data.ts       game API -> dataset JSON (run manually)
+tools/xlsx-to-json.ts     historical spreadsheet -> test fixture only
+data-snapshots/           raw API responses, committed for reproducibility
+src/lib/data/generated/   the datasets the app bundles
+src/lib/data/contexts.ts  the context registry
 src/lib/engine/           pure TypeScript costing engine — no Svelte
 src/lib/state/            Svelte runes: editable copy of the data + persistence
 src/lib/views/            Items, Shop, Settings
-tests/                    golden-value and context-isolation suites
+tests/                    engine, golden-value and context-isolation suites
 ```
 
 **The engine is deliberately framework-free.** Working out an item's cost is a
@@ -81,23 +126,58 @@ The cost model, in order:
 3. **Recipes** — labor + table time + ingredients, where ingredient amounts are
    scaled by the upgrade multiplier unless the ingredient is *static*.
 4. **Items** — the cheapest active recipe that makes it, or a fixed price you
-   set. Resolved by memoized depth-first search with cycle detection.
+   set.
 5. **Shop** — markup, grossed up for sales tax, plus optional per-item tweaks.
 
 An item with no price shows as **unpriceable** rather than as a number, which
 happens when nothing makes it, an ingredient is unpriceable, or it sits in a
 dependency cycle.
 
-## Verification against the spreadsheet
+### Three rules worth knowing
 
-The workbook saved its last-computed values next to its formulas, so we have a
-complete expected-output fixture. `npm test` asserts the engine reproduces all
-of it: every crafting table's running cost, every recipe's multiplier, labor,
-time, total and per-unit cost, every item's final cost, and every shop price.
+**Byproducts are credited, not produced.** A recipe's cost is attributed to its
+primary product; any other output is valued at the price *you* set for it and
+subtracted from the recipe's cost. Smelting 4 Iron Bars and 4 Slag charges the
+bars for everything unless you give Slag a value. An item that is only ever a
+byproduct therefore has no producing recipe and stays unpriced until you set it.
+Only hand-set prices are credited — deriving the credit from other recipes would
+let a recipe get *cheaper* as its byproduct got dearer, which breaks the solve.
 
-This is why the port targets Eco 11.1 unchanged. Once the numbers match, any
-later change to game rules starts from a verified baseline, and a mismatch means
-a real bug rather than an unrelated rules change.
+**Tag ingredients take the cheapest match.** Where a recipe accepts any "Wood"
+or any "Crushed Rock", it is priced at the cheapest item carrying that tag —
+what a player would actually use. The breakdown names the item that won.
+
+**The solve is a shortest-path search, not recursion.** Real Eco data contains
+genuine cycles (Leather Hide needs Tallow needs Scrap Meat needs Raw Meat needs
+Leather Hide). Costs are non-negative and a recipe never gets cheaper when an
+ingredient gets dearer, so repeatedly finalising the cheapest still-unknown item
+is provably correct — Knuth's generalisation of Dijkstra to hypergraphs. Cycles
+never become reachable and fall out as unpriceable with no special handling.
+A recursive walk over this data took 1.6 s and recorded a million cycle visits;
+this takes about 11 ms.
+
+## Verification
+
+`npm test` runs three suites:
+
+- **`engine.test.ts`** — byproduct credit, tag resolution and module tiers, on
+  small hand-built datasets so a failure names one rule rather than pointing at
+  a 1500-recipe graph.
+- **`contexts.test.ts`** — that settings never leak between contexts.
+- **`golden.test.ts`** — the engine reproduced against the original Eco 11.1
+  spreadsheet.
+
+That last one is why the retired spreadsheet is still in the repo. The workbook
+saved its last-computed values next to its formulas, giving a complete
+expected-output fixture: every crafting table's running cost, every recipe's
+multiplier, labor, time, total and per-unit cost, every item's final cost, and
+every shop price — several hundred independent assertions on the costing maths.
+
+Nothing about the API data can replace that, because the API ships no expected
+costs to check against. Keeping it made the move to API data far safer: the
+byproduct, tag and Dijkstra rewrites all had to keep reproducing the
+spreadsheet's numbers exactly, and did. The fixture lives in `tests/fixtures/`
+and is not part of the app.
 
 ### Where we deliberately differ
 
@@ -138,9 +218,11 @@ settings between browsers. **Reset** clears only the active context.
 
 - **Production planner** — "I want 20 Steel Bars" → total raw materials and cost
 - **Housing planner** — a port of the `T1/T2 House Plan` sheets
-- **In-app recipe editing / import** — currently the JSON is regenerated from
-  the spreadsheet
-- **Updating to Eco 0.14.0.3** — on top of the verified 11.1 baseline. This is
-  what the WIP markers track.
-- **Real datasets for Lumber Ridge and Vanilla** — both currently borrow White
-  Tiger's data
+- **White Tiger's own dataset** — currently borrows vanilla's
+- **Base prices** — the roots need pricing before most of the tree is useful;
+  ranking unpriced items by how many recipes depend on them would make that far
+  less tedious
+- **Crafting table figures** — power, pollution and module tiers are all zero
+- **Lazy-loading datasets** — both are bundled eagerly, which is most of the
+  134 kB gzipped payload. A dynamic import per context would cut the initial
+  load roughly in half, and matters more as servers are added.

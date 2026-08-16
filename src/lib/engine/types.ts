@@ -44,8 +44,17 @@ export interface Skill {
 
 export interface CraftingTable {
   name: string;
-  /** Which upgrade tier this table accepts; 'None' means no input discount. */
-  upgradeTier: UpgradeTier;
+  /**
+   * Whether the table accepts upgrade modules at all. Tables that don't can
+   * never discount ingredients, regardless of the tier chosen below.
+   */
+  canUseModules: boolean;
+  /**
+   * Which tier of module is installed here. A user setting — the game API
+   * doesn't report it — so it defaults to 'None' (no discount) rather than
+   * guessing.
+   */
+  moduleTier: UpgradeTier;
   /** Watts of burnable fuel consumed while running. */
   burnableWatts: number;
   /** Watts of electricity consumed while running. */
@@ -55,16 +64,28 @@ export interface CraftingTable {
 }
 
 export interface RecipeInput {
+  /** An item name, or a tag name when `isTag` is set. */
   item: string;
   amount: number;
   /** Static inputs ignore the upgrade multiplier (Eco's "static" ingredients). */
   isStatic: boolean;
+  /**
+   * Tag ingredients accept any item carrying the tag, so they are priced at
+   * the cheapest member — which is what a player would actually use.
+   */
+  isTag: boolean;
+}
+
+export interface RecipeProduct {
+  item: string;
+  amount: number;
 }
 
 export interface Recipe {
   name: string;
+  /** Empty string when the recipe needs no crafting skill (hand-crafted). */
   skill: string;
-  /** Empty string when the recipe has no table (hand-crafted). */
+  /** Empty string when the recipe has no table. */
   table: string;
   /** Calories of labor consumed. */
   labor: number;
@@ -72,7 +93,12 @@ export interface Recipe {
   timeSeconds: number;
   /** Inactive recipes are excluded from item pricing. */
   active: boolean;
-  product: { item: string; amount: number };
+  /**
+   * Everything one craft yields. The first entry is the primary product and
+   * bears the recipe's cost; the rest are byproducts, whose value is credited
+   * against that cost rather than being produced in their own right.
+   */
+  products: RecipeProduct[];
   inputs: RecipeInput[];
 }
 
@@ -115,11 +141,15 @@ export interface Globals {
 /** The complete game/economy dataset, as loaded from JSON. */
 export interface GameData {
   version: string;
+  /** Where this dataset came from, for display and debugging. */
+  source?: string;
   globals: Globals;
   skills: Skill[];
   craftingTables: CraftingTable[];
   recipes: Recipe[];
   items: Item[];
+  /** Tag name -> the items that carry it, for tag-based ingredients. */
+  tags: Record<string, string[]>;
   shopSettings: ShopSettings;
   shopSelling: ShopEntry[];
   shopBuying: ShopEntry[];
