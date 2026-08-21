@@ -343,6 +343,7 @@ describe('shop pricing', () => {
     individualMarkup: null,
     hasCostOverride: false,
     costOverride: null,
+    sellPriceAsCost: false,
     ...over,
   });
 
@@ -385,6 +386,105 @@ describe('shop pricing', () => {
     const price = computeSellPrice(entry(), 7, { taxRate: 0, sellMarkup: 0 });
     expect(price.price).toBe(7);
     expect(price.margin).toBe(0);
+  });
+});
+
+describe('selling an item back to your own recipes', () => {
+  /** Ore is bought in; Bars are smelted from it; Tools are made from Bars. */
+  const data = (sellPriceAsCost: boolean, over: Partial<ShopEntry> = {}) =>
+    baseData({
+      items: [item('Ore', 10), item('Bar'), item('Tool')],
+      recipes: [
+        recipe({
+          name: 'Smelt',
+          products: [{ item: 'Bar', amount: 1 }],
+          inputs: [{ item: 'Ore', amount: 1, isStatic: false, isTag: false }],
+        }),
+        recipe({
+          name: 'Forge',
+          products: [{ item: 'Tool', amount: 1 }],
+          inputs: [{ item: 'Bar', amount: 2, isStatic: false, isTag: false }],
+        }),
+      ],
+      shopSettings: { taxRate: 0, sellMarkup: 0.5 },
+      shopSelling: [
+        {
+          item: 'Bar',
+          flatAddition: null,
+          individualMarkup: null,
+          hasCostOverride: false,
+          costOverride: null,
+          sellPriceAsCost,
+          ...over,
+        },
+      ],
+    });
+
+  it('leaves other recipes on the crafting cost when unticked', () => {
+    const solution = solve(data(false));
+    expect(solution.prices.get('Tool')?.cost).toBe(20);
+    expect(solution.prices.get('Bar')?.ingredientCost).toBe(10);
+    expect(solution.prices.get('Bar')?.ingredientFromSellPrice).toBe(false);
+  });
+
+  it('charges other recipes the sell price when ticked', () => {
+    const solution = solve(data(true));
+    // A Bar costs 10 to make and sells for 15, so two of them cost the forge 30.
+    expect(solution.prices.get('Bar')?.cost).toBe(10);
+    expect(solution.prices.get('Bar')?.ingredientCost).toBe(15);
+    expect(solution.prices.get('Bar')?.ingredientFromSellPrice).toBe(true);
+    expect(solution.prices.get('Tool')?.cost).toBe(30);
+  });
+
+  it('keeps the sell price off its own cost, so the markup cannot compound', () => {
+    const game = data(true);
+    const solution = solve(game);
+    // The shop still prices the Bar off what it costs to make, not off the
+    // marked-up figure it charges the forge — otherwise every solve would
+    // ratchet the price up again.
+    const shown = computeSellPrice(
+      game.shopSelling[0]!,
+      solution.prices.get('Bar')!.cost,
+      game.shopSettings,
+    );
+    expect(shown.price).toBe(15);
+    expect(shown.price).toBe(solution.prices.get('Bar')?.ingredientCost);
+  });
+
+  it('uses the same figure the shop shows, per-item markup and all', () => {
+    const solution = solve(data(true, { individualMarkup: 1, flatAddition: 3 }));
+    // 10 doubled by the per-item markup, then 3 on top: 23 a Bar, 46 a Tool.
+    expect(solution.prices.get('Bar')?.ingredientCost).toBe(23);
+    expect(solution.prices.get('Tool')?.cost).toBe(46);
+  });
+
+  it('quotes the charged price in the breakdown of the recipe consuming it', () => {
+    const forge = solve(data(true)).recipes.get('Forge');
+    expect(forge?.inputs[0]?.unitPrice).toBe(15);
+    expect(forge?.inputs[0]?.total).toBe(30);
+  });
+
+  it('resolves a tag to whichever member is cheapest to buy in', () => {
+    const base = data(true);
+    const solution = solve(
+      baseData({
+        ...base,
+        // A Bar costs less than a Billet to make, but sells for more, so the
+        // recipe reaching for either should take the Billet.
+        items: [...base.items, item('Billet', 12), item('Blade')],
+        tags: { Stock: ['Bar', 'Billet'] },
+        recipes: [
+          ...base.recipes,
+          recipe({
+            name: 'Grind',
+            products: [{ item: 'Blade', amount: 1 }],
+            inputs: [{ item: 'Stock', amount: 1, isStatic: false, isTag: true }],
+          }),
+        ],
+      }),
+    );
+    expect(solution.tagPrices.get('Stock')).toEqual({ item: 'Billet', cost: 12 });
+    expect(solution.prices.get('Blade')?.cost).toBe(12);
   });
 });
 

@@ -184,6 +184,12 @@ export interface ShopEntry {
   individualMarkup: number | null;
   hasCostOverride: boolean;
   costOverride: number | null;
+  /**
+   * When set, other recipes pay this item's shop sell price instead of what it
+   * costs to make: crafting with stock you could have sold across the counter
+   * really costs you the counter price, not the ingredients.
+   */
+  sellPriceAsCost: boolean;
 }
 
 export interface Globals {

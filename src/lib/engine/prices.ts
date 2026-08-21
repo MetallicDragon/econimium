@@ -16,11 +16,18 @@
  *
  * A cost of `null` means "unpriceable": nothing makes it, one of its
  * ingredients is unpriceable, or it sits in a dependency cycle with no way in.
+ *
+ * An item can also cost one thing to make and another to *use*: shop items
+ * flagged `sellPriceAsCost` are charged to other recipes at the price they
+ * fetch across the counter, since crafting with sellable stock forgoes that
+ * sale. Those two numbers are tracked separately throughout — `cost` is what it
+ * costs you, `ingredientCost` is what a recipe consuming it pays.
  */
 
 import type { Economy } from './economy.ts';
 import { computeEconomy, isRecipeAvailable, multiply } from './economy.ts';
-import type { GameData, Item, Multipliers, Recipe } from './types.ts';
+import { computeSellPrice } from './shop.ts';
+import type { GameData, Item, Multipliers, Recipe, ShopEntry } from './types.ts';
 import { NO_EFFECT } from './types.ts';
 
 export type Cost = number | null;
@@ -44,6 +51,7 @@ export interface RecipeInputBreakdown {
   /** Amount actually consumed, after the multiplier (static inputs excepted). */
   finalAmount: number;
   isStatic: boolean;
+  /** What this recipe pays per unit — the ingredient cost, not always the cost. */
   unitPrice: Cost;
   total: Cost;
 }
@@ -98,6 +106,13 @@ export interface RecipeBreakdown {
 export interface ItemPrice {
   item: string;
   cost: Cost;
+  /**
+   * What another recipe pays for one unit. The same as `cost`, unless the shop
+   * is set to charge this item out at its sell price.
+   */
+  ingredientCost: Cost;
+  /** True when `ingredientCost` is the shop sell price rather than `cost`. */
+  ingredientFromSellPrice: boolean;
   /** True when the cost came from a manual override rather than a recipe. */
   fromOverride: boolean;
   /** Which recipe produced the winning cost, if any. */
@@ -180,6 +195,29 @@ export function solve(data: GameData): Solution {
   const itemsByName = new Map<string, Item>(data.items.map((item) => [item.name, item]));
   const tablesByName = new Map(data.craftingTables.map((t) => [t.name, t]));
   const recipes = data.recipes;
+
+  // Shop items you've said to charge out at their sell price. Their own cost is
+  // still solved from recipes as usual — it has to be, since the sell price is
+  // derived from it — so only what *other* recipes pay for them changes.
+  const soldOn = new Map<string, ShopEntry>();
+  for (const entry of data.shopSelling) {
+    if (entry.sellPriceAsCost) soldOn.set(entry.item, entry);
+  }
+
+  /**
+   * What a recipe pays for one unit of an item: its cost, or the shop's sell
+   * price when the item is charged out that way.
+   *
+   * The markup is monotone in cost, so the solve's ordering argument survives
+   * it. A negative flat addition could in principle price an item below cost
+   * and put a craft ahead of the ingredient it consumes — the same latitude the
+   * solve already allows recipes that yield several units at once.
+   */
+  function chargedFor(name: string, cost: number): number {
+    const entry = soldOn.get(name);
+    if (!entry) return cost;
+    return computeSellPrice(entry, cost, data.shopSettings).price ?? cost;
+  }
 
   // Only recipes you could actually run take part in the solve. Everything else
   // is still costed below for display — "what this would cost if you had it" is
@@ -296,6 +334,8 @@ export function solve(data: GameData): Solution {
 
   // ---- The solve -----------------------------------------------------------
   const itemCost = new Map<string, number>();
+  /** What consumers pay, which is `itemCost` unless the shop charges it out. */
+  const chargedCost = new Map<string, number>();
   const tagCost = new Map<string, number>();
   const tagSource = new Map<string, string>();
   const winningRecipe = new Map<string, number>();
@@ -315,7 +355,9 @@ export function solve(data: GameData): Solution {
 
     let total = fixedCost[index]!;
     for (const requirement of requirements[index]!) {
-      const unit = requirement.isTag ? tagCost.get(requirement.name) : itemCost.get(requirement.name);
+      const unit = requirement.isTag
+        ? tagCost.get(requirement.name)
+        : chargedCost.get(requirement.name);
       if (unit === undefined) return; // Not actually ready yet.
       // Find the amounts for this requirement (duplicates were deduped above,
       // so sum every input line that refers to it).
@@ -333,6 +375,8 @@ export function solve(data: GameData): Solution {
 
   function finaliseItem(name: string, cost: number, recipe: number): void {
     itemCost.set(name, cost);
+    const charged = chargedFor(name, cost);
+    chargedCost.set(name, charged);
     if (recipe >= 0) winningRecipe.set(name, recipe);
 
     for (const index of itemConsumers.get(name) ?? []) {
@@ -340,9 +384,10 @@ export function solve(data: GameData): Solution {
     }
     // An item's tags can now be satisfied by it. Push rather than finalise, so
     // tags are still settled in cost order — the first tag entry popped is by
-    // definition its cheapest member.
+    // definition its cheapest member. Cheapest here means cheapest to buy in,
+    // since that is what a recipe reaching for the tag actually pays.
     for (const tag of tagsOfItem.get(name) ?? []) {
-      if (!tagCost.has(tag)) heap.push({ cost, name: tag, isTag: true, recipe: -1 });
+      if (!tagCost.has(tag)) heap.push({ cost: charged, name: tag, isTag: true, recipe: -1 });
     }
   }
 
@@ -363,7 +408,7 @@ export function solve(data: GameData): Solution {
       tagCost.set(entry.name, entry.cost);
       // Record which member won, for the breakdown.
       for (const member of data.tags[entry.name] ?? []) {
-        if (itemCost.get(member) === entry.cost) {
+        if (chargedCost.get(member) === entry.cost) {
           tagSource.set(entry.name, member);
           break;
         }
@@ -392,7 +437,7 @@ export function solve(data: GameData): Solution {
       const resolvedItem = input.isTag ? (tagSource.get(input.item) ?? null) : input.item;
       const unitPrice = input.isTag
         ? (tagCost.get(input.item) ?? null)
-        : (itemCost.get(input.item) ?? null);
+        : (chargedCost.get(input.item) ?? null);
       const total = unitPrice === null ? null : unitPrice * finalAmount;
 
       inputs.push({
@@ -474,6 +519,8 @@ export function solve(data: GameData): Solution {
       prices.set(item.name, {
         item: item.name,
         cost,
+        ingredientCost: chargedCost.get(item.name) ?? cost,
+        ingredientFromSellPrice: soldOn.has(item.name),
         fromOverride: locked.has(item.name),
         sourceRecipe: winner === undefined ? null : recipes[winner]!.name,
         unpriceableReason: null,
@@ -508,6 +555,8 @@ export function solve(data: GameData): Solution {
     prices.set(item.name, {
       item: item.name,
       cost: null,
+      ingredientCost: null,
+      ingredientFromSellPrice: false,
       fromOverride: false,
       sourceRecipe: null,
       unpriceableReason: reason,

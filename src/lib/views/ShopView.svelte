@@ -198,7 +198,21 @@
             </button>
             {entry.item}
           </td>
-          <td class="num strong">{money(price.price)}</td>
+          <td class="num strong">
+            <!-- Ticked, the number to its right becomes what every other recipe
+                 pays for this item. -->
+            <span class="as-cost">
+              <input
+                type="checkbox"
+                checked={entry.sellPriceAsCost}
+                title="Charge other recipes {entry.item} at its sell price instead of its cost"
+                aria-label="Use the sell price of {entry.item} as its cost in other recipes"
+                onchange={(event) =>
+                  app.setSellPriceAsCost(entry.item, event.currentTarget.checked)}
+              />
+              {money(price.price)}
+            </span>
+          </td>
           <td class="num" class:negative={price.margin !== null && price.margin < 0}>
             {money(price.margin)}
           </td>
@@ -248,8 +262,10 @@
     </tbody>
   </table>
   <p class="footnote">
-    Tax is {percent(settings.taxRate)}; margin is what's left after it. Use the ⚙ beside an item to
-    reach every setting that affects its cost.
+    Tax is {percent(settings.taxRate)}; margin is what's left after it. Tick the box beside a sell
+    price and every other recipe pays that price for the item rather than what it costs you to
+    make — crafting with stock you could have sold really costs you the counter price. Use the ⚙
+    beside an item to reach every setting that affects its cost.
   </p>
 {/if}
 
@@ -421,6 +437,16 @@
   input[type='number'] {
     width: 5rem;
     text-align: right;
+  }
+
+  .as-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .as-cost input {
+    margin: 0;
   }
 
   .dim {

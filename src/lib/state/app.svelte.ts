@@ -88,6 +88,8 @@ interface SavedPatch {
     item: string;
     flatAddition: number | null;
     individualMarkup: number | null;
+    /** Absent in patches saved before the setting existed; off is the default. */
+    sellPriceAsCost?: boolean;
   }>;
 }
 
@@ -241,6 +243,7 @@ export class AppState {
       individualMarkup: null,
       hasCostOverride: false,
       costOverride: null,
+      sellPriceAsCost: false,
     });
     return true;
   }
@@ -256,6 +259,15 @@ export class AppState {
   ): void {
     const entry = this.data.shopSelling.find((e) => e.item === item);
     if (entry) entry[field] = value;
+  }
+
+  /**
+   * Charges an item out to other recipes at its shop sell price rather than its
+   * crafting cost — what consuming your own sellable stock really costs you.
+   */
+  setSellPriceAsCost(item: string, use: boolean): void {
+    const entry = this.data.shopSelling.find((e) => e.item === item);
+    if (entry) entry.sellPriceAsCost = use;
   }
 
   /** Moves a stocked item to a new position, keeping the rest in order. */
@@ -304,6 +316,7 @@ export class AppState {
       item: entry.item,
       flatAddition: entry.flatAddition,
       individualMarkup: entry.individualMarkup,
+      sellPriceAsCost: entry.sellPriceAsCost,
     }));
 
     // The API reports no power draw, pollution, or fitted module tier, so these
@@ -409,6 +422,7 @@ export class AppState {
           individualMarkup: saved.individualMarkup,
           hasCostOverride: false,
           costOverride: null,
+          sellPriceAsCost: saved.sellPriceAsCost ?? false,
         }));
     }
 

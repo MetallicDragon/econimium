@@ -32,10 +32,19 @@
   const price = $derived(app.solution.prices.get(item));
   const recipeName = $derived(price?.sourceRecipe ?? null);
   const breakdown = $derived(recipeName ? app.solution.recipes.get(recipeName) : undefined);
-  const subtotal = $derived(
-    price?.cost === null || price?.cost === undefined ? null : price.cost * quantity,
+
+  /**
+   * At the root we're pricing the item itself, so it costs what it costs. Below
+   * that we're pricing it as an ingredient of the craft above — and an
+   * ingredient charged out at its shop price is bought off your own shelf, so
+   * how it was made is beside the point and the recipe stays folded away.
+   */
+  const boughtIn = $derived(depth > 0 && price?.ingredientFromSellPrice === true);
+  const unitCost = $derived((boughtIn ? price?.ingredientCost : price?.cost) ?? null);
+  const subtotal = $derived(unitCost === null ? null : unitCost * quantity);
+  const expandable = $derived(
+    !boughtIn && !!breakdown && breakdown.inputs.length > 0 && depth < MAX_DEPTH,
   );
-  const expandable = $derived(!!breakdown && breakdown.inputs.length > 0 && depth < MAX_DEPTH);
 
   /**
    * Breakdown figures are per craft, but this tree is denominated in units of
@@ -63,7 +72,9 @@
     </span>
 
     <span class="tag">
-      {#if price?.fromOverride}
+      {#if boughtIn}
+        sell price
+      {:else if price?.fromOverride}
         fixed price
       {:else if breakdown}
         {breakdown.skill}{breakdown.table ? ` · ${breakdown.table}` : ''}
@@ -72,11 +83,11 @@
       {/if}
     </span>
 
-    <span class="num unit">{money(price?.cost)}</span>
+    <span class="num unit">{money(unitCost)}</span>
     <span class="num total" class:missing={subtotal === null}>{money(subtotal)}</span>
   </div>
 
-  {#if open && breakdown}
+  {#if open && breakdown && !boughtIn}
     <div class="children">
       {#if breakdown.inputMultiplier !== 1 || breakdown.laborMultiplier !== 1 || breakdown.timeMultiplier !== 1}
         <div class="row meta">

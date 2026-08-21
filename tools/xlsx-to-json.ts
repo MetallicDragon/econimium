@@ -389,6 +389,9 @@ async function main(): Promise<void> {
       individualMarkup: asMarkup(num(row.getCell('D'))),
       hasCostOverride: flag(row.getCell('E')),
       costOverride: num(row.getCell('F')),
+      // The spreadsheet had no notion of charging an item out at its sell
+      // price, so every imported entry starts with it off.
+      sellPriceAsCost: false,
     });
     shopGolden.push({ item, price: num(row.getCell('B')) });
   }
