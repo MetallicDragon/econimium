@@ -397,6 +397,8 @@ function buildDataset(
     tags,
     shopSettings: { taxRate: 0, sellMarkup: 0 },
     shopSelling: [],
+    // Categories are made by hand in the app; a generated dataset has none.
+    shopCategories: [],
   };
 
   return { data, report };

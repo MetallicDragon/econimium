@@ -390,8 +390,10 @@ async function main(): Promise<void> {
       hasCostOverride: flag(row.getCell('E')),
       costOverride: num(row.getCell('F')),
       // The spreadsheet had no notion of charging an item out at its sell
-      // price, so every imported entry starts with it off.
+      // price or of shop categories, so every imported entry starts with the
+      // one off and the other unfiled.
       sellPriceAsCost: false,
+      categoryId: null,
     });
     shopGolden.push({ item, price: num(row.getCell('B')) });
   }
@@ -401,6 +403,8 @@ async function main(): Promise<void> {
     version: VERSION,
     source: 'Eco 11.1 Crafting (White Tiger).xlsx — historical, test fixture only',
     tags: {},
+    // Categories are made by hand in the app; the spreadsheet had none.
+    shopCategories: [],
     globals: {
       foodCostPer1kCal: numOr(general.getRow(1).getCell('B'), 0),
       minWagePer1k: numOr(general.getRow(2).getCell('B'), 0),

@@ -51,6 +51,7 @@ function baseData(partial: Partial<GameData> = {}): GameData {
     tags: {},
     shopSettings: { taxRate: 0, sellMarkup: 0 },
     shopSelling: [],
+    shopCategories: [],
     ...partial,
   };
 }
@@ -344,6 +345,7 @@ describe('shop pricing', () => {
     hasCostOverride: false,
     costOverride: null,
     sellPriceAsCost: false,
+    categoryId: null,
     ...over,
   });
 
@@ -415,6 +417,7 @@ describe('selling an item back to your own recipes', () => {
           hasCostOverride: false,
           costOverride: null,
           sellPriceAsCost,
+          categoryId: null,
           ...over,
         },
       ],

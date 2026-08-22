@@ -23,7 +23,32 @@ import {
 import { findUnconfiguredModules } from '../engine/economy.ts';
 import { solve, type Solution } from '../engine/prices.ts';
 import { computeSellPrice, type ShopPrice } from '../engine/shop.ts';
-import type { GameData, Globals, Multipliers, ShopEntry, ShopSettings } from '../engine/types.ts';
+import type {
+  GameData,
+  Globals,
+  Multipliers,
+  ShopCategory,
+  ShopEntry,
+  ShopSettings,
+} from '../engine/types.ts';
+
+/**
+ * A shop category and the entries filed under it, ready to render.
+ *
+ * The uncategorised shelf is one of these too, with a null id. It is always
+ * last and cannot be moved: it is where items live before you have filed them,
+ * and where they land again if you delete the shelf they were on.
+ */
+export interface ShopGroup {
+  id: string | null;
+  name: string;
+  entries: ShopEntry[];
+}
+
+/** Ids need only be unique within one shop and never leave the browser. */
+function newCategoryId(): string {
+  return `cat-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 const STORAGE_PREFIX = 'econimium:settings';
 /** Remembers which context was last open. */
@@ -90,7 +115,11 @@ interface SavedPatch {
     individualMarkup: number | null;
     /** Absent in patches saved before the setting existed; off is the default. */
     sellPriceAsCost?: boolean;
+    /** Absent in patches saved before categories existed; unfiled is the default. */
+    categoryId?: string | null;
   }>;
+  /** Also an array: the shelves are ordered by hand. Absent in older patches. */
+  shopCategories?: ShopCategory[];
 }
 
 function freshData(contextId: string): GameData {
@@ -244,6 +273,8 @@ export class AppState {
       hasCostOverride: false,
       costOverride: null,
       sellPriceAsCost: false,
+      // New stock lands unfiled; you shelve it once you can see it.
+      categoryId: null,
     });
     return true;
   }
@@ -270,15 +301,125 @@ export class AppState {
     if (entry) entry.sellPriceAsCost = use;
   }
 
-  /** Moves a stocked item to a new position, keeping the rest in order. */
-  moveShopItem(from: number, to: number): void {
-    const list = this.data.shopSelling;
+  // ---- Categories ----------------------------------------------------------
+  // `shopSelling` stays a flat list. Only an entry's position *relative to
+  // others on the same shelf* is meaningful, so grouping is a display concern
+  // and every move below is a splice into the right slot of that one array.
+
+  /**
+   * The shop as it is laid out: each category with its entries, then the
+   * uncategorised shelf. Entries pointing at a category that no longer exists
+   * fall back onto that last shelf rather than vanishing from the table.
+   */
+  shopGroups = $derived.by<ShopGroup[]>(() => {
+    const buckets = new Map<string | null, ShopEntry[]>([[null, []]]);
+    for (const category of this.data.shopCategories) buckets.set(category.id, []);
+    for (const entry of this.data.shopSelling) {
+      (buckets.get(entry.categoryId) ?? buckets.get(null)!).push(entry);
+    }
+    return [
+      ...this.data.shopCategories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        entries: buckets.get(category.id)!,
+      })),
+      { id: null, name: 'Uncategorised', entries: buckets.get(null)! },
+    ];
+  });
+
+  addShopCategory(name: string): boolean {
+    const trimmed = name.trim();
+    if (!trimmed) return false;
+    this.data.shopCategories.push({ id: newCategoryId(), name: trimmed });
+    return true;
+  }
+
+  renameShopCategory(id: string, name: string): void {
+    const category = this.data.shopCategories.find((entry) => entry.id === id);
+    if (category) category.name = name;
+  }
+
+  /**
+   * Deleting a shelf tips its contents onto the uncategorised one. Nothing is
+   * unstocked — losing a row of hand-tuned pricing to a mis-click on a heading
+   * would be a poor trade.
+   */
+  removeShopCategory(id: string): void {
+    this.data.shopCategories = this.data.shopCategories.filter((entry) => entry.id !== id);
+    for (const entry of this.data.shopSelling) {
+      if (entry.categoryId === id) entry.categoryId = null;
+    }
+  }
+
+  /** Moves a category to a new position, keeping the rest in order. */
+  moveShopCategory(from: number, to: number): void {
+    const list = this.data.shopCategories;
     if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) return;
     const next = [...list];
     const [moved] = next.splice(from, 1);
     if (!moved) return;
     next.splice(to, 0, moved);
-    this.data.shopSelling = next;
+    this.data.shopCategories = next;
+  }
+
+  /**
+   * Drops an item onto a shelf, immediately before `before` — or at the end of
+   * that shelf when `before` is null. `before` must itself be on the target
+   * shelf, which is what the drag targets in the view always give.
+   */
+  placeShopItem(item: string, categoryId: string | null, before: string | null): void {
+    if (item === before) return;
+    const list = [...this.data.shopSelling];
+    const from = list.findIndex((entry) => entry.item === item);
+    if (from < 0) return;
+    const [moved] = list.splice(from, 1);
+    if (!moved) return;
+    moved.categoryId = categoryId;
+
+    let at = list.length;
+    if (before !== null) {
+      const target = list.findIndex((entry) => entry.item === before);
+      if (target >= 0) at = target;
+    } else {
+      // End of the shelf: just past the last entry already on it. An empty
+      // shelf leaves `at` at the end of the array, where relative order among
+      // its (nonexistent) neighbours is moot.
+      for (let i = list.length - 1; i >= 0; i--) {
+        if (list[i]!.categoryId === categoryId) {
+          at = i + 1;
+          break;
+        }
+      }
+    }
+    list.splice(at, 0, moved);
+    this.data.shopSelling = list;
+  }
+
+  /**
+   * Nudges an item one place through the shop as displayed: up or down its own
+   * shelf, and off the end of one shelf onto the next. This is the drag
+   * handle's keyboard equivalent, so it has to be able to reach every position
+   * a drag can — including an empty shelf.
+   */
+  nudgeShopItem(item: string, delta: -1 | 1): void {
+    const groups = this.shopGroups;
+    const g = groups.findIndex((group) => group.entries.some((entry) => entry.item === item));
+    if (g < 0) return;
+    const entries = groups[g]!.entries;
+    const i = entries.findIndex((entry) => entry.item === item);
+
+    if (delta < 0) {
+      if (i > 0) this.placeShopItem(item, groups[g]!.id, entries[i - 1]!.item);
+      else if (g > 0) this.placeShopItem(item, groups[g - 1]!.id, null);
+      return;
+    }
+    if (i < entries.length - 1) {
+      // Past the next item means before the one after it, or last if there is
+      // no such item.
+      this.placeShopItem(item, groups[g]!.id, entries[i + 2]?.item ?? null);
+    } else if (g < groups.length - 1) {
+      this.placeShopItem(item, groups[g + 1]!.id, groups[g + 1]!.entries[0]?.item ?? null);
+    }
   }
 
   // ---- Persistence ---------------------------------------------------------
@@ -317,6 +458,7 @@ export class AppState {
       flatAddition: entry.flatAddition,
       individualMarkup: entry.individualMarkup,
       sellPriceAsCost: entry.sellPriceAsCost,
+      categoryId: entry.categoryId,
     }));
 
     // The API reports no power draw, pollution, or fitted module tier, so these
@@ -342,6 +484,7 @@ export class AppState {
       recipeTalents: structuredClone($state.snapshot(this.data.recipeTalents)),
       itemOverrides,
       shopEntries,
+      shopCategories: this.data.shopCategories.map((category) => ({ ...category })),
     };
   }
 
@@ -412,8 +555,12 @@ export class AppState {
     // The shop list is entirely user-curated, order included, so the saved
     // array replaces whatever the dataset shipped rather than merging into it.
     // Items the dataset no longer knows about are dropped.
+    if (Array.isArray(patch.shopCategories)) {
+      next.shopCategories = patch.shopCategories.map((category) => ({ ...category }));
+    }
     if (Array.isArray(patch.shopEntries)) {
       const knownItems = new Set(next.items.map((item) => item.name));
+      const shelves = new Set(next.shopCategories.map((category) => category.id));
       next.shopSelling = patch.shopEntries
         .filter((saved) => knownItems.has(saved.item))
         .map((saved) => ({
@@ -423,6 +570,10 @@ export class AppState {
           hasCostOverride: false,
           costOverride: null,
           sellPriceAsCost: saved.sellPriceAsCost ?? false,
+          // A shelf that did not survive leaves its items unfiled rather than
+          // pointing at nothing.
+          categoryId:
+            saved.categoryId && shelves.has(saved.categoryId) ? saved.categoryId : null,
         }));
     }
 

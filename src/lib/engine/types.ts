@@ -175,7 +175,22 @@ export interface ShopSettings {
   sellMarkup: number;
 }
 
-/** An item stocked in the shop. The array order is the display order. */
+/**
+ * A shelf in the shop: a heading the user invents and drops items under.
+ *
+ * Referenced by id rather than by name so renaming one is free and never has
+ * to touch the entries filed under it.
+ */
+export interface ShopCategory {
+  /** Generated when the category is created; stable for its lifetime. */
+  id: string;
+  name: string;
+}
+
+/**
+ * An item stocked in the shop. The array order is the display order — within a
+ * category, since the array is a flat list and categories group it for display.
+ */
 export interface ShopEntry {
   item: string;
   /** Added after markup, in currency units. */
@@ -190,6 +205,12 @@ export interface ShopEntry {
    * really costs you the counter price, not the ingredients.
    */
   sellPriceAsCost: boolean;
+  /**
+   * The `ShopCategory` this is filed under, or null for the uncategorised
+   * shelf. Not to be confused with `Item.category`, which is the game's own
+   * classification — this one is entirely the shopkeeper's arrangement.
+   */
+  categoryId: string | null;
 }
 
 export interface Globals {
@@ -223,6 +244,8 @@ export interface GameData {
   shopSettings: ShopSettings;
   /** Items stocked in the shop, in display order. */
   shopSelling: ShopEntry[];
+  /** The shop's own shelves, in display order. Empty until the user makes one. */
+  shopCategories: ShopCategory[];
 }
 
 /**

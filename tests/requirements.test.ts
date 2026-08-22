@@ -61,6 +61,7 @@ function baseData(partial: Partial<GameData> = {}): GameData {
     tags: {},
     shopSettings: { taxRate: 0, sellMarkup: 0 },
     shopSelling: [],
+    shopCategories: [],
     ...partial,
   };
 }

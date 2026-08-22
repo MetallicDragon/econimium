@@ -186,7 +186,7 @@ describe('data contexts', () => {
     for (const name of names) app.addShopItem(name);
     // Move the last to the front, so the order is deliberately not insertion
     // order and a map-based save would lose it.
-    app.moveShopItem(2, 0);
+    app.placeShopItem(names[2]!, null, names[0]!);
     app.setShopTweak(names[0]!, 'individualMarkup', 0.4);
     app.save();
 
@@ -237,5 +237,186 @@ describe('data contexts', () => {
     expect(skillLevel(app, 'Mining')).toBe(0);
     app.switchContext(VANILLA);
     expect(skillLevel(app, 'Mining')).toBe(5);
+  });
+});
+
+/**
+ * Categories are shelves the user invents, so the rules that matter are the
+ * ones that stop a rearrangement losing anything: every item stays stocked,
+ * every position stays reachable, and the whole arrangement survives a reload.
+ */
+describe('shop categories', () => {
+  /** The shop as a flat picture: shelf name, then its items in display order. */
+  function layout(app: AppState): Array<[string, string[]]> {
+    return app.shopGroups.map((group) => [group.name, group.entries.map((e) => e.item)]);
+  }
+
+  function stocked(count: number): { app: AppState; names: string[] } {
+    const app = new AppState();
+    app.restore();
+    const names = app.data.items.slice(0, count).map((item) => item.name);
+    for (const name of names) app.addShopItem(name);
+    return { app, names };
+  }
+
+  function idOf(app: AppState, name: string): string {
+    return app.data.shopCategories.find((category) => category.name === name)!.id;
+  }
+
+  it('starts with everything on the uncategorised shelf', () => {
+    const { app, names } = stocked(3);
+    expect(layout(app)).toEqual([['Uncategorised', names]]);
+  });
+
+  it('files an item onto a shelf and leaves the rest where they were', () => {
+    const { app, names } = stocked(3);
+    app.addShopCategory('Tools');
+    app.placeShopItem(names[1]!, idOf(app, 'Tools'), null);
+
+    expect(layout(app)).toEqual([
+      ['Tools', [names[1]]],
+      ['Uncategorised', [names[0], names[2]]],
+    ]);
+  });
+
+  it('drops an item above the one it was dropped on', () => {
+    const { app, names } = stocked(3);
+    const tools = (app.addShopCategory('Tools'), idOf(app, 'Tools'));
+    for (const name of names) app.placeShopItem(name, tools, null);
+    expect(layout(app)[0]![1]).toEqual(names);
+
+    // Third onto the first: it takes the top, the others shuffle down.
+    app.placeShopItem(names[2]!, tools, names[0]!);
+    expect(layout(app)[0]![1]).toEqual([names[2], names[0], names[1]]);
+  });
+
+  it('refuses to name a shelf nothing at all', () => {
+    const app = new AppState();
+    app.restore();
+    expect(app.addShopCategory('   ')).toBe(false);
+    expect(app.data.shopCategories).toHaveLength(0);
+  });
+
+  it('reorders shelves without disturbing what is on them', () => {
+    const { app, names } = stocked(2);
+    app.addShopCategory('Tools');
+    app.addShopCategory('Food');
+    app.placeShopItem(names[0]!, idOf(app, 'Tools'), null);
+    app.placeShopItem(names[1]!, idOf(app, 'Food'), null);
+
+    app.moveShopCategory(1, 0);
+    expect(layout(app)).toEqual([
+      ['Food', [names[1]]],
+      ['Tools', [names[0]]],
+      ['Uncategorised', []],
+    ]);
+  });
+
+  it('tips a deleted shelf onto the uncategorised one rather than unstocking it', () => {
+    const { app, names } = stocked(2);
+    app.addShopCategory('Tools');
+    const tools = idOf(app, 'Tools');
+    app.placeShopItem(names[0]!, tools, null);
+    app.setShopTweak(names[0]!, 'individualMarkup', 0.4);
+
+    app.removeShopCategory(tools);
+
+    expect(app.data.shopCategories).toHaveLength(0);
+    expect(app.data.shopSelling).toHaveLength(2);
+    expect(layout(app)).toEqual([['Uncategorised', [names[1], names[0]]]]);
+    // The tuning that made the row worth keeping is still on it.
+    expect(app.data.shopSelling.find((e) => e.item === names[0])?.individualMarkup).toBe(0.4);
+  });
+
+  it('renames a shelf without rehoming anything', () => {
+    const { app, names } = stocked(1);
+    app.addShopCategory('Tools');
+    const tools = idOf(app, 'Tools');
+    app.placeShopItem(names[0]!, tools, null);
+
+    app.renameShopCategory(tools, 'Hardware');
+    expect(layout(app)).toEqual([
+      ['Hardware', [names[0]]],
+      ['Uncategorised', []],
+    ]);
+  });
+
+  describe('nudging an item, which is what the arrow keys do', () => {
+    it('walks it up and down its own shelf', () => {
+      const { app, names } = stocked(3);
+      app.nudgeShopItem(names[2]!, -1);
+      expect(layout(app)[0]![1]).toEqual([names[0], names[2], names[1]]);
+      app.nudgeShopItem(names[2]!, 1);
+      expect(layout(app)[0]![1]).toEqual(names);
+    });
+
+    it('stops at the ends rather than falling off', () => {
+      const { app, names } = stocked(2);
+      app.nudgeShopItem(names[0]!, -1);
+      app.nudgeShopItem(names[1]!, 1);
+      expect(layout(app)[0]![1]).toEqual(names);
+    });
+
+    it('walks off the end of one shelf onto the next', () => {
+      const { app, names } = stocked(2);
+      app.addShopCategory('Tools');
+      const tools = idOf(app, 'Tools');
+      app.placeShopItem(names[0]!, tools, null);
+      expect(layout(app)).toEqual([
+        ['Tools', [names[0]]],
+        ['Uncategorised', [names[1]]],
+      ]);
+
+      // Down off the bottom of Tools puts it at the top of the next shelf.
+      app.nudgeShopItem(names[0]!, 1);
+      expect(layout(app)).toEqual([
+        ['Tools', []],
+        ['Uncategorised', [names[0], names[1]]],
+      ]);
+
+      // And back up onto the shelf above, which is empty — a position a
+      // keyboard user could not otherwise reach.
+      app.nudgeShopItem(names[0]!, -1);
+      expect(layout(app)).toEqual([
+        ['Tools', [names[0]]],
+        ['Uncategorised', [names[1]]],
+      ]);
+    });
+  });
+
+  it('carries the whole arrangement across a reload', () => {
+    const { app, names } = stocked(3);
+    app.addShopCategory('Tools');
+    app.addShopCategory('Food');
+    app.placeShopItem(names[2]!, idOf(app, 'Tools'), null);
+    app.placeShopItem(names[0]!, idOf(app, 'Tools'), names[2]!);
+    app.placeShopItem(names[1]!, idOf(app, 'Food'), null);
+    app.save();
+
+    const reloaded = new AppState();
+    reloaded.restore();
+    expect(layout(reloaded)).toEqual([
+      ['Tools', [names[0], names[2]]],
+      ['Food', [names[1]]],
+      ['Uncategorised', []],
+    ]);
+  });
+
+  it('unfiles an item whose shelf did not survive the reload', () => {
+    const { app, names } = stocked(1);
+    app.addShopCategory('Tools');
+    app.placeShopItem(names[0]!, idOf(app, 'Tools'), null);
+    app.save();
+
+    // A patch that lost its categories — an older save, or one hand-edited on
+    // the way back in. The item must still appear, not point at nothing.
+    const key = storageKeyFor(app.contextId);
+    const patch = JSON.parse(localStorage.getItem(key)!);
+    delete patch.shopCategories;
+    localStorage.setItem(key, JSON.stringify(patch));
+
+    const reloaded = new AppState();
+    reloaded.restore();
+    expect(layout(reloaded)).toEqual([['Uncategorised', [names[0]]]]);
   });
 });

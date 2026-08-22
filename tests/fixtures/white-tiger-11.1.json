@@ -2,6 +2,7 @@
   "version": "11.1",
   "source": "Eco 11.1 Crafting (White Tiger).xlsx — historical, test fixture only",
   "tags": {},
+  "shopCategories": [],
   "globals": {
     "foodCostPer1kCal": 5,
     "minWagePer1k": 40,
@@ -8207,196 +8208,252 @@
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Basic Upgrade 2",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Basic Upgrade 3",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Basic Upgrade 4",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Blue Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Colored Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Copper Hydroxide",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Cyan Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Iron Oxide",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Charcoal Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Magenta Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "White Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Yellow Powder",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Flaxseed Oil",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Oil",
       "flatAddition": null,
       "individualMarkup": 0.28000000000000025,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Flour",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Rice Flour",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Cornmeal",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Sugar",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Simple Syrup",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Huckleberry Extract",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Yeast",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Sun Cheese",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Camas Paste",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Base Paint",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Art Supplies",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Ink",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     },
     {
       "item": "Decorative Book",
       "flatAddition": null,
       "individualMarkup": null,
       "hasCostOverride": false,
-      "costOverride": null
+      "costOverride": null,
+      "sellPriceAsCost": false,
+      "categoryId": null
     }
   ]
 }
